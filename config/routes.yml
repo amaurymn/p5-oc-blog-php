@@ -1,0 +1,11 @@
+home:
+  uri: /
+  controller: HomeController
+  action: showHome
+  parameters: []
+
+admin:
+  uri: /admin
+  controller: AdminController
+  action: showAdmin
+  parameters: []
