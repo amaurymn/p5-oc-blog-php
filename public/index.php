@@ -7,5 +7,10 @@ define('CONF_DIR', realpath(dirname(__DIR__)) . '/config');
 
 require_once (ROOT_DIR . '/vendor/autoload.php');
 
-
-(new Router)->setRoutes();
+try {
+    $router = new Router();
+    $controller = $router->getRoutes();
+    $controller->execute();
+} catch (Throwable $e) {
+    echo '['. get_class($e).']: '.$e;
+}

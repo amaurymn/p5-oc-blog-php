@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Controllers\HomeController;
 use Symfony\Component\Yaml\Yaml;
 use function Siler\Route\route;
 
@@ -9,6 +10,9 @@ class Router
 {
     private $controller;
 
+    public function __construct(){
+        $this->setRoutes();
+    }
 
     public function setRoutes()
     {
@@ -19,17 +23,11 @@ class Router
                 $controller = '\\App\\Controllers\\' . $route['controller'];
                 $params = array_combine($route['parameters'], array_slice($matches,1));
 
-                dump('route trouvée');
-                dump($controller);
-                dump($params);
-                dump($matches);
-                dump($route);
-                dump(array_slice($matches,1));
-                return $this->controller = new Controller($route['action'], $params);
+                return $this->controller = new $controller($route['action'], $params);
             }
         }
 
-        return print('Error 404');
+        return $this->controller = new HomeController('error404', '');
     }
 
 
