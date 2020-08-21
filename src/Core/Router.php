@@ -4,7 +4,6 @@ namespace App\Core;
 
 use App\Controllers\HomeController;
 use Symfony\Component\Yaml\Yaml;
-use function Siler\Route\route;
 
 class Router
 {
@@ -27,9 +26,8 @@ class Router
             }
         }
 
-        return $this->controller = new HomeController('error404', '');
+        return $this->controller = new HomeController('error404', []);
     }
-
 
     public function getRoutes()
     {
