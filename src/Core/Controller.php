@@ -12,6 +12,7 @@ abstract class Controller
     {
         $this->action = $action;
         $this->params = $params;
+        $this->twig = new Twig();
     }
 
     public function execute()
@@ -19,4 +20,16 @@ abstract class Controller
         $method = 'execute' . ucfirst($this->action);
         $this->$method();
     }
+
+    /**
+     * @param $template
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function render($template)
+    {
+       echo $this->twig->twigRender($template);
+    }
+
 }
