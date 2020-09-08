@@ -23,13 +23,13 @@ abstract class Controller
 
     /**
      * @param $template
+     * @param array $array
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function render($template)
+    public function render($template, $array = [])
     {
-       echo $this->twig->twigRender($template);
+       echo $this->twig->twigRender($template, $array);
     }
-
 }

@@ -31,13 +31,14 @@ class Twig
 
     /**
      * @param $template
+     * @param $array
      * @return string
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function twigRender($template)
+    public function twigRender($template, $array)
     {
-        return $this->twig->render($template);
+        return $this->twig->render($template, $array);
     }
 }
