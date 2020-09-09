@@ -4,3 +4,10 @@ home:
   controller: HomeController
   action: showHome
   parameters: []
+
+test:
+  uri: /(a-z+)
+  area: Public
+  controller: HomeController
+  action: test
+  parameters: ['param']
