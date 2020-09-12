@@ -2,13 +2,17 @@
 
 namespace App\Core;
 
+use Symfony\Component\Yaml\Yaml;
 use Twig\Environment;
+use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 
 class Twig
 {
     /** @var Environment */
     private $twig;
+    /** @var mixed */
+    private $config;
 
     /**
      * Twig constructor.
@@ -16,17 +20,20 @@ class Twig
      */
     public function __construct()
     {
+        $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
+
         $loader = new FilesystemLoader(TEMPLATE_DIR);
 
         $loader->addPath(TEMPLATE_DIR . '/public', 'public');
         $loader->addPath(TEMPLATE_DIR . '/admin', 'admin');
 
         $twig = new Environment($loader, [
-            'debug' => true,
-            'cache' => false
+            'debug' => $this->config['envProd'] ? false : true,
+            'cache' => $this->config['envProd'] ? ROOT_DIR . '/var/cache' : false
         ]);
 
         $twig->addExtension(new TwigExtensions());
+        $twig->addExtension(new DebugExtension());
 
         $this->twig = $twig;
     }
