@@ -26,6 +26,8 @@ class Twig
             'cache' => false
         ]);
 
+        $twig->addExtension(new TwigExtensions());
+
         $this->twig = $twig;
     }
 
