@@ -31,6 +31,7 @@ final class TwigExtensions extends AbstractExtension
     {
         return [
             new TwigFunction('configParam', [$this, 'getConfigParameter']),
+            new TwigFunction('asset', [$this, 'getAssetPath']),
         ];
     }
 
@@ -42,5 +43,14 @@ final class TwigExtensions extends AbstractExtension
     public function getConfigParameter(string $setting): string
     {
         return $this->config[$setting];
+    }
+
+    /**
+     * @param string $asset
+     * @return string
+     */
+    public function getAssetPath(string $asset): string
+    {
+        return sprintf('/%s', ltrim($asset, '/'));
     }
 }
