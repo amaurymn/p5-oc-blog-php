@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="{{ configParam('siteLanguage') }}">
+    <head>
+        <meta charset="{{ configParam('siteCharset') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="{{ asset('css/main.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('lib/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('lib/fontawesome/css/all.min.css') }}">
+        <script defer src="{{ asset('lib/jquery/jquery-3.4.1.min.js') }}"></script>
+        <script defer src="{{ asset('lib/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <link rel="shortcut icon" type="image/png" href="{{ asset('img', 'favicon.png') }}" />
+        {% block openGraph %}{% endblock %}
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+    {% include 'public/partials/header.html.twig' %}
+
+    {% block content %}{% endblock %}
+
+    {% include 'public/partials/footer.html.twig' %}
+    </body>
+</html>

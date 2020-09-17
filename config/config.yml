@@ -1,4 +1,5 @@
 envProd: false
 
+siteName: "MonSuperBlog"
 siteCharset: "utf-8"
 siteLanguage: "fr"
