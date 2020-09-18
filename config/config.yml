@@ -1,5 +1,6 @@
-envProd: false
+env: dev
 
-siteName: "MonSuperBlog"
-siteCharset: "utf-8"
-siteLanguage: "fr"
+charset: "utf-8"
+lang: "fr"
+
+siteName: "MonSuperBlog.fr"
