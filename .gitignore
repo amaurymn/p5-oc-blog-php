@@ -1,5 +1,6 @@
 .idea
+/vendor/
 /_UML
 
 /config/db-config.yml
-/vendor/
+/public/css/*.css
