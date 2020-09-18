@@ -28,8 +28,8 @@ class Twig
         $loader->addPath(TEMPLATE_DIR . '/admin', 'admin');
 
         $twig = new Environment($loader, [
-            'debug' => $this->config['envProd'] ? false : true,
-            'cache' => $this->config['envProd'] ? ROOT_DIR . '/var/cache' : false
+            'debug' => $this->config['env'] === 'dev',
+            'cache' => $this->config['env'] === 'dev' ? false : ROOT_DIR . '/var/cache'
         ]);
 
         $twig->addExtension(new TwigExtensions());
