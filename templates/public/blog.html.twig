@@ -1,0 +1,77 @@
+{% extends 'public/base.html.twig' %}
+
+{% block content %}
+<main>
+    <div class="container section news list mt-5">
+        <div class="h1 mb-4">Blog</div>
+        <div class="row">
+            <div class="col-sm-12 col-md-9">
+                <article>
+                    <div class="news-image">
+                        <a href="actu-single.html"><img src="https://picsum.photos/1260/800" class="img-fluid" alt="Title"/></a>
+                    </div>
+                    <div class="card-body">
+                        <span class="categories">Categorie: Lorem, Ipsum</span>
+                        <h2 class="no-underline"><a href="actu-single.html">Lorem ipsum dolor sit amet.</a></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> 28 JAN, 2020</span>
+                            <span class="small"><a class="text-muted" href="">Lire la suite</a></span>
+                        </div>
+                    </div>
+                </article>
+                <article>
+                    <div class="news-image">
+                        <a href="actu-single.html"><img src="https://picsum.photos/1260/801" class="img-fluid" alt="Title"/></a>
+                    </div>
+                    <div class="card-body">
+                        <span class="categories">Categorie: Lorem, Ipsum</span>
+                        <h2 class="no-underline"><a href="actu-single.html">Lorem ipsum dolor sit amet.</a></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> 28 JAN, 2020</span>
+                            <span class="small"><a class="text-muted" href="">Lire la suite</a></span>
+                        </div>
+                    </div>
+                </article>
+                <article>
+                    <div class="news-image">
+                        <a href="actu-single.html"><img src="https://picsum.photos/1260/802" class="img-fluid" alt="Title"/></a>
+                    </div>
+                    <div class="card-body">
+                        <span class="categories">Categorie: Lorem, Ipsum</span>
+                        <h2 class="no-underline"><a href="actu-single.html">Lorem ipsum dolor sit amet.</a></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> 28 JAN, 2020</span>
+                            <span class="small"><a class="text-muted" href="">Lire la suite</a></span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            {% include 'public/partials/aside.html.twig' %}
+        </div>
+    </div>
+
+
+    <div class="section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="paginator">
+                        <li><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#" class="active">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
