@@ -1,0 +1,26 @@
+.btn-default {
+  font-size: 13px;
+  width: auto;
+  padding: 10px 20px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: $white;
+  border-radius: 5px;
+  border: none;
+  background: $orange;
+}
+
+button {
+  &.btn-default {
+    transition: all .3s ease-in-out;
+
+    &:hover {
+      color: $dark-grey;
+      background: $yellow;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 .2rem rgba(255, 200, 0, .25);
+    }
+  }
+}

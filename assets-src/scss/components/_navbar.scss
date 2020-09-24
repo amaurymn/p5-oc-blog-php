@@ -1,0 +1,33 @@
+.navbar {
+  color: $white;
+  background: $dark-grey;
+
+  .logo {
+    max-width: 55px;
+  }
+
+  .navbar-toggler {
+    color: $white;
+  }
+
+  & li {
+    margin: 10px;
+
+    & a {
+      color: $white;
+      transition: all .2s ease-in-out;
+
+      line-height: .8em;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+
+      &:hover {
+        color: $orange;
+      }
+
+      &:active {
+        color: $yellow;
+      }
+    }
+  }
+}

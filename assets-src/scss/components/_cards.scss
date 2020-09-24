@@ -1,0 +1,82 @@
+.hp-card-area {
+  .card {
+    background-color: inherit;
+    border: none;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    transition: box-shadow .2s ease-in-out;
+
+    &:hover {
+      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    }
+
+    .card-body {
+      h2 {
+        margin-bottom: 1rem;
+      }
+      .title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: normal;
+      }
+
+      .card-text {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+
+.news.list article {
+  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  transition: box-shadow .2s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  }
+}
+
+.news article {
+  margin-bottom: 2rem;
+
+  p {
+    text-align: justify;
+  }
+
+  .categories {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: $orange;
+  }
+
+  .title {
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    color: $dark-grey;
+    a {
+      color: $dark-grey;
+    }
+  }
+
+  .news-image {
+    object-fit: cover;
+    max-height: 300px;
+    overflow: hidden;
+    vertical-align: middle;
+    margin-bottom: 20px;
+  }
+
+  .tags {
+    margin-top: 1rem;
+    text-transform: uppercase;
+    font-size: 80%;
+    font-weight: bold;
+    a {
+      color: $light-grey;
+    }
+  }
+}

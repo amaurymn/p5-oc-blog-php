@@ -1,0 +1,49 @@
+.sidebar .widget {
+  position: relative;
+  margin-bottom: 40px;
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    color: $orange;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      margin-bottom: 8px;
+
+      a {
+        display: block;
+        color: $light-grey;
+
+        &:hover {
+          text-indent: 5px;
+          color: $orange;
+        }
+      }
+    }
+  }
+
+  .tag {
+    font-size: 14px;
+    display: inline-block;
+    margin: 0 2px 5px 0;
+    padding: 5px 8px;
+    letter-spacing: 2px;
+    color: $light-grey;
+    border: 1px solid $grey;
+    border-radius: 5px;
+    background-color: $grey;
+
+    &:hover {
+      color: $orange;
+      border-color: $orange;
+      background: 0 0;
+    }
+  }
+}

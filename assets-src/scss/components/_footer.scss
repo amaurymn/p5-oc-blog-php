@@ -1,0 +1,45 @@
+footer {
+  color: $grey;
+  background: $dark-grey;
+
+  a {
+    color: $grey;
+  }
+
+  .footer-list {
+    li {
+      padding-bottom: 5px;
+      list-style: none;
+
+      + li {
+        padding-top: 5px;
+      }
+    }
+
+    a {
+      display: block;
+      text-transform: uppercase;
+
+      &:hover,
+      &:focus {
+        padding-left: 7px;
+        border-left: 3px solid $yellow-link;
+      }
+    }
+  }
+
+  .footer-complement {
+    font-size: 0.80rem;
+    text-align: justify;
+  }
+
+  .social-list {
+    text-align: center;
+    .social-item {
+      float: left;
+      width: 25%;
+      list-style: none;
+      font-size: 2rem;
+    }
+  }
+}
