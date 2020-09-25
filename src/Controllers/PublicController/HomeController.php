@@ -12,8 +12,18 @@ class HomeController extends Controller
         $this->render('@public/homepage.html.twig');
     }
 
-    public function executeError404()
+    public function executeShowError404()
     {
         $this->render('@public/404.html.twig');
+    }
+
+    public function executeShowMentions()
+    {
+        $this->render('@public/legal.html.twig');
+    }
+
+    public function executeShowRGPD()
+    {
+        $this->render('@public/rgpd.html.twig');
     }
 }
