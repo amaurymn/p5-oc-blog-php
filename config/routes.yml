@@ -5,9 +5,58 @@ home:
   action: showHome
   parameters: []
 
-test:
-  uri: /(a-z+)
+blog:
+  uri: /blog
+  area: Public
+  controller: BlogController
+  action: showBlog
+  parameters: []
+
+blogSingle:
+  uri: /blog/([a-zA-Z0-9-]+)
+  area: Public
+  controller: BlogController
+  action: showBlogSingle
+  parameters: ['slug']
+
+blogPagin:
+  uri: /blog/page/([0-9]+)
+  area: Public
+  controller: BlogController
+  action: showBlog
+  parameters: ['page']
+
+contact:
+  uri: /contact
+  area: Public
+  controller: ContactController
+  action: showContact
+  parameters: []
+
+login:
+  uri: /login
+  area: Public
+  controller: AccountController
+  action: showLogin
+  parameters: []
+
+register:
+  uri: /register
+  area: Public
+  controller: AccountController
+  action: showRegister
+  parameters: []
+
+legal:
+  uri: /mentions-legales
   area: Public
   controller: HomeController
-  action: test
-  parameters: ['param']
+  action: showMentions
+  parameters: []
+
+rgpd:
+  uri: /rgpd
+  area: Public
+  controller: HomeController
+  action: showRGPD
+  parameters: []
