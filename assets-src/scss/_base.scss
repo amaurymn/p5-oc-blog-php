@@ -120,3 +120,19 @@ hr {
     background-image: linear-gradient(to right, $yellow, $orange);
   }
 }
+
+.err404 {
+  display: flex;
+  flex-direction: column;
+
+  img {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  p {
+    margin: 2rem 0 0 0;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+}

@@ -1,0 +1,14 @@
+{% extends 'public/base.html.twig' %}
+
+{% block content %}
+    <main class="d-flex flex-column justify-content-center">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <div class="err404">
+                    <img src="{{ asset('img/404.svg') }}" alt="Erreur 404">
+                    <p>La page que vous recherchez n'existe pas, ou a été déplacée.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
