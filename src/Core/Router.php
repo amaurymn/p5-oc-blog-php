@@ -26,7 +26,7 @@ class Router
             }
         }
 
-        return $this->controller = new HomeController('error404', []);
+        return $this->controller = new HomeController('ShowError404', []);
     }
 
     public function getRoutes()
