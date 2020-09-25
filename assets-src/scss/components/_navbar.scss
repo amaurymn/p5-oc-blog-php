@@ -11,15 +11,13 @@
   }
 
   & li {
-    margin: 10px;
-
     & a {
       color: $white;
       transition: all .2s ease-in-out;
 
       line-height: .8em;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
 
       &:hover {
         color: $orange;
