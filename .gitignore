@@ -2,6 +2,6 @@
 /vendor
 /_UML
 /node_modules
+/public/css
 
 /config/db-config.yml
-/public/css/*.css
