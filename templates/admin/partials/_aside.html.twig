@@ -1,0 +1,43 @@
+<aside>
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark adm-sidebar collapse">
+        <div class="adm-sidebar-sticky pt-3">
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Admin</span>
+            </h6>
+            <ul class="nav flex-column mb-2">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Profil
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-toggle="collapse" href="#collapse01" role="button" aria-expanded="false" aria-controls="collapse01">
+                        Gestion articles
+                    </a>
+                    <div class="collapse bg-light pl-3 rounded" id="collapse01">
+                        <ul>
+                            <li class="nav-link collapsed">
+                                <a href="/dashboard/article/add" class="nav-sublink">Ajouter un article</a>
+                            </li>
+                            <li class="nav-link collapsed">
+                                <a href="/dashboard/article/list" class="nav-sublink">Liste des articles</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/dashboard/comment/list">
+                        Commentaires
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Déconnexion
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</aside>
