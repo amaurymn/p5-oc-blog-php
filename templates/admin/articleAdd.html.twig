@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block content %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <div class="pt-3 pb-5 container">
+            <h1 class="no-underline">Ajouter un article</h1>
+            <form method="post">
+                <div class="row card">
+                    <div class="form">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_title">
+                                            <small class="text-uppercase">Titre de l'article</small>
+                                        </label>
+                                        <input type="text" id="a_title" class="form-control" placeholder="Titre de l'article" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_img">
+                                            <small class="text-uppercase">Image de l'article</small>
+                                        </label>
+                                        <input type="text" id="a_img" class="form-control" placeholder="Image URL" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="a_content">
+                                            <small class="text-uppercase">Contenu de l'article</small>
+                                        </label>
+                                        <textarea class="form-control" id="a_content" rows="3" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                            <button class="btn btn-outline-primary" type="submit">Publier <i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}
