@@ -3,12 +3,16 @@
 namespace App\Controllers\PublicController;
 
 use App\Core\Controller;
+use App\Core\Manager;
+use App\Entity\Article;
 
 class HomeController extends Controller
 {
 
     public function executeShowHome()
     {
+        $manager = (new Manager())->getManagerFor(Article::class);
+
         $this->render('@public/homepage.html.twig');
     }
 
