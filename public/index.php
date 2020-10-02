@@ -13,5 +13,5 @@ try {
     $controller = $router->getRoutes();
     $controller->execute();
 } catch (Throwable $e) {
-    echo '<pre>['. get_class($e).']: '.$e.'</pre>';
+    echo '<code>['. get_class($e).']: '.$e.'</code>';
 }
