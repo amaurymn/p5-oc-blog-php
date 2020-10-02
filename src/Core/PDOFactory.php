@@ -1,42 +1,38 @@
 <?php
 
-
 namespace App\Core;
-
 
 use PDO;
 use Symfony\Component\Yaml\Yaml;
 
 class PDOFactory
 {
-    private static $dbConfig;
+    private array $config;
+    private $pdo;
 
-    public static function getDBConnexion()
+    public function __construct()
     {
-        try {
-            self::setDbConfig();
-        } catch (\Exception $e) {
-            die ('[BlogConfigError]: ' . $e);
-        }
+        $this->config = Yaml::parseFile(CONF_DIR  . '/db-config.yml');
 
+        $dsn     = "mysql:host={$this->config['host']};dbname={$this->config['dbname']};charset={$this->config['dbcharset']}";
         $options = [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
-        $dsn = 'mysql:host=' . self::$dbConfig['host'] . ';port=' . self::$dbConfig['port'] . ';dbname=' . self::$dbConfig['dbname'] . ';charset=' . self::$dbConfig['charset'];
-        $db = new PDO($dsn, self::$dbConfig['dbuser'], self::$dbConfig['password'], $options);
-
-        return $db;
+        try {
+            if ($this->pdo === null) {
+                $this->pdo = new PDO($dsn, $this->config['dbuser'], $this->config['dbpswd'], $options);
+            }
+        } catch (\PDOException $e) {
+            echo "ERROR: " . $e->getMessage();
+            die();
+        }
     }
 
-    private static function setDbConfig()
+    public function getPDO()
     {
-        $dbConfig_file = CONF_DIR . '/db-config.yml';
-
-
-        if (!file_exists($dbConfig_file)) {
-            throw new \Exception("Fichier " . $dbConfig_file . " manquant");
-        }
-        self::$dbConfig = Yaml::parseFile(CONF_DIR . '/db-config.yml');
+        return $this->pdo;
     }
 }
