@@ -21,6 +21,4 @@ class ArticleController extends Controller
     {
         $this->render('@admin/articleEdit.html.twig');
     }
-
-    public function executeArticleDelete() {}
 }
