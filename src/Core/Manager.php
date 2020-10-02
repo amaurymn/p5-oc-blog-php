@@ -58,16 +58,16 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param array $params
+     * @param array $where
      * @param array $order
      * @param array $limit
      * @return array
      */
-    public function findBy(array $params = [], array $order = [], array $limit = [])
+    public function findBy(array $where = [], array $order = [], array $limit = [])
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
 
-        $this->setWhereParams($params, $query, $binds, $key, $value);
+        $this->setWhereParams($where, $query, $binds, $key, $value);
         $this->setOrderBy($order, $query);
         $this->setLimit($limit, $query);
 
@@ -86,6 +86,16 @@ class Manager implements ManagerInterface
         $stmt->execute();
 
         return $stmt->fetchAll();
+    }
+
+    /**
+     * @param array $where
+     * @param array $order
+     * @return array
+     */
+    public function findOneBy(array $where = [], array $order = [])
+    {
+        return $this->findBy($where, $order, [0,1]);
     }
 
     /**
@@ -109,22 +119,33 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * @param array $params
+     * @param array $limit
+     * @param string $query
+     */
+    private function setLimit(array $limit, string &$query): void
+    {
+        if (!empty($limit)) {
+            $query .= sprintf(" LIMIT %d, %d", $limit[0], $limit[1]);
+        }
+    }
+
+    /**
+     * @param array $where
      * @param string $query
      * @param $binds
      * @param $key
      * @param $value
      */
-    private function setWhereParams(array $params, string &$query, &$binds, &$key, &$value): void
+    private function setWhereParams(array $where, string &$query, &$binds, &$key, &$value): void
     {
-        if (!empty($params)) {
+        if (!empty($where)) {
             $query .= "WHERE ";
 
             $binds = [];
 
             $i = 0;
 
-            foreach ($params as $key => $value) {
+            foreach ($where as $key => $value) {
                 if ($i > 0) {
                     $query .= ' AND ';
                 }
@@ -142,16 +163,5 @@ class Manager implements ManagerInterface
     public function setTable(string $tableName)
     {
         $this->table = $tableName;
-    }
-
-    /**
-     * @param array $limit
-     * @param string $query
-     */
-    private function setLimit(array $limit, string &$query): void
-    {
-        if (!empty($limit)) {
-            $query .= sprintf(" LIMIT %d, %d", $limit[0], $limit[1]);
-        }
     }
 }
