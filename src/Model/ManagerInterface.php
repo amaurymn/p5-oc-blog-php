@@ -4,5 +4,5 @@ namespace App\Model;
 
 interface ManagerInterface
 {
-    function setTable(string $tableName);
+    public function setTable(string $tableName);
 }
