@@ -95,3 +95,10 @@ commentList:
   controller: CommentController
   action: showCommentList
   parameters: []
+
+profile:
+  uri: /dashboard/profil
+  area: Admin
+  controller: UserController
+  action: showProfile
+  parameters: []
