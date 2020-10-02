@@ -14,7 +14,7 @@ class PDOFactory
     {
         $this->config = Yaml::parseFile(CONF_DIR  . '/db-config.yml');
 
-        $dsn     = "mysql:host={$this->config['host']};dbname={$this->config['dbname']};charset={$this->config['dbcharset']}";
+        $dsn = "mysql:host={$this->config['host']};dbname={$this->config['dbname']};charset={$this->config['charset']}";
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
