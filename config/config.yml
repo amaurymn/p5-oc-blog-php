@@ -4,6 +4,3 @@ charset: "utf-8"
 lang: "fr"
 
 siteName: "MonSuperBlog.fr"
-entities:
-  Article:
-    manager: Manager\ArticleManager
