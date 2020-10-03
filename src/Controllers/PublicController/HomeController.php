@@ -3,6 +3,7 @@
 namespace App\Controllers\PublicController;
 
 use App\Core\Controller;
+use App\Manager\ArticleManager;
 
 class HomeController extends Controller
 {

@@ -8,7 +8,7 @@ use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
-class Manager implements ManagerInterface
+class Manager
 {
     private PDO $pdo;
     protected string $table;
@@ -18,6 +18,7 @@ class Manager implements ManagerInterface
     {
         $this->pdo    = (new PDOFactory())->getPDO();
         $this->config = Yaml::parseFile(CONF_DIR . '/entities.yml');
+        $this->table = $this->getTableName();
     }
 
     /**
@@ -25,36 +26,22 @@ class Manager implements ManagerInterface
      * @return $this
      * @throws ReflectionException
      */
-    public function getManagerFor(string $entity)
+    public function getTableName()
     {
-        $shortName = (new ReflectionClass($entity))->getShortName();
-        $this->setTable(lcfirst($shortName));
+        $managerInstance = (new ReflectionClass($this))->getShortName();
 
-        if (!array_key_exists($shortName, $this->config)) {
-            return $this;
-        }
-
-        $manager = new $this->config[$shortName]['manager'];
-        $manager->setTable($this->table);
-
-        return $manager;
+        return strtolower(str_replace('Manager', '', $managerInstance));
     }
 
+
     /**
-     * @param array $order
-     * @param array $limit
      * @return array
      */
-    public function findAll(array $order = [], array $limit = [])
+    public function findAll()
     {
-        $query = sprintf("SELECT * FROM %s ", $this->table);
-        $this->setOrderBy($order, $query);
-        $this->setLimit($limit, $query);
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->execute();
-
-        return $stmt->fetchAll();
+        return $this->pdo
+            ->query('SELECT * FROM '.$this->tableName)
+            ->fetchAll(PDO::FETCH_ASSOC);
     }
 
     /**
@@ -63,7 +50,7 @@ class Manager implements ManagerInterface
      * @param array $limit
      * @return array
      */
-    public function findBy(array $where = [], array $order = [], array $limit = [])
+    public function findBy(array $where = [], array $order = [], array $limit = [])//add offset
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
 
@@ -95,7 +82,7 @@ class Manager implements ManagerInterface
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        return $this->findBy($where, $order, [0,1]);
+        return $this->findBy($where, $order, [0,1])[0];
     }
 
     /**
@@ -104,6 +91,7 @@ class Manager implements ManagerInterface
      */
     private function setOrderBy(array $order, string &$query): void
     {
+        //Only one order but you need to verify that value are only asc or desc
         if (!empty($order)) {
             $query .= "ORDER BY ";
 
@@ -157,11 +145,7 @@ class Manager implements ManagerInterface
         }
     }
 
-    /**
-     * @param string $tableName
-     */
-    public function setTable(string $tableName)
-    {
-        $this->table = $tableName;
-    }
+    //create(Entity $entity)
+    //update(Entity $entity)
+    //delete(Entity $entity)
 }
