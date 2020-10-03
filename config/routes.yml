@@ -60,3 +60,45 @@ rgpd:
   controller: HomeController
   action: showRGPD
   parameters: []
+
+dashboard:
+  uri: /dashboard
+  area: Admin
+  controller: DashboardController
+  action: showDashboard
+  parameters: []
+
+articleList:
+  uri: /dashboard/article/list
+  area: Admin
+  controller: ArticleController
+  action: showArticleList
+  parameters: []
+
+articleAdd:
+  uri: /dashboard/article/add
+  area: Admin
+  controller: ArticleController
+  action: showArticleAdd
+  parameters: []
+
+articleEdit:
+  uri: /dashboard/article/edit/([0-9+])
+  area: Admin
+  controller: ArticleController
+  action: showArticleEdit
+  parameters: ['articleId']
+
+commentList:
+  uri: /dashboard/comment/list
+  area: Admin
+  controller: CommentController
+  action: showCommentList
+  parameters: []
+
+profile:
+  uri: /dashboard/profil
+  area: Admin
+  controller: UserController
+  action: showProfile
+  parameters: []

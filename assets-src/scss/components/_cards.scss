@@ -2,17 +2,18 @@
   .card {
     background-color: inherit;
     border: none;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
     transition: box-shadow .2s ease-in-out;
 
     &:hover {
-      box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+      box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
     }
 
     .card-body {
       h2 {
         margin-bottom: 1rem;
       }
+
       .title {
         font-size: 1.2rem;
         font-weight: bold;
@@ -28,11 +29,11 @@
 }
 
 .news.list article {
-  box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+  box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
   transition: box-shadow .2s ease-in-out;
 
   &:hover {
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
   }
 }
 
@@ -57,6 +58,7 @@
   h2 {
     margin-bottom: 20px;
     color: $dark-grey;
+
     a {
       color: $dark-grey;
     }
@@ -75,8 +77,67 @@
     text-transform: uppercase;
     font-size: 80%;
     font-weight: bold;
+
     a {
       color: $light-grey;
     }
+  }
+}
+
+.comment-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0, 0, 0, .125);
+  border-radius: .25rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  .content {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .author {
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 80%;
+      font-weight: 400;
+
+      p {
+        margin: 0 1rem 0 0;
+      }
+    }
+
+    .actions {
+      margin-top: 1rem;
+      padding: 0;
+      display: flex;
+      justify-content: end;
+    }
+
+    @media screen and (min-width: 768px){
+      .author {
+        line-height: 2rem;
+      }
+      .actions {
+        margin-top: 0rem;
+      }
+    }
+  }
+
+  span {
+    font-weight: bold;
   }
 }

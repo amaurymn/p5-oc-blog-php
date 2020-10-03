@@ -1,0 +1,108 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block content %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-0">
+        <div class="pt-3 pb-5 container px-0">
+            <h1 class="no-underline ml-3">Profil</h1>
+            <div class="d-flex flex-wrap">
+                <div class="col-lg-6 mb-2">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            Mon Email
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="profilepic" id="currEmail">Photo de profil</label>
+                                <input id="profilepic" type="text" class="form-control" placeholder="URL">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            Liens
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="cvlink">Lien du CV</label>
+                                <input id="cvlink" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            Mes infos
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="profilename" id="currEmail">Nom</label>
+                                <input id="profilename" type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="profilesurname" id="currEmail">Prénom</label>
+                                <input id="profilesurname" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-2">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            Phrase d'accroche
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="catchphrase">Phrase d'accroche</label>
+                                <textarea class="form-control" id="catchphrase" cols="30" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            Réseaux sociaux
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-5 mb-sm-3 mb-xs-3">
+                                    <label for="catchphrase">Nom</label>
+                                    <input type="text" class="form-control" id="catchphrase" placeholder="Nom">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="catchphrase">URL</label>
+                                    <input type="text" class="form-control" id="catchphrase" placeholder="URL">
+                                </div>
+                                <div class="col-lg-1">
+                                    <label for="catchphrase">&nbsp;</label>
+                                    <button class="form-control btn btn-outline-primary">
+                                        <i class="far fa-save"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-5 mb-sm-3 mb-xs-3">
+                                    <input type="text" class="form-control" value="linkedIn" disabled>
+                                </div>
+                                <div class="col-lg-6">
+
+                                    <input type="text" class="form-control" value="https://" disabled>
+                                </div>
+                                <div class="col-lg-1">
+
+                                    <button class="form-control btn btn-outline-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
