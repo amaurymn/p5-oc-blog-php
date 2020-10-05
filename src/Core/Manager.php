@@ -11,19 +11,16 @@ use Symfony\Component\Yaml\Yaml;
 class Manager
 {
     private PDO $pdo;
-    protected string $table;
-    private array $config;
+    private string $table;
 
     public function __construct()
     {
-        $this->pdo    = (new PDOFactory())->getPDO();
-        $this->config = Yaml::parseFile(CONF_DIR . '/entities.yml');
+        $this->pdo   = (new PDOFactory())->getPDO();
         $this->table = $this->getTableName();
     }
 
     /**
-     * @param string $entity
-     * @return $this
+     * @return string
      * @throws ReflectionException
      */
     public function getTableName()
@@ -33,30 +30,30 @@ class Manager
         return strtolower(str_replace('Manager', '', $managerInstance));
     }
 
-
     /**
      * @return array
      */
     public function findAll()
     {
         return $this->pdo
-            ->query('SELECT * FROM '.$this->tableName)
-            ->fetchAll(PDO::FETCH_ASSOC);
+            ->query('SELECT * FROM ' . $this->table)
+            ->fetchAll();
     }
 
     /**
      * @param array $where
      * @param array $order
-     * @param array $limit
+     * @param int|null $limit
+     * @param int|null $offset
      * @return array
      */
-    public function findBy(array $where = [], array $order = [], array $limit = [])//add offset
+    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null)
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
 
         $this->setWhereParams($where, $query, $binds, $key, $value);
         $this->setOrderBy($order, $query);
-        $this->setLimit($limit, $query);
+        $this->setLimitOffset($limit, $offset, $query);
 
         $stmt = $this->pdo->prepare($query);
 
@@ -78,11 +75,11 @@ class Manager
     /**
      * @param array $where
      * @param array $order
-     * @return array
+     * @return mixed
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        return $this->findBy($where, $order, [0,1])[0];
+        return $this->findBy($where, $order, 0, 1)[0];
     }
 
     /**
@@ -91,29 +88,8 @@ class Manager
      */
     private function setOrderBy(array $order, string &$query): void
     {
-        //Only one order but you need to verify that value are only asc or desc
-        if (!empty($order)) {
-            $query .= "ORDER BY ";
-
-            $i = 0;
-            foreach ($order as $key => $value) {
-                if ($i > 0) {
-                    $query .= ', ';
-                }
-                $query .= '`' . $key . '` ' . $value;
-                $i++;
-            }
-        }
-    }
-
-    /**
-     * @param array $limit
-     * @param string $query
-     */
-    private function setLimit(array $limit, string &$query): void
-    {
-        if (!empty($limit)) {
-            $query .= sprintf(" LIMIT %d, %d", $limit[0], $limit[1]);
+        if (!empty($order) && in_array(end($order), ['ASC', 'DESC'])) {
+            $query .= 'ORDER BY `' . array_key_first($order) . '` ' .  end($order);
         }
     }
 
@@ -126,11 +102,10 @@ class Manager
      */
     private function setWhereParams(array $where, string &$query, &$binds, &$key, &$value): void
     {
+        $binds = [];
+
         if (!empty($where)) {
             $query .= "WHERE ";
-
-            $binds = [];
-
             $i = 0;
 
             foreach ($where as $key => $value) {
@@ -145,7 +120,23 @@ class Manager
         }
     }
 
-    //create(Entity $entity)
-    //update(Entity $entity)
-    //delete(Entity $entity)
+    /**
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string $query
+     */
+    private function setLimitOffset(?int $limit, ?int $offset, string &$query): void
+    {
+        if (!empty($limit)) {
+            if (!empty($offset)) {
+                $query .= sprintf(" LIMIT %d OFFSET %d", $limit, $offset);
+            } else {
+                $query .= sprintf(" LIMIT %d", $limit);
+            }
+        }
+    }
 }
+
+//create(Entity $entity)
+//update(Entity $entity)
+//delete(Entity $entity)
