@@ -212,8 +212,7 @@ class Manager
         foreach ($binds as $key => $value) {
             if (is_int($value) || is_bool($value)) {
                 $stmt->bindValue($key, $value, PDO::PARAM_INT);
-            } else if (is_a($value, 'DateTime')) {
-
+            } elseif (is_a($value, 'DateTime')) {
                 $stmt->bindValue($key, $value->format('Y-m-d H:i:s'), PDO::PARAM_STR);
             } else {
                 $stmt->bindValue($key, $value, PDO::PARAM_STR);
