@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-class Comment
+use App\Core\Entity;
+
+class Comment extends Entity
 {
     private int $id;
     private string $content;

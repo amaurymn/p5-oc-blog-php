@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-class SocialNetwork
+use App\Core\Entity;
+
+class SocialNetwork extends Entity
 {
     private int $id;
     private string $name;

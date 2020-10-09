@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-class Media
+use App\Core\Entity;
+
+class Media extends Entity
 {
     private int $id;
     private string $fileName;

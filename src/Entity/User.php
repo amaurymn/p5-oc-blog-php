@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-class User
+use App\Core\Entity;
+
+class User extends Entity
 {
     private int $id;
     private string $firstName;
