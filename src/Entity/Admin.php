@@ -4,27 +4,10 @@ namespace App\Entity;
 
 class Admin extends User
 {
-    private int $id;
     private string $image;
     private string $altImg;
     private string $cvLink;
     private string $shortDescription;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return string
