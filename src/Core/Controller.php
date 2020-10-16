@@ -32,4 +32,9 @@ abstract class Controller
     {
        echo $this->twig->twigRender($template, $array);
     }
+
+    protected function isFormSubmit($submitName)
+    {
+        return (!empty($_POST) && isset($_POST[$submitName]));
+    }
 }
