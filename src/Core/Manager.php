@@ -65,23 +65,15 @@ class Manager
      */
     public function create(Entity $entity)
     {
-        $vars = array_keys($entity->getObjectProperties());
+        $vars[] = array_values($this->getColumns($entity));
 
-        $query = 'INSERT INTO ' . $this->table . $this->makeInsertQuery($vars);
-
-        $stmt = $this->pdo->prepare($query);
+        $query = 'INSERT INTO ' . $this->table . $this->makeInsertQuery($vars[0]);
 
         $entity->setCreatedAt(new DateTime());
 
-        $paramsToBind = [];
-        foreach ($vars as $field) {
-            if ($field !== 'id') {
-                $method = 'get' . ucfirst($field);
-                $paramsToBind[$field] = $entity->$method();
-            }
-        }
+        $stmt = $this->pdo->prepare($query);
 
-        $this->setBinding($paramsToBind, $stmt, $key, $value);
+        $this->setBinding($vars, $stmt, $key, $value);
 
         $stmt->execute();
     }
@@ -91,7 +83,7 @@ class Manager
      */
     public function update(Entity $entity)
     {
-        $vars = array_keys($entity->getObjectProperties());
+        $vars[] = array_values($this->getColumns($entity));
 
         $stmt = $this->pdo->prepare("UPDATE " . $this->table . $this->makeInsertQuery($vars) . ' WHERE id = :id');
 
@@ -218,5 +210,29 @@ class Manager
                 $stmt->bindValue($key, $value, PDO::PARAM_STR);
             }
         }
+    }
+
+    /**
+     * @param Entity $entity
+     * @return array
+     */
+    private function getColumns(Entity $entity): array
+    {
+        $columns = [];
+        $properties = $entity->getObjectProperties();
+        foreach ($properties as $property) {
+            $columns[] = $this->camelCaseToSnakeCase($property->name);
+        }
+
+        return $columns;
+    }
+
+    /**
+     * @param string $property
+     * @return string
+     */
+    private function camelCaseToSnakeCase(string $property): string
+    {
+        return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $property));
     }
 }
