@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Core\Entity;
+use App\Core\TimestampableEntity;
 
 class User extends Entity
 {
+    use TimestampableEntity;
+
     private int $id;
     private string $firstName;
     private string $lastName;
@@ -13,8 +16,6 @@ class User extends Entity
     private string $email;
     private string $password;
     private string $role;
-    private \DateTime $createdAt;
-    private \DateTime $updatedAt;
 
     /**
      * @return int
@@ -126,37 +127,5 @@ class User extends Entity
     public function setRole(string $role): void
     {
         $this->role = $role;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTime $createdAt
-     */
-    public function setCreatedAt(\DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt(): \DateTime
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTime $updatedAt
-     */
-    public function setUpdatedAt(\DateTime $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
     }
 }

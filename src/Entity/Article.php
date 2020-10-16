@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Core\Entity;
+use App\Core\TimestampableEntity;
 
 class Article extends Entity
 {
+    use TimestampableEntity;
+
     private string $title;
     private string $content;
     private string $textHeader;
