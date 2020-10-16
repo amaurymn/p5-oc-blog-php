@@ -2,13 +2,11 @@
 
 namespace App\Core;
 
-use DateTime;
+use ReflectionClass;
 
 class Entity
 {
     private $id;
-    private $createdAt;
-    private $updatedAt;
 
     /**
      * Entity constructor.
@@ -38,11 +36,14 @@ class Entity
     }
 
     /**
-     * @return array
+     * @return \ReflectionProperty[]
+     * @throws \ReflectionException
      */
     public function getObjectProperties()
     {
-        return get_object_vars($this);
+        $reflectionClass = new ReflectionClass($this);
+
+        return $reflectionClass->getProperties();
     }
 
     /**
@@ -51,6 +52,8 @@ class Entity
     public function hydrate(array $data)
     {
         foreach ($data as $key => $value) {
+            $key = $this->snakeCaseToCamelCase($key);
+
             $method = 'set' . ucfirst($key);
 
             if (is_callable([$this, $method])) {
@@ -60,36 +63,11 @@ class Entity
     }
 
     /**
-     * @return DateTime
-     * @throws \Exception
+     * @param string $key
+     * @return string
      */
-    public function getCreatedAt(): DateTime
+    protected function snakeCaseToCamelCase(string $key): string
     {
-        return new DateTime($this->createdAt);
-    }
-
-    /**
-     * @param DateTime $createdAt
-     */
-    public function setCreatedAt(DateTime $createdAt): void
-    {
-        $this->createdAt = $createdAt->format('Y-m-d H:i:s');
-    }
-
-    /**
-     * @return DateTime
-     * @throws \Exception
-     */
-    public function getUpdatedAt(): DateTime
-    {
-        return new DateTime($this->updatedAt);
-    }
-
-    /**
-     * @param DateTime $updatedAt
-     */
-    public function setUpdatedAt(DateTime $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt->format('Y-m-d H:i:s');
+        return lcfirst(str_replace('', '', ucwords($key, '_')));
     }
 }
