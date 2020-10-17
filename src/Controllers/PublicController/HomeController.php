@@ -7,10 +7,15 @@ use App\Manager\ArticleManager;
 
 class HomeController extends Controller
 {
-
     public function executeShowHome()
     {
-        $this->render('@public/homepage.html.twig');
+        $manager = new ArticleManager();
+
+        $articles = $manager->findBy([], ['created_at' => 'DESC'], '3');
+
+        $this->render('@public/homepage.html.twig', [
+            'articles' => $articles
+        ]);
     }
 
     public function executeShowError404()

@@ -6,13 +6,13 @@
         <div class="h1 mb-4">Blog</div>
         <div class="row">
             <div class="col-sm-12 col-md-9">
+                {% for article in articles %}
                 <article>
                     <div class="news-image">
                         <a href="/blog/test"><img src="https://picsum.photos/1260/800" class="img-fluid" alt="Title"/></a>
                     </div>
                     <div class="card-body">
-                        <span class="categories">Categorie: Lorem, Ipsum</span>
-                        <h2 class="no-underline"><a href="/blog/test">Lorem ipsum dolor sit amet.</a></h2>
+                        <h2 class="no-underline font-weight-bold"><a href="/blog/test">{{ article.title }}</a></h2>
                         <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
 
                         <div class="d-flex justify-content-between">
@@ -21,36 +21,7 @@
                         </div>
                     </div>
                 </article>
-                <article>
-                    <div class="news-image">
-                        <a href="/blog/test"><img src="https://picsum.photos/1260/801" class="img-fluid" alt="Title"/></a>
-                    </div>
-                    <div class="card-body">
-                        <span class="categories">Categorie: Lorem, Ipsum</span>
-                        <h2 class="no-underline"><a href="/blog/test">Lorem ipsum dolor sit amet.</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-
-                        <div class="d-flex justify-content-between">
-                            <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> 28 JAN, 2020</span>
-                            <span class="small"><a class="text-muted" href="/blog/test">Lire la suite</a></span>
-                        </div>
-                    </div>
-                </article>
-                <article>
-                    <div class="news-image">
-                        <a href="/blog/test"><img src="https://picsum.photos/1260/802" class="img-fluid" alt="Title"/></a>
-                    </div>
-                    <div class="card-body">
-                        <span class="categories">Categorie: Lorem, Ipsum</span>
-                        <h2 class="no-underline"><a href="/blog/test">Lorem ipsum dolor sit amet.</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-
-                        <div class="d-flex justify-content-between">
-                            <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> 28 JAN, 2020</span>
-                            <span class="small"><a class="text-muted" href="/blog/test">Lire la suite</a></span>
-                        </div>
-                    </div>
-                </article>
+                {% endfor %}
             </div>
 
             {% include 'public/partials/aside.html.twig' %}

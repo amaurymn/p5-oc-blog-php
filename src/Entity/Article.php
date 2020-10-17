@@ -12,6 +12,12 @@ class Article extends Entity
     private string $title;
     private string $content;
     private string $textHeader;
+    private int $adminId;
+
+    public function __construct(array $data = [])
+    {
+        parent::__construct($data);
+    }
 
     /**
      * @return string
@@ -59,5 +65,21 @@ class Article extends Entity
     public function setTextHeader(string $textHeader): void
     {
         $this->textHeader = $textHeader;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAdminId(): int
+    {
+        return $this->adminId;
+    }
+
+    /**
+     * @param int $adminId
+     */
+    public function setAdminId(int $adminId)
+    {
+        $this->adminId = $adminId;
     }
 }

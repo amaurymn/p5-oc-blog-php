@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Core\Entity;
 
-class Media extends Entity
+class Media extends Article
 {
     private string $fileName;
     private string $alt;
