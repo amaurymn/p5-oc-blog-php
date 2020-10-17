@@ -7,7 +7,7 @@ use PDO;
 use ReflectionClass;
 use ReflectionException;
 
-class Manager
+abstract class Manager
 {
     private PDO $pdo;
     private string $table;
@@ -44,10 +44,12 @@ class Manager
         $this->setLimitOffset($limit, $offset, $query);
 
         $stmt = $this->pdo->prepare($query);
-        $this->setBinding($binds, $stmt, $key, $value);
+
+        $this->setBinding($binds, $stmt);
+
         $stmt->execute();
 
-        return $stmt->fetchAll();
+        return ($stmt->rowCount() > 1) ? $stmt->fetchAll() : $stmt->fetch();
     }
 
     /**
@@ -62,6 +64,7 @@ class Manager
 
     /**
      * @param Entity $entity
+     * @throws ReflectionException
      */
     public function create(Entity $entity)
     {
@@ -69,33 +72,27 @@ class Manager
 
         $query = 'INSERT INTO ' . $this->table . $this->makeInsertQuery($vars[0]);
 
-        $entity->setCreatedAt(new DateTime());
+        $binds = $this->bindFieldsToEntity($vars, $entity);
 
         $stmt = $this->pdo->prepare($query);
-
-        $this->setBinding($vars, $stmt, $key, $value);
-
+        $this->setBinding($binds, $stmt);
         $stmt->execute();
     }
 
     /**
      * @param Entity $entity
+     * @throws ReflectionException
      */
     public function update(Entity $entity)
     {
         $vars[] = array_values($this->getColumns($entity));
 
-        $stmt = $this->pdo->prepare("UPDATE " . $this->table . $this->makeInsertQuery($vars) . ' WHERE id = :id');
+        $stmt = $this->pdo->prepare("UPDATE " . $this->table . $this->makeUpdateQuery($vars[0]) . ' WHERE id = :id');
 
-        $entity->setUpdatedAt(new DateTime());
+        $binds = $this->bindFieldsToEntity($vars, $entity);
 
-        $paramsToBind = [];
-        foreach ($vars as $field) {
-            $method = 'get' . ucfirst($field);
-            $paramsToBind[$field] = $entity->$method();
-        }
-
-        $this->setBinding($paramsToBind, $stmt, $key, $value);
+        $stmt->bindValue(':id', $entity->getId());
+        $this->setBinding($binds, $stmt);
 
         $stmt->execute();
     }
@@ -194,12 +191,27 @@ class Manager
     }
 
     /**
+     * @param array $vars
+     * @return string
+     */
+    private function makeUpdateQuery(array $vars): string
+    {
+        $values = [];
+
+        foreach ($vars as $column) {
+            if ($column !== 'id') {
+                $values[] = $this->table . '.' . $column . ' = :' . $column;
+            }
+        }
+
+        return " SET " . implode(', ', $values);
+    }
+
+    /**
      * @param $binds
      * @param \PDOStatement $stmt
-     * @param $key
-     * @param $value
      */
-    protected function setBinding($binds, \PDOStatement $stmt, &$key, &$value)
+    private function setBinding($binds, \PDOStatement $stmt)
     {
         foreach ($binds as $key => $value) {
             if (is_int($value) || is_bool($value)) {
@@ -215,6 +227,7 @@ class Manager
     /**
      * @param Entity $entity
      * @return array
+     * @throws ReflectionException
      */
     private function getColumns(Entity $entity): array
     {
@@ -234,5 +247,21 @@ class Manager
     private function camelCaseToSnakeCase(string $property): string
     {
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $property));
+    }
+
+    /**
+     * @param $vars
+     * @param Entity $entity
+     * @return array
+     */
+    private function bindFieldsToEntity($vars, Entity $entity): array
+    {
+        $binds = [];
+        foreach ($vars[0] as $field) {
+            $method        = 'get' . ucfirst($entity->snakeCaseToCamelCase($field));
+            $binds[$field] = $entity->$method();
+        }
+
+        return $binds;
     }
 }
