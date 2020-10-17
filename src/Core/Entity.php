@@ -6,7 +6,7 @@ use ReflectionClass;
 
 class Entity
 {
-    private $id;
+    private int $id;
 
     /**
      * Entity constructor.
@@ -66,8 +66,8 @@ class Entity
      * @param string $key
      * @return string
      */
-    protected function snakeCaseToCamelCase(string $key): string
+    public function snakeCaseToCamelCase(string $key): string
     {
-        return lcfirst(str_replace('', '', ucwords($key, '_')));
+        return lcfirst(str_replace('_', '', ucwords($key, '_')));
     }
 }
