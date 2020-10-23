@@ -2,44 +2,40 @@
 
 namespace App\Core;
 
-use DateTime;
-
 trait TimestampableEntity
 {
     private $createdAt;
     private $updatedAt;
 
     /**
-     * @return DateTime
-     * @throws \Exception
+     * @return mixed
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt()
     {
-        return new DateTime($this->createdAt);
+        return $this->createdAt;
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param mixed $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt($createdAt): void
     {
-        $this->createdAt = $createdAt->format('Y-m-d H:i:s');
+        $this->createdAt = $createdAt;
     }
 
     /**
-     * @return DateTime
-     * @throws \Exception
+     * @return mixed
      */
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt()
     {
-        return new DateTime($this->updatedAt);
+        return $this->updatedAt;
     }
 
     /**
-     * @param DateTime $updatedAt
+     * @param mixed $updatedAt
      */
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt($updatedAt): void
     {
-        $this->updatedAt = $updatedAt->format('Y-m-d H:i:s');
+        $this->updatedAt = $updatedAt;
     }
 }
