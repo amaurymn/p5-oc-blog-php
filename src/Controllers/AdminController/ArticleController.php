@@ -8,28 +8,73 @@ use App\Manager\ArticleManager;
 
 class ArticleController extends Controller
 {
+    const ARTICLE_LIST = '/dashboard/article/list';
 
+    /**
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function executeShowArticleList()
     {
-        $this->render('@admin/articleList.html.twig');
+        $articles = (new ArticleManager())->findAll();
+
+        $this->render('@admin/articleList.html.twig', [
+            'articles' => $articles,
+        ]);
     }
 
+    /**
+     * @throws \ReflectionException
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function executeShowArticleAdd()
     {
-        $article = new Article(['admin_id' => 1, 'id' => 1]);
+        $article = new Article(['admin_id' => 1]);
+        $article->setCreatedAt(new \DateTime());
+        $article->setUpdatedAt(new \DateTime());
 
         if($this->isFormSubmit('publish')) {
             $article->hydrate($_POST);
 
-            (new ArticleManager())->update($article);
-        } else {
-            dump(false);
+            (new ArticleManager())->create($article);
+
+            $this->redirectUrl(self::ARTICLE_LIST);
         }
+
         $this->render('@admin/articleAdd.html.twig');
     }
 
     public function executeShowArticleEdit()
     {
-        $this->render('@admin/articleEdit.html.twig');
+        $getArticle = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+        $editArticle = new Article(['admin_id' => 1, 'id' => $getArticle['id']]);
+
+        if($this->isFormSubmit('publish')) {
+            $editArticle->setCreatedAt($getArticle['created_at']);
+            $editArticle->setUpdatedAt(new \DateTime());
+
+            $editArticle->hydrate($_POST);
+
+            (new ArticleManager())->update($editArticle);
+
+            $this->redirectUrl(self::ARTICLE_LIST);
+        }
+
+        $this->render('@admin/articleEdit.html.twig', [
+            'article' => $getArticle
+        ]);
+    }
+
+    public function executeDeleteArticle(): void
+    {
+        $getArticle = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+        $article = new Article(['id' => $getArticle['id']]);
+
+        (new ArticleManager())->delete($article);
+
+        $this->redirectUrl(self::ARTICLE_LIST);
     }
 }
