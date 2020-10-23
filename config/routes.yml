@@ -83,10 +83,17 @@ articleAdd:
   parameters: []
 
 articleEdit:
-  uri: /dashboard/article/edit/([0-9+])
+  uri: /dashboard/article/([0-9]+)/edit
   area: Admin
   controller: ArticleController
   action: showArticleEdit
+  parameters: ['articleId']
+
+articleDelete:
+  uri: /dashboard/article/([0-9]+)/delete
+  area: Admin
+  controller: ArticleController
+  action: deleteArticle
   parameters: ['articleId']
 
 commentList:
