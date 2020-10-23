@@ -6,168 +6,24 @@
             <div class="container">
                 <h1 class="no-underline">Liste des articles</h1>
                 <div class="row">
+                    {% for article in articles %}
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
+                            <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
                             <div class="card-body">
                                 <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
+                                    <a href="/dashboard/article/{{ article.id }}/edit">{{ article.title }}</a>
                                 </h2>
                                 <div class="d-flex justify-content-end">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
+                                        <a href="/dashboard/article/{{ article.id }}/edit" class="btn btn-sm btn-warning text-dark">Editer</a>
+                                        <a href="/dashboard/article/{{ article.id }}/delete" class="btn btn-sm btn-danger text-light">Supprimer</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card">
-                            <a href="#">
-                                <img class="img-fluid" src="https://picsum.photos/500/300" alt="Title">
-                            </a>
-                            <div class="card-body">
-                                <h2 class="title no-underline">
-                                    <a href="/dashboard/article/edit/1">Titre de l'article</a>
-                                </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Editer</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
