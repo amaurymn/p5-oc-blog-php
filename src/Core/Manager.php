@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use DateTime;
 use PDO;
 use ReflectionClass;
 use ReflectionException;
@@ -59,7 +58,7 @@ abstract class Manager
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        return $this->findBy($where, $order, 0, 1)[0];
+        return $this->findBy($where, $order, 0, 1);
     }
 
     /**
@@ -71,7 +70,6 @@ abstract class Manager
         $vars[] = array_values($this->getColumns($entity));
 
         $query = 'INSERT INTO ' . $this->table . $this->makeInsertQuery($vars[0]);
-
         $binds = $this->bindFieldsToEntity($vars, $entity);
 
         $stmt = $this->pdo->prepare($query);
@@ -87,10 +85,10 @@ abstract class Manager
     {
         $vars[] = array_values($this->getColumns($entity));
 
-        $stmt = $this->pdo->prepare("UPDATE " . $this->table . $this->makeUpdateQuery($vars[0]) . ' WHERE id = :id');
-
+        $query = "UPDATE " . $this->table . $this->makeUpdateQuery($vars[0]) . " WHERE id = :id";
         $binds = $this->bindFieldsToEntity($vars, $entity);
 
+        $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':id', $entity->getId());
         $this->setBinding($binds, $stmt);
 
