@@ -43,15 +43,13 @@ abstract class Controller
     }
 
     /**
-     * @param $url
+     * @param string $url
      */
-    public function redirectUrl($url)
+    public function redirectUrl(string $url = '/')
     {
         if (!empty($url)) {
             header('Location: ' . $url);
-        } else {
-            header('Location: /');
+            exit();
         }
-        exit();
     }
 }
