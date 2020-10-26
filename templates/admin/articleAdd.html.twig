@@ -15,6 +15,9 @@
                                             <small class="text-uppercase">Titre de l'article</small>
                                         </label>
                                         <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" required>
+                                        {% for error in errors.title %}
+                                            <small class="text-danger">{{ error }}</small><br>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -23,6 +26,9 @@
                                             <small class="text-uppercase">Chapô de l'article</small>
                                         </label>
                                         <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required></textarea>
+                                        {% for error in errors.textHeader %}
+                                            <small class="text-danger">{{ error }}</small><br>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -31,6 +37,9 @@
                                             <small class="text-uppercase">Contenu de l'article</small>
                                         </label>
                                         <textarea class="form-control" name="content" id="a_content" rows="5" placeholder="Contenu de l'article" required></textarea>
+                                        {% for error in errors.content %}
+                                            <small class="text-danger">{{ error }}</small><br>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
