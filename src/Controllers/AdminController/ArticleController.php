@@ -40,12 +40,12 @@ class ArticleController extends Controller
         $article->setCreatedAt(new \DateTime());
         $article->setUpdatedAt(new \DateTime());
 
-        if($this->isFormSubmit('publish')) {
+        if ($this->isFormSubmit('publish')) {
             $article->hydrate($_POST);
 
             $this->formErrors = $this->formValidator($_POST);
 
-            if(!$this->formErrors) {
+            if (!$this->formErrors) {
                 (new ArticleManager())->create($article);
                 $this->redirectUrl(self::ARTICLE_LIST);
             }
@@ -64,17 +64,17 @@ class ArticleController extends Controller
      */
     public function executeShowArticleEdit()
     {
-        $getArticle = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+        $getArticle  = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
         $editArticle = new Article(['admin_id' => 1, 'id' => $getArticle['id']]);
 
-        if($this->isFormSubmit('publish')) {
+        if ($this->isFormSubmit('publish')) {
             $editArticle->setCreatedAt($getArticle['created_at']);
             $editArticle->setUpdatedAt(new \DateTime());
             $editArticle->hydrate($_POST);
 
             $this->formErrors = $this->formValidator($_POST);
 
-            if(!$this->formErrors) {
+            if (!$this->formErrors) {
                 (new ArticleManager())->update($editArticle);
                 $this->redirectUrl(self::ARTICLE_LIST);
             }
@@ -82,14 +82,14 @@ class ArticleController extends Controller
 
         $this->render('@admin/articleEdit.html.twig', [
             'article' => $getArticle,
-            'errors' => $this->formErrors
+            'errors'  => $this->formErrors
         ]);
     }
 
     public function executeDeleteArticle(): void
     {
         $getArticle = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
-        $article = new Article(['id' => $getArticle['id']]);
+        $article    = new Article(['id' => $getArticle['id']]);
 
         (new ArticleManager())->delete($article);
 
