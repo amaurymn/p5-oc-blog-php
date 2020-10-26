@@ -37,6 +37,18 @@ class Validator
     }
 
     /**
+     * @param string $message
+     * @return $this
+     */
+    public function addError(string $message)
+    {
+        $message = str_replace('[FIELD]', $this->getFieldName($this->input), $message);
+        $this->errors[$this->input][] = $message;
+
+        return $this;
+    }
+
+    /**
      * @return array|false
      */
     public function hasErrors()
@@ -55,17 +67,5 @@ class Validator
         }
 
         return $name;
-    }
-
-    /**
-     * @param string $message
-     * @return $this
-     */
-    public function addError(string $message)
-    {
-        $message = str_replace('[FIELD]', $this->getFieldName($this->input), $message);
-        $this->errors[$this->input][] = $message;
-
-        return $this;
     }
 }
