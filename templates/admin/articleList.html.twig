@@ -45,6 +45,10 @@
                             </div>
                         </div>
                     </div>
+                    {% else %}
+                        <div class="col">
+                            <p>Pas d'articles à afficher: <a href="/dashboard/article/add">Ajouter un article.</a></p>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
