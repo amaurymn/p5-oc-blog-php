@@ -3,16 +3,16 @@
 namespace App\Controllers\AdminController;
 
 use App\Core\Controller;
+use App\Core\Validator;
 use App\Entity\Article;
 use App\Manager\ArticleManager;
-use App\Services\Validator;
 
 class ArticleController extends Controller
 {
     const ARTICLE_LIST = '/dashboard/article/list';
 
-    /** @var array|bool */
-    private $formErrors;
+    /** @var array|false */
+    private $errors;
 
     /**
      * @throws \Twig\Error\LoaderError
@@ -36,23 +36,22 @@ class ArticleController extends Controller
      */
     public function executeShowArticleAdd()
     {
-        $article = new Article(['admin_id' => 1]);
-        $article->setCreatedAt(new \DateTime());
-        $article->setUpdatedAt(new \DateTime());
-
         if ($this->isFormSubmit('publish')) {
-            $article->hydrate($_POST);
+            $article = new Article(['admin_id' => 1]);
+            $article->setCreatedAt(new \DateTime());
+            $article->setUpdatedAt(new \DateTime());
 
-            $this->formErrors = $this->formValidator($_POST);
+            $this->errors = (new Validator($_POST))->validateArticle();
 
-            if (!$this->formErrors) {
+            if (!$this->errors) {
+                $article->hydrate($_POST);
                 (new ArticleManager())->create($article);
                 $this->redirectUrl(self::ARTICLE_LIST);
             }
         }
 
         $this->render('@admin/articleAdd.html.twig', [
-            'errors' => $this->formErrors
+            'errors' => $this->errors
         ]);
     }
 
@@ -65,16 +64,16 @@ class ArticleController extends Controller
     public function executeShowArticleEdit()
     {
         $getArticle  = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
-        $editArticle = new Article(['admin_id' => 1, 'id' => $getArticle['id']]);
 
         if ($this->isFormSubmit('publish')) {
+            $editArticle = new Article(['admin_id' => 1, 'id' => $getArticle['id']]);
             $editArticle->setCreatedAt($getArticle['created_at']);
             $editArticle->setUpdatedAt(new \DateTime());
-            $editArticle->hydrate($_POST);
 
-            $this->formErrors = $this->formValidator($_POST);
+            $this->errors = (new Validator($_POST))->validateArticle();
 
-            if (!$this->formErrors) {
+            if (!$this->errors) {
+                $editArticle->hydrate($_POST);
                 (new ArticleManager())->update($editArticle);
                 $this->redirectUrl(self::ARTICLE_LIST);
             }
@@ -82,7 +81,7 @@ class ArticleController extends Controller
 
         $this->render('@admin/articleEdit.html.twig', [
             'article' => $getArticle,
-            'errors'  => $this->formErrors
+            'errors'  => $this->errors
         ]);
     }
 
@@ -94,20 +93,5 @@ class ArticleController extends Controller
         (new ArticleManager())->delete($article);
 
         $this->redirectUrl(self::ARTICLE_LIST);
-    }
-
-    /**
-     * @param array $data
-     * @return array|false
-     */
-    private function formValidator(array $data)
-    {
-        $validator = new Validator($data);
-
-        $validator->validate('title', 'Le titre')->required()->maxLength(255);
-        $validator->validate('textHeader', 'Le chapô')->required();
-        $validator->validate('content', 'Le contenu')->required();
-
-        return $validator->hasErrors();
     }
 }
