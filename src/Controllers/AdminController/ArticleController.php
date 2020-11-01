@@ -12,7 +12,7 @@ class ArticleController extends Controller
     const ARTICLE_LIST = '/dashboard/article/list';
 
     /** @var array|false */
-    private $errors;
+    private $hasErrors;
 
     /**
      * @throws \Twig\Error\LoaderError
@@ -41,9 +41,9 @@ class ArticleController extends Controller
             $article->setCreatedAt(new \DateTime());
             $article->setUpdatedAt(new \DateTime());
 
-            $this->errors = (new Validator($_POST))->validateArticle();
+            $this->hasErrors = (new Validator($_POST))->articleValidation();
 
-            if (!$this->errors) {
+            if (!$this->hasErrors) {
                 $article->hydrate($_POST);
                 (new ArticleManager())->create($article);
                 $this->redirectUrl(self::ARTICLE_LIST);
@@ -51,7 +51,7 @@ class ArticleController extends Controller
         }
 
         $this->render('@admin/articleAdd.html.twig', [
-            'errors' => $this->errors
+            'errors' => $this->hasErrors
         ]);
     }
 
@@ -70,9 +70,9 @@ class ArticleController extends Controller
             $editArticle->setCreatedAt($getArticle['created_at']);
             $editArticle->setUpdatedAt(new \DateTime());
 
-            $this->errors = (new Validator($_POST))->validateArticle();
+            $this->hasErrors = (new Validator($_POST))->articleValidation();
 
-            if (!$this->errors) {
+            if (!$this->hasErrors) {
                 $editArticle->hydrate($_POST);
                 (new ArticleManager())->update($editArticle);
                 $this->redirectUrl(self::ARTICLE_LIST);
@@ -81,7 +81,7 @@ class ArticleController extends Controller
 
         $this->render('@admin/articleEdit.html.twig', [
             'article' => $getArticle,
-            'errors'  => $this->errors
+            'errors'  => $this->hasErrors
         ]);
     }
 

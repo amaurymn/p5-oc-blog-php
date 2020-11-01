@@ -76,7 +76,7 @@ class Validator
     /**
      * @return array|false
      */
-    public function validateArticle()
+    public function articleValidation()
     {
         $this->check('title', 'Le titre')->required()->maxLength(255);
         $this->check('textHeader', 'Le chapô')->required();
