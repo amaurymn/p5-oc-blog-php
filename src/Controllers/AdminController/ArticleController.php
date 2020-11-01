@@ -19,7 +19,7 @@ class ArticleController extends Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function executeShowArticleList()
+    public function executeReadList()
     {
         $articles = (new ArticleManager())->findAll();
 
@@ -34,7 +34,7 @@ class ArticleController extends Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function executeShowArticleAdd()
+    public function executeCreate()
     {
         if ($this->isFormSubmit('publish')) {
             $article = new Article(['admin_id' => 1]);
@@ -61,7 +61,7 @@ class ArticleController extends Controller
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function executeShowArticleEdit()
+    public function executeEdit()
     {
         $getArticle  = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
 
@@ -85,7 +85,7 @@ class ArticleController extends Controller
         ]);
     }
 
-    public function executeDeleteArticle(): void
+    public function executeDelete(): void
     {
         $getArticle = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
         $article    = new Article(['id' => $getArticle['id']]);
