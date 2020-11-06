@@ -33,8 +33,23 @@ abstract class Controller
        echo $this->twig->twigRender($template, $array);
     }
 
+    /**
+     * @param $submitName
+     * @return bool
+     */
     protected function isFormSubmit($submitName)
     {
         return (!empty($_POST) && isset($_POST[$submitName]));
+    }
+
+    /**
+     * @param string $url
+     */
+    public function redirectUrl(string $url = '/')
+    {
+        if (!empty($url)) {
+            header('Location: ' . $url);
+            exit();
+        }
     }
 }

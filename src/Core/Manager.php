@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use DateTime;
 use PDO;
 use ReflectionClass;
 use ReflectionException;
@@ -11,21 +10,38 @@ abstract class Manager
 {
     private PDO $pdo;
     private string $table;
+    private string $entity;
 
     public function __construct()
     {
-        $this->pdo   = (new PDOFactory())->getPDO();
-        $this->table = $this->getTableName();
+        $this->pdo    = (new PDOFactory())->getPDO();
+        $this->table  = $this->getTableName();
+        $this->entity = "App\Entity\\" . strtoupper($this->table);
     }
 
     /**
+     * @param array $order
+     * @param int|null $limit
+     * @param int|null $offset
      * @return array
      */
-    public function findAll()
+    public function findAll(array $order = [], int $limit = null, int $offset = null)
     {
-        return $this->pdo
-            ->query('SELECT * FROM ' . $this->table)
-            ->fetchAll();
+        $query = sprintf("SELECT * FROM %s ", $this->table);
+        $this->setOrderBy($order, $query);
+        $this->setLimitOffset($limit, $offset, $query);
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+
+        $entityResults=[];
+
+        foreach($results as $result){
+            array_push($entityResults, new $this->entity($result));
+        }
+
+        return $entityResults;
     }
 
     /**
@@ -44,12 +60,18 @@ abstract class Manager
         $this->setLimitOffset($limit, $offset, $query);
 
         $stmt = $this->pdo->prepare($query);
-
         $this->setBinding($binds, $stmt);
-
         $stmt->execute();
 
-        return ($stmt->rowCount() > 1) ? $stmt->fetchAll() : $stmt->fetch();
+        $entityResults = [];
+
+        if ($stmt->rowCount() > 1) {
+            array_push($entityResults, new $this->entity($stmt->fetchAll()));
+        } else {
+            $entityResults = $stmt->fetch();
+        }
+
+        return $entityResults;
     }
 
     /**
@@ -59,7 +81,7 @@ abstract class Manager
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        return $this->findBy($where, $order, 0, 1)[0];
+        return new $this->entity($this->findBy($where, $order, 0, 1));
     }
 
     /**
@@ -71,6 +93,8 @@ abstract class Manager
         $vars[] = array_values($this->getColumns($entity));
 
         $query = 'INSERT INTO ' . $this->table . $this->makeInsertQuery($vars[0]);
+        $entity->setCreatedAt(new \DateTime());
+        $entity->setUpdatedAt(new \DateTime());
 
         $binds = $this->bindFieldsToEntity($vars, $entity);
 
@@ -87,13 +111,14 @@ abstract class Manager
     {
         $vars[] = array_values($this->getColumns($entity));
 
-        $stmt = $this->pdo->prepare("UPDATE " . $this->table . $this->makeUpdateQuery($vars[0]) . ' WHERE id = :id');
+        $query = "UPDATE " . $this->table . $this->makeUpdateQuery($vars[0]) . " WHERE id = :id";
+        $entity->setUpdatedAt(new \DateTime());
 
         $binds = $this->bindFieldsToEntity($vars, $entity);
 
+        $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':id', $entity->getId());
         $this->setBinding($binds, $stmt);
-
         $stmt->execute();
     }
 
