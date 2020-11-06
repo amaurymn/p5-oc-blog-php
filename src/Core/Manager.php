@@ -10,11 +10,13 @@ abstract class Manager
 {
     private PDO $pdo;
     private string $table;
+    private $entity;
 
     public function __construct()
     {
         $this->pdo   = (new PDOFactory())->getPDO();
         $this->table = $this->getTableName();
+        $this->entity = "App\Entity\\".strtoupper($this->table);
     }
 
     /**
@@ -22,9 +24,16 @@ abstract class Manager
      */
     public function findAll()
     {
-        return $this->pdo
+        $results = $this->pdo
             ->query('SELECT * FROM ' . $this->table)
             ->fetchAll();
+
+        $entityResults=[];
+
+        foreach($results as $result){
+            array_push($entityResults, new $this->entity($result));
+        }
+        return $entityResults;
     }
 
     /**
@@ -48,7 +57,14 @@ abstract class Manager
 
         $stmt->execute();
 
-        return ($stmt->rowCount() > 1) ? $stmt->fetchAll() : $stmt->fetch();
+        $results=($stmt->rowCount() > 1) ? $stmt->fetchAll() : $stmt->fetch();
+
+        $entityResults=[];
+
+        foreach($results as $result){
+            array_push($entityResults, new $this->entity($result));
+        }
+        return $entityResults;
     }
 
     /**
@@ -58,7 +74,7 @@ abstract class Manager
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        return $this->findBy($where, $order, 0, 1);
+        return new $this->entity($this->findBy($where, $order, 0, 1));
     }
 
     /**

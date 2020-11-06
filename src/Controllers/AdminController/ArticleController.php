@@ -64,6 +64,7 @@ class ArticleController extends Controller
     public function executeEdit()
     {
         $getArticle  = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+        dd($getArticle);
 
         if ($this->isFormSubmit('publish')) {
             $editArticle = new Article(['admin_id' => 1, 'id' => $getArticle['id']]);
