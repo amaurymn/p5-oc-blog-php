@@ -10,29 +10,37 @@ abstract class Manager
 {
     private PDO $pdo;
     private string $table;
-    private $entity;
+    private string $entity;
 
     public function __construct()
     {
-        $this->pdo   = (new PDOFactory())->getPDO();
-        $this->table = $this->getTableName();
+        $this->pdo    = (new PDOFactory())->getPDO();
+        $this->table  = $this->getTableName();
         $this->entity = "App\Entity\\" . strtoupper($this->table);
     }
 
     /**
+     * @param array $order
+     * @param int|null $limit
+     * @param int|null $offset
      * @return array
      */
-    public function findAll()
+    public function findAll(array $order = [], int $limit = null, int $offset = null)
     {
-        $results = $this->pdo
-            ->query('SELECT * FROM ' . $this->table)
-            ->fetchAll();
+        $query = sprintf("SELECT * FROM %s ", $this->table);
+        $this->setOrderBy($order, $query);
+        $this->setLimitOffset($limit, $offset, $query);
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
 
         $entityResults=[];
 
         foreach($results as $result){
             array_push($entityResults, new $this->entity($result));
         }
+
         return $entityResults;
     }
 
@@ -85,6 +93,9 @@ abstract class Manager
         $vars[] = array_values($this->getColumns($entity));
 
         $query = 'INSERT INTO ' . $this->table . $this->makeInsertQuery($vars[0]);
+        $entity->setCreatedAt(new \DateTime());
+        $entity->setUpdatedAt(new \DateTime());
+
         $binds = $this->bindFieldsToEntity($vars, $entity);
 
         $stmt = $this->pdo->prepare($query);
@@ -101,12 +112,13 @@ abstract class Manager
         $vars[] = array_values($this->getColumns($entity));
 
         $query = "UPDATE " . $this->table . $this->makeUpdateQuery($vars[0]) . " WHERE id = :id";
+        $entity->setUpdatedAt(new \DateTime());
+
         $binds = $this->bindFieldsToEntity($vars, $entity);
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindValue(':id', $entity->getId());
         $this->setBinding($binds, $stmt);
-
         $stmt->execute();
     }
 
