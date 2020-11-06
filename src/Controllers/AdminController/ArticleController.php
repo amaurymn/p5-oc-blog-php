@@ -87,11 +87,11 @@ class ArticleController extends Controller
 
     public function executeDelete(): void
     {
-        $getArticle = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
-        $article    = new Article(['id' => $getArticle['id']]);
+        $article = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+//        $article    = new Article(['id' => $getArticle['id']]);
 
         (new ArticleManager())->delete($article);
-
+        // TypeError: Argument 1 passed to App\Core\Manager::delete() must be an instance of App\Core\Entity, array given,
         $this->redirectUrl(self::ARTICLE_LIST);
     }
 }
