@@ -16,7 +16,7 @@ abstract class Manager
     {
         $this->pdo   = (new PDOFactory())->getPDO();
         $this->table = $this->getTableName();
-        $this->entity = "App\Entity\\".strtoupper($this->table);
+        $this->entity = "App\Entity\\" . strtoupper($this->table);
     }
 
     /**
@@ -52,18 +52,17 @@ abstract class Manager
         $this->setLimitOffset($limit, $offset, $query);
 
         $stmt = $this->pdo->prepare($query);
-
         $this->setBinding($binds, $stmt);
-
         $stmt->execute();
 
-        $results=($stmt->rowCount() > 1) ? $stmt->fetchAll() : $stmt->fetch();
+        $entityResults = [];
 
-        $entityResults=[];
-
-        foreach($results as $result){
-            array_push($entityResults, new $this->entity($result));
+        if ($stmt->rowCount() > 1) {
+            array_push($entityResults, new $this->entity($stmt->fetchAll()));
+        } else {
+            $entityResults = $stmt->fetch();
         }
+
         return $entityResults;
     }
 
