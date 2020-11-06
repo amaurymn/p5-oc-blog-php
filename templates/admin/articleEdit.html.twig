@@ -26,7 +26,7 @@
                                         <label for="a_chapo">
                                             <small class="text-uppercase">Chapô de l'article</small>
                                         </label>
-                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required>{{ article.text_header }}</textarea>
+                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required>{{ article.textHeader }}</textarea>
                                         {% for error in errors.textHeader %}
                                             <small class="text-danger">{{ error }}</small><br>
                                         {% endfor %}
