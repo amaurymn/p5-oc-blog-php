@@ -40,6 +40,7 @@ class ArticleController extends Controller
             $this->hasErrors = (new Validator($_POST))->articleValidation();
 
             if (!$this->hasErrors) {
+                $_POST['slug'] = $_POST['title'];
                 $article = new Article(['admin_id' => 1]);
                 $article->hydrate($_POST);
 
@@ -67,6 +68,7 @@ class ArticleController extends Controller
             $this->hasErrors = (new Validator($_POST))->articleValidation();
 
             if (!$this->hasErrors) {
+                $_POST['slug'] = $_POST['title'];
                 $article->hydrate($_POST);
 
                 (new ArticleManager())->update($article);
