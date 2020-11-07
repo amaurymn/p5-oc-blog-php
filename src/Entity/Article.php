@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Core\Entity;
 use App\Core\TimestampableEntity;
+use App\Services\Slugifier;
 
 class Article extends Entity
 {
     use TimestampableEntity;
 
     private string $title;
+    private string $slug;
     private string $content;
     private string $textHeader;
     private int $adminId;
@@ -33,6 +35,24 @@ class Article extends Entity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $slugifier = new Slugifier();
+
+        $this->slug = $slugifier->slugify($slug);
     }
 
     /**
