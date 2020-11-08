@@ -35,6 +35,8 @@ class Article extends Entity
     public function setTitle(string $title): void
     {
         $this->title = $title;
+
+        self::setSlug($title);
     }
 
     /**
