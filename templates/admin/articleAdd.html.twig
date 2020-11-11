@@ -4,7 +4,7 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div class="pt-3 pb-5 container">
             <h1 class="no-underline">Ajouter un article</h1>
-            <form method="post" action="">
+            <form method="post" enctype="multipart/form-data">
                 <div class="row card">
                     <div class="form">
                         <div class="card-body">
@@ -16,6 +16,17 @@
                                         </label>
                                         <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" required>
                                         {% for error in errors.title %}
+                                            <small class="text-danger">{{ error }}</small><br>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_img">
+                                            <small class="text-uppercase">Image de l'article</small>
+                                        </label>
+                                        <input type="file" id="a_img" name="image" class="form-control" required>
+                                        {% for error in imgErrors %}
                                             <small class="text-danger">{{ error }}</small><br>
                                         {% endfor %}
                                     </div>
