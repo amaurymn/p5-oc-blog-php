@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Core\Validator;
 use App\Entity\Article;
 use App\Manager\ArticleManager;
+use App\Services\ImageUpload;
 
 class ArticleController extends Controller
 {
@@ -13,6 +14,8 @@ class ArticleController extends Controller
 
     /** @var array|false */
     private $hasErrors;
+    /** @var ImageUpload */
+    private ImageUpload $file;
 
     /**
      * @throws \Twig\Error\LoaderError
@@ -36,11 +39,18 @@ class ArticleController extends Controller
      */
     public function executeCreate()
     {
+        $imgErrorMessage = NULL;
+
         if ($this->isFormSubmit('publish')) {
             $this->hasErrors = (new Validator($_POST))->articleValidation();
+            $this->file = (new ImageUpload($_FILES))->checkImage();
 
-            if (!$this->hasErrors) {
+            $imgErrorMessage = $this->file->getErrorMsg();
+
+            if (!$this->hasErrors && $this->file->isValid()) {
                 $article = new Article(['admin_id' => 1]);
+                $this->file->upload();
+
                 $article->hydrate($_POST);
 
                 (new ArticleManager())->create($article);
@@ -49,7 +59,8 @@ class ArticleController extends Controller
         }
 
         $this->render('@admin/articleAdd.html.twig', [
-            'errors' => $this->hasErrors
+            'errors' => $this->hasErrors,
+            'imgErrors' => $imgErrorMessage
         ]);
     }
 
