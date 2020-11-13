@@ -7,6 +7,7 @@ use App\Core\Validator;
 use App\Entity\Article;
 use App\Manager\ArticleManager;
 use App\Services\ImageUpload;
+use Symfony\Component\Yaml\Yaml;
 
 class ArticleController extends Controller
 {
@@ -39,11 +40,11 @@ class ArticleController extends Controller
      */
     public function executeCreate()
     {
-        $imgErrorMessage = NULL;
+        $imgErrorMessage = null;
 
         if ($this->isFormSubmit('publish')) {
             $this->hasErrors = (new Validator($_POST))->articleValidation();
-            $this->file = (new ImageUpload($_FILES))->checkImage();
+            $this->file      = (new ImageUpload($_FILES))->checkImage();
 
             $imgErrorMessage = $this->file->getErrorMsg();
 
@@ -51,6 +52,7 @@ class ArticleController extends Controller
                 $article = new Article(['admin_id' => 1]);
                 $this->file->upload();
 
+                $article->setImage($this->file->getName());
                 $article->hydrate($_POST);
 
                 (new ArticleManager())->create($article);
@@ -59,7 +61,7 @@ class ArticleController extends Controller
         }
 
         $this->render('@admin/articleAdd.html.twig', [
-            'errors' => $this->hasErrors,
+            'errors'    => $this->hasErrors,
             'imgErrors' => $imgErrorMessage
         ]);
     }
@@ -72,12 +74,21 @@ class ArticleController extends Controller
      */
     public function executeEdit()
     {
-        $article = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+        $imgErrorMessage = null;
+        $article         = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
 
         if ($this->isFormSubmit('publish')) {
             $this->hasErrors = (new Validator($_POST))->articleValidation();
+            $this->file      = (new ImageUpload($_FILES))->checkImage();
 
             if (!$this->hasErrors) {
+                if (!$this->file->isValid()) {
+                    $article->setImage($article->getImage());
+                } else {
+                    $this->file->upload();
+                    $article->setImage($this->file->getName());
+                }
+
                 $article->hydrate($_POST);
 
                 (new ArticleManager())->update($article);
@@ -86,8 +97,9 @@ class ArticleController extends Controller
         }
 
         $this->render('@admin/articleEdit.html.twig', [
-            'article' => $article,
-            'errors'  => $this->hasErrors
+            'article'   => $article,
+            'errors'    => $this->hasErrors,
+            'imgErrors' => $imgErrorMessage
         ]);
     }
 
@@ -95,7 +107,20 @@ class ArticleController extends Controller
     {
         $article = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
 
+        $this->deleteImage($article->getImage());
         (new ArticleManager())->delete($article);
         $this->redirectUrl(self::ARTICLE_LIST);
+    }
+
+    /**
+     * @param string $image
+     * @return bool
+     */
+    private function deleteImage(string $image)
+    {
+        $config    = Yaml::parseFile(CONF_DIR . '/config.yml');
+        $imagePath = PUBLIC_DIR . '/img' . $config['imgUploadPath'] . '/' . $image;
+
+        return unlink($imagePath);
     }
 }
