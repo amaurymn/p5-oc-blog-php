@@ -14,6 +14,8 @@ class Article extends Entity
     private string $slug;
     private string $content;
     private string $textHeader;
+    private string $image;
+    private string $imageAlt;
     private int $adminId;
 
     public function __construct(array $data = [])
@@ -87,6 +89,38 @@ class Article extends Entity
     public function setTextHeader(string $textHeader): void
     {
         $this->textHeader = $textHeader;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage(string $image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageAlt(): string
+    {
+        return $this->imageAlt;
+    }
+
+    /**
+     * @param string $imageAlt
+     */
+    public function setImageAlt(string $imageAlt): void
+    {
+        $this->imageAlt = $imageAlt;
     }
 
     /**
