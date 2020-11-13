@@ -9,7 +9,7 @@
                     <div class="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="a_title">
                                             <small class="text-uppercase">Titre de l'article</small>
@@ -27,6 +27,17 @@
                                         </label>
                                         <input type="file" id="a_img" name="image" class="form-control" required>
                                         {% for error in imgErrors %}
+                                            <small class="text-danger">{{ error }}</small><br>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_imageAlt">
+                                            <small class="text-uppercase">Texte de l'image</small>
+                                        </label>
+                                        <input type="text" name="imageAlt" id="a_imageAlt" class="form-control" placeholder="Texte de l'image" required>
+                                        {% for error in errors.imageAlt %}
                                             <small class="text-danger">{{ error }}</small><br>
                                         {% endfor %}
                                     </div>
