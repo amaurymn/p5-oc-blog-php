@@ -81,6 +81,7 @@ class Validator
         $this->check('title', 'Le titre')->required()->maxLength(255);
         $this->check('textHeader', 'Le chapô')->required();
         $this->check('content', 'Le contenu')->required();
+        $this->check('imageAlt', 'Le texte de l\'image')->required()->maxLength(100);
 
         return $this->hasErrors();
     }
