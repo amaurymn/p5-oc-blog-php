@@ -32,7 +32,7 @@ class ImageUpload
     }
 
     /**
-     * @return $this
+     * @return bool
      */
     public function checkImage()
     {
@@ -42,7 +42,7 @@ class ImageUpload
             ->checkFileMime()
             ->checkFileError();
 
-        return $this;
+        return $this->status;
     }
 
     /**
@@ -70,14 +70,6 @@ class ImageUpload
     }
 
     /**
-     * @return bool
-     */
-    public function isValid(): bool
-    {
-        return $this->status;
-    }
-
-    /**
      * @return mixed
      */
     public function getErrorMsg()
@@ -96,7 +88,6 @@ class ImageUpload
      */
     private function setError(string $message)
     {
-        $this->status   = false;
         $this->errors[] = $message;
 
         return $this;
@@ -109,6 +100,7 @@ class ImageUpload
     {
         if ($this->fileError !== 0) {
             $this->setError("Une erreur est survenue pendant le chargement de l'image.");
+            $this->status = false;
         }
 
         return $this;
@@ -121,6 +113,7 @@ class ImageUpload
     {
         if ($this->fileSize === 0) {
             $this->setError("L'image ne peut pas être vide.");
+            $this->status = false;
         }
 
         return $this;
@@ -142,6 +135,7 @@ class ImageUpload
 
             if (!in_array($this->getFileExt($this->fileName), $allowedImgExt)) {
                 $this->setError("Seul les images {$allowedExt} sont valides.");
+                $this->status = false;
             }
         }
 
@@ -159,6 +153,7 @@ class ImageUpload
 
             if (!in_array($mimeType, $this->config['imgAllowedMime'])) {
                 $this->setError("Le type de fichier est invalide.");
+                $this->status = false;
             }
         }
 

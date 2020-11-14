@@ -15,8 +15,7 @@ class ArticleController extends Controller
 
     /** @var array|false */
     private $hasErrors;
-    /** @var ImageUpload */
-    private ImageUpload $file;
+    private $file;
 
     /**
      * @throws \Twig\Error\LoaderError
@@ -40,15 +39,11 @@ class ArticleController extends Controller
      */
     public function executeCreate()
     {
-        $imgErrorMessage = null;
-
         if ($this->isFormSubmit('publish')) {
             $this->hasErrors = (new Validator($_POST))->articleValidation();
-            $this->file      = (new ImageUpload($_FILES))->checkImage();
+            $this->file      = (new ImageUpload($_FILES));
 
-            $imgErrorMessage = $this->file->getErrorMsg();
-
-            if (!$this->hasErrors && $this->file->isValid()) {
+            if (!$this->hasErrors && $this->file->checkImage()) {
                 $article = new Article(['admin_id' => 1]);
                 $this->file->upload();
 
@@ -61,8 +56,7 @@ class ArticleController extends Controller
         }
 
         $this->render('@admin/articleAdd.html.twig', [
-            'errors'    => $this->hasErrors,
-            'imgErrors' => $imgErrorMessage
+            'errors' => $this->hasErrors,
         ]);
     }
 
@@ -74,15 +68,14 @@ class ArticleController extends Controller
      */
     public function executeEdit()
     {
-        $imgErrorMessage = null;
-        $article         = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
+        $article = (new ArticleManager())->findOneBy(['id' => $this->params['articleId']]);
 
         if ($this->isFormSubmit('publish')) {
             $this->hasErrors = (new Validator($_POST))->articleValidation();
-            $this->file      = (new ImageUpload($_FILES))->checkImage();
+            $this->file      = (new ImageUpload($_FILES));
 
             if (!$this->hasErrors) {
-                if (!$this->file->isValid()) {
+                if (!$this->file->checkImage()) {
                     $article->setImage($article->getImage());
                 } else {
                     $this->file->upload();
@@ -97,9 +90,8 @@ class ArticleController extends Controller
         }
 
         $this->render('@admin/articleEdit.html.twig', [
-            'article'   => $article,
-            'errors'    => $this->hasErrors,
-            'imgErrors' => $imgErrorMessage
+            'article' => $article,
+            'errors'  => $this->hasErrors
         ]);
     }
 
