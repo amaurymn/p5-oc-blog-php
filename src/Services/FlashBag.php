@@ -36,30 +36,6 @@ class FlashBag
     }
 
     /**
-     * @param string|null $type
-     * @return $this
-     */
-    public function clear(?string $type = null)
-    {
-        if ($type === null) {
-            unset($this->flash);
-        }
-
-        if ($type !== null && array_key_exists($type, $this->flash)) {
-            unset($this->flash[$type]);
-        }
-
-        $this->saveToSession();
-
-        return $this;
-    }
-
-    private function saveToSession(): void
-    {
-        $_SESSION[self::SESSION_KEY] = $this->flash;
-    }
-
-    /**
      * @param string $type
      * @return mixed|null
      */
@@ -88,5 +64,29 @@ class FlashBag
         $this->saveToSession();
 
         return $this;
+    }
+
+    /**
+     * @param string|null $type
+     * @return $this
+     */
+    public function clear(?string $type = null)
+    {
+        if ($type === null) {
+            $this->flash = [];
+        }
+
+        if ($type !== null && array_key_exists($type, $this->flash)) {
+            unset($this->flash[$type]);
+        }
+
+        $this->saveToSession();
+
+        return $this;
+    }
+
+    private function saveToSession(): void
+    {
+        $_SESSION[self::SESSION_KEY] = $this->flash;
     }
 }
