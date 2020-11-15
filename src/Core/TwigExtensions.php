@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Services\FlashBag;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -11,10 +12,12 @@ final class TwigExtensions extends AbstractExtension
 {
     /** @var mixed */
     private $config;
+    private $flash;
 
     public function __construct()
     {
         $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
+        $this->flash  = new FlashBag();
     }
 
     /**
@@ -32,6 +35,7 @@ final class TwigExtensions extends AbstractExtension
         return [
             new TwigFunction('configParam', [$this, 'getConfigParameter']),
             new TwigFunction('asset', [$this, 'getAssetPath']),
+            new TwigFunction('flashBag', [$this, 'getFlashBag'])
         ];
     }
 
@@ -52,5 +56,18 @@ final class TwigExtensions extends AbstractExtension
     public function getAssetPath(string $asset): string
     {
         return sprintf('/%s', ltrim($asset, '/'));
+    }
+
+    /**
+     * @param string|null $type
+     * @return array|mixed|null
+     */
+    public function getFlashBag(?string $type = null)
+    {
+        if ($type !== null) {
+            return $this->flash->get($type);
+        }
+
+        return $this->flash->getAll();
     }
 }
