@@ -14,10 +14,7 @@
                                         <label for="a_title">
                                             <small class="text-uppercase">Titre de l'article</small>
                                         </label>
-                                        <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" required>
-                                        {% for error in errors.title %}
-                                            <small class="text-danger">{{ error }}</small><br>
-                                        {% endfor %}
+                                        <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" maxlength="255" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -26,9 +23,6 @@
                                             <small class="text-uppercase">Image de l'article</small>
                                         </label>
                                         <input type="file" id="a_img" name="image" class="form-control" required>
-                                        {% for error in imgErrors %}
-                                            <small class="text-danger">{{ error }}</small><br>
-                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -36,10 +30,7 @@
                                         <label for="a_imageAlt">
                                             <small class="text-uppercase">Texte de l'image</small>
                                         </label>
-                                        <input type="text" name="imageAlt" id="a_imageAlt" class="form-control" placeholder="Texte de l'image" required>
-                                        {% for error in errors.imageAlt %}
-                                            <small class="text-danger">{{ error }}</small><br>
-                                        {% endfor %}
+                                        <input type="text" name="imageAlt" id="a_imageAlt" class="form-control" placeholder="Texte de l'image" maxlength="100" required>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -48,9 +39,6 @@
                                             <small class="text-uppercase">Chapô de l'article</small>
                                         </label>
                                         <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required></textarea>
-                                        {% for error in errors.textHeader %}
-                                            <small class="text-danger">{{ error }}</small><br>
-                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -59,9 +47,6 @@
                                             <small class="text-uppercase">Contenu de l'article</small>
                                         </label>
                                         <textarea class="form-control" name="content" id="a_content" rows="5" placeholder="Contenu de l'article" required></textarea>
-                                        {% for error in errors.content %}
-                                            <small class="text-danger">{{ error }}</small><br>
-                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>

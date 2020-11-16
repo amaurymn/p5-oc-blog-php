@@ -17,7 +17,6 @@ final class TwigExtensions extends AbstractExtension
     public function __construct()
     {
         $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
-        $this->flash  = new FlashBag();
     }
 
     /**
@@ -59,15 +58,17 @@ final class TwigExtensions extends AbstractExtension
     }
 
     /**
-     * @param string|null $type
-     * @return array|mixed|null
+     * @return array|mixed
      */
-    public function getFlashBag(?string $type = null)
+    public function getFlashBag()
     {
-        if ($type !== null) {
-            return $this->flash->get($type);
+        $messages = [];
+
+        if (isset($_SESSION['flash'])) {
+            $messages = $_SESSION['flash'];
+            unset($_SESSION['flash']);
         }
 
-        return $this->flash->getAll();
+        return $messages;
     }
 }

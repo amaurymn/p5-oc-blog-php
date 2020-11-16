@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Services\FlashBag;
+
 trait ValidatorTrait
 {
 
@@ -14,8 +16,10 @@ trait ValidatorTrait
         $value = $this->values[$this->input];
 
         if (empty($value)) {
-            $message = empty($message) ? "[FIELD] ne doit pas être vide." : $message;
-            return $this->addError($message);
+            $message      = empty($message) ? "[FIELD] ne doit pas être vide." : $message;
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, $message);
         }
 
         return $this;
@@ -30,8 +34,10 @@ trait ValidatorTrait
         $value = $this->values[$this->input];
 
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            $message = empty($message) ? "[FIELD] doit être valide." : $message;
-            $this->addError($message);
+            $message      = empty($message) ? "[FIELD] doit être valide." : $message;
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, $message);
         }
 
         return $this;
@@ -47,8 +53,10 @@ trait ValidatorTrait
         $value = $this->values[$this->input];
 
         if ((!empty($value) && strlen($value) < $length) || (!empty($value) && strlen($value) > $length)) {
-            $message = (empty($message)) ? "[FIELD] doit contenir {$length} caractères." : $message;
-            $this->addError($message);
+            $message      = (empty($message)) ? "[FIELD] doit contenir {$length} caractères." : $message;
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, $message);
         }
 
         return $this;
@@ -64,8 +72,10 @@ trait ValidatorTrait
         $value = $this->values[$this->input];
 
         if (strlen($value) < $length) {
-            $message = (empty($message)) ? "[FIELD] doit contenir au minimum {$length} caractères." : $message;
-            $this->addError($message);
+            $message      = (empty($message)) ? "[FIELD] doit contenir au minimum {$length} caractères." : $message;
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, $message);
         }
 
         return $this;
@@ -81,8 +91,10 @@ trait ValidatorTrait
         $value = $this->values[$this->input];
 
         if (strlen($value) > $length) {
-            $message = (empty($message)) ? "[FIELD] doit contenir au maximum {$length} caractères." : $message;
-            $this->addError($message);
+            $message      = (empty($message)) ? "[FIELD] doit contenir au maximum {$length} caractères." : $message;
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, $message);
         }
 
         return $this;
