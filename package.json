@@ -7,7 +7,8 @@
     "prebuild": "node-sass assets-src/scss/main.scss public/css/main.min.css",
     "prefix": "postcss --use autoprefixer -b \"last 5 versions\" public/css/main.min.css -o public/css/main.min.css",
     "minify": "cleancss -o public/css/main.min.css public/css/main.min.css",
-    "build": "npm run prebuild && npm run prefix && npm run minify"
+    "minifyjs": "uglifyjs assets-src/js/main.js --compress --mangle --warn --output public/js/main.min.js",
+    "build": "npm run prebuild && npm run prefix && npm run minify && npm run minifyjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -15,6 +16,7 @@
     "postcss": "^8.0.9",
     "postcss-cli": "^8.0.0",
     "autoprefixer": "^10.0.0",
-    "clean-css-cli": "^4.3.0"
+    "clean-css-cli": "^4.3.0",
+    "uglify-js": "^3.11.6"
   }
 }

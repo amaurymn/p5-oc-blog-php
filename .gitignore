@@ -3,5 +3,6 @@
 /_UML
 /node_modules
 /public/css
+/public/js
 
 /config/db-config.yml
