@@ -17,10 +17,12 @@ class ImageUpload
     private $status = true;
     private $uploadPath;
     private $imageName;
+    private FlashBag $flashBag;
 
     public function __construct(array $file)
     {
-        $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
+        $this->config   = Yaml::parseFile(CONF_DIR . '/config.yml');
+        $this->flashBag = new FlashBag();
 
         $inputName = array_key_first($file);
 
@@ -69,26 +71,19 @@ class ImageUpload
         return move_uploaded_file($this->fileTmpName, $this->uploadPath . '/' . $this->getName());
     }
 
-    /**
-     * @return mixed
-     */
-    public function getErrorMsg()
-    {
-        return $this->errors;
-    }
-
     private function renameFile(): void
     {
         $this->imageName = date('ymd-His') . '_' . $this->fileName;
     }
 
     /**
+     * @param string $type
      * @param string $message
      * @return $this
      */
-    private function setError(string $message)
+    private function setError(string $type, string $message)
     {
-        $this->errors[] = $message;
+        $this->flashBag->set($type, $message);
 
         return $this;
     }
@@ -99,7 +94,7 @@ class ImageUpload
     private function checkFileError()
     {
         if ($this->fileError !== 0) {
-            $this->setError("Une erreur est survenue pendant le chargement de l'image.");
+            $this->setError(FlashBag::ERROR, "Une erreur est survenue pendant le chargement de l'image.");
             $this->status = false;
         }
 
@@ -112,7 +107,7 @@ class ImageUpload
     private function checkEmptyFile()
     {
         if ($this->fileSize === 0) {
-            $this->setError("L'image ne peut pas être vide.");
+            $this->setError(FlashBag::ERROR, "L'image ne peut pas être vide.");
             $this->status = false;
         }
 
@@ -134,7 +129,7 @@ class ImageUpload
             }
 
             if (!in_array($this->getFileExt($this->fileName), $allowedImgExt)) {
-                $this->setError("Seul les images {$allowedExt} sont valides.");
+                $this->setError(FlashBag::ERROR, "Seul les images {$allowedExt} sont valides.");
                 $this->status = false;
             }
         }
@@ -152,7 +147,7 @@ class ImageUpload
             $mimeType = mime_content_type($this->fileTmpName);
 
             if (!in_array($mimeType, $this->config['imgAllowedMime'])) {
-                $this->setError("Le type de fichier est invalide.");
+                $this->setError(FlashBag::ERROR, "Le type de fichier est invalide.");
                 $this->status = false;
             }
         }
