@@ -1,7 +1,7 @@
 <div class="flashMsg mt-3">
     {% for keys, values in flashBag() %}
         {% for message in values %}
-            <div class="alert alert-{{ keys }} alert-dismissible fade show autoclose" role="alert">
+            <div class="alert alert-{{ keys }} alert-dismissible fade show" role="alert">
                 {{ message }}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
