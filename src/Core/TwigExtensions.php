@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use App\Services\FlashBag;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -12,7 +11,6 @@ final class TwigExtensions extends AbstractExtension
 {
     /** @var mixed */
     private $config;
-    private $flash;
 
     public function __construct()
     {
