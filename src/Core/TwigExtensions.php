@@ -32,6 +32,7 @@ final class TwigExtensions extends AbstractExtension
         return [
             new TwigFunction('configParam', [$this, 'getConfigParameter']),
             new TwigFunction('asset', [$this, 'getAssetPath']),
+            new TwigFunction('flashBag', [$this, 'getFlashBag'])
         ];
     }
 
@@ -52,5 +53,20 @@ final class TwigExtensions extends AbstractExtension
     public function getAssetPath(string $asset): string
     {
         return sprintf('/%s', ltrim($asset, '/'));
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getFlashBag()
+    {
+        $messages = [];
+
+        if (isset($_SESSION['flash'])) {
+            $messages = $_SESSION['flash'];
+            unset($_SESSION['flash']);
+        }
+
+        return $messages;
     }
 }

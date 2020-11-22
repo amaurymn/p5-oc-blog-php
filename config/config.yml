@@ -4,3 +4,14 @@ charset: "utf-8"
 lang: "fr"
 
 siteName: "MonSuperBlog.fr"
+
+imgAllowedExt:
+  - jpg
+  - jpeg
+  - png
+  - webp
+imgAllowedMime:
+  - image/png
+  - image/jpeg
+  - image/webp
+imgUploadPath: "/uploaded"

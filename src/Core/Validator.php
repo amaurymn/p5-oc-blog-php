@@ -2,14 +2,17 @@
 
 namespace App\Core;
 
+use App\Services\FlashBag;
+
 class Validator
 {
     use ValidatorTrait;
 
     private ?string $input = null;
     private array $values;
-    private array $errors = [];
     private array $fieldNames;
+    private FlashBag $flashBag;
+    private $status = true;
 
     /**
      * Validator constructor.
@@ -17,7 +20,8 @@ class Validator
      */
     public function __construct($data)
     {
-        $this->values = $data;
+        $this->values   = $data;
+        $this->flashBag = new FlashBag();
     }
 
     /**
@@ -37,23 +41,16 @@ class Validator
     }
 
     /**
+     * @param string $type
      * @param string $message
      * @return $this
      */
-    public function addError(string $message)
+    public function addError(string $type, string $message)
     {
         $message = str_replace('[FIELD]', $this->getFieldName($this->input), $message);
-        $this->errors[$this->input][] = $message;
+        $this->flashBag->set($type, $message);
 
         return $this;
-    }
-
-    /**
-     * @return array|false
-     */
-    public function hasErrors()
-    {
-        return $this->errors ? $this->errors : false;
     }
 
     /**
@@ -81,7 +78,8 @@ class Validator
         $this->check('title', 'Le titre')->required()->maxLength(255);
         $this->check('textHeader', 'Le chapô')->required();
         $this->check('content', 'Le contenu')->required();
+        $this->check('imageAlt', 'Le texte de l\'image')->required()->maxLength(100);
 
-        return $this->hasErrors();
+        return $this->status;
     }
 }
