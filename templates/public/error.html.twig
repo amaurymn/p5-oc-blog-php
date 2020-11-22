@@ -1,0 +1,18 @@
+{% extends 'public/base.html.twig' %}
+
+{% block meta %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block content %}
+    <main class="d-flex flex-column justify-content-center">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <div class="text-center">
+                    <img src="{{ asset('img/error.svg') }}" alt="Erreur">
+                    <p class="mt-5">{{ exceptionMsg }}</p>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
