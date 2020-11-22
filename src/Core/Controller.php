@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Exception\TwigException;
+
 abstract class Controller
 {
     protected $action;
@@ -12,10 +14,10 @@ abstract class Controller
     {
         $this->action = $action;
         $this->params = $params;
-        $this->twig = new Twig();
+        $this->twig   = new Twig();
     }
 
-    public function execute()
+    public function execute(): void
     {
         $method = 'execute' . ucfirst($this->action);
         $this->$method();
@@ -24,20 +26,18 @@ abstract class Controller
     /**
      * @param $template
      * @param array $array
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws TwigException
      */
-    public function render($template, $array = [])
+    public function render($template, $array = []): void
     {
-       echo $this->twig->twigRender($template, $array);
+        echo $this->twig->twigRender($template, $array);
     }
 
     /**
      * @param $submitName
      * @return bool
      */
-    protected function isFormSubmit($submitName)
+    protected function isFormSubmit($submitName): bool
     {
         return (!empty($_POST) && isset($_POST[$submitName]));
     }
@@ -45,7 +45,7 @@ abstract class Controller
     /**
      * @param string $url
      */
-    public function redirectUrl(string $url = '/')
+    public function redirectUrl(string $url = '/'): void
     {
         if (!empty($url)) {
             header('Location: ' . $url);

@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Exception\EntityNotFoundException;
 use PDO;
 use ReflectionClass;
 use ReflectionException;
@@ -12,6 +13,10 @@ abstract class Manager
     private string $table;
     private string $entity;
 
+    /**
+     * Manager constructor.
+     * @throws ReflectionException
+     */
     public function __construct()
     {
         $this->pdo    = (new PDOFactory())->getPDO();
@@ -25,7 +30,7 @@ abstract class Manager
      * @param int|null $offset
      * @return array
      */
-    public function findAll(array $order = [], int $limit = null, int $offset = null)
+    public function findAll(array $order = [], int $limit = null, int $offset = null): array
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
         $this->setOrderBy($order, $query);
@@ -35,10 +40,10 @@ abstract class Manager
         $stmt->execute();
         $results = $stmt->fetchAll();
 
-        $entityResults=[];
+        $entityResults = [];
 
         foreach($results as $result){
-            array_push($entityResults, new $this->entity($result));
+            $entityResults[] = new $this->entity($result);
         }
 
         return $entityResults;
@@ -51,7 +56,7 @@ abstract class Manager
      * @param int|null $offset
      * @return array
      */
-    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null)
+    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null): array
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
 
@@ -66,7 +71,7 @@ abstract class Manager
         $entityResults = [];
 
         if ($stmt->rowCount() > 1) {
-            array_push($entityResults, new $this->entity($stmt->fetchAll()));
+            $entityResults[] = new $this->entity($stmt->fetchAll());
         } else {
             $entityResults = $stmt->fetch();
         }
@@ -78,9 +83,16 @@ abstract class Manager
      * @param array $where
      * @param array $order
      * @return mixed
+     * @throws EntityNotFoundException
      */
     public function findOneBy(array $where = [], array $order = [])
     {
+        $result = $this->findBy($where, $order, 0, 1);
+
+        if (!$result) {
+            throw new EntityNotFoundException("L'entité n'existe pas.");
+        }
+
         return new $this->entity($this->findBy($where, $order, 0, 1));
     }
 
@@ -125,7 +137,7 @@ abstract class Manager
     /**
      * @param Entity $entity
      */
-    public function delete(Entity $entity)
+    public function delete(Entity $entity): void
     {
         $stmt = $this->pdo->prepare('DELETE FROM ' . $this->table . ' WHERE id = :id');
         $stmt->bindValue(':id', $entity->getId());
@@ -136,7 +148,7 @@ abstract class Manager
      * @return string
      * @throws ReflectionException
      */
-    private function getTableName()
+    private function getTableName(): string
     {
         $managerInstance = (new ReflectionClass($this))->getShortName();
 
@@ -150,7 +162,7 @@ abstract class Manager
     private function setOrderBy(array $order, string &$query): void
     {
         if (!empty($order) && in_array(end($order), ['ASC', 'DESC'])) {
-            $query .= 'ORDER BY `' . array_key_first($order) . '` ' .  end($order);
+            $query .= 'ORDER BY `' . array_key_first($order) . '` ' . end($order);
         }
     }
 
@@ -167,7 +179,7 @@ abstract class Manager
 
         if (!empty($where)) {
             $query .= "WHERE ";
-            $i = 0;
+            $i     = 0;
 
             foreach ($where as $key => $value) {
                 if ($i > 0) {
@@ -236,7 +248,7 @@ abstract class Manager
      * @param $binds
      * @param \PDOStatement $stmt
      */
-    private function setBinding($binds, \PDOStatement $stmt)
+    private function setBinding($binds, \PDOStatement $stmt): void
     {
         foreach ($binds as $key => $value) {
             if (is_int($value) || is_bool($value)) {
@@ -256,7 +268,7 @@ abstract class Manager
      */
     private function getColumns(Entity $entity): array
     {
-        $columns = [];
+        $columns    = [];
         $properties = $entity->getObjectProperties();
         foreach ($properties as $property) {
             $columns[] = $this->camelCaseToSnakeCase($property->name);

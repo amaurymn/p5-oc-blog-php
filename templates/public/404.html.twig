@@ -1,12 +1,17 @@
 {% extends 'public/base.html.twig' %}
 
+{% block meta %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
 {% block content %}
     <main class="d-flex flex-column justify-content-center">
         <div class="container">
             <div class="d-flex justify-content-center">
                 <div class="err404">
                     <img src="{{ asset('img/404.svg') }}" alt="Erreur 404">
-                    <p>La page que vous recherchez n'existe pas, ou a été déplacée.</p>
+                    <p>La page <span class="small font-weight-bolder">&laquo;{{ exceptionMsg }}&raquo;</span> n'existe pas, ou a été déplacée.</p>
+                    <p>Cependant, la <a href="/" title="Retour accueil">page d'accueil</a> est restée à sa place ;)</p>
                 </div>
             </div>
         </div>
