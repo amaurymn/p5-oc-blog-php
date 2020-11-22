@@ -18,7 +18,8 @@
         "ext-pdo": "*",
         "ext-fileinfo": "*",
         "ext-exif": "*",
-        "ext-gd": "*"
+        "ext-gd": "*",
+        "ext-iconv": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"

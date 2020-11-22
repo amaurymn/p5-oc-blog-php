@@ -5,18 +5,27 @@ namespace App\Controllers\AdminController;
 use App\Core\Controller;
 use App\Core\Validator;
 use App\Entity\Article;
+use App\Exception\EntityNotFoundException;
+use App\Exception\FileException;
+use App\Exception\TwigException;
 use App\Manager\ArticleManager;
 use App\Services\FlashBag;
 use App\Services\ImageUpload;
+use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
 class ArticleController extends Controller
 {
-    const ARTICLE_LIST = '/dashboard/article/list';
+    private const ARTICLE_LIST = '/dashboard/article/list';
 
     private ArticleManager $manager;
     private FlashBag $flashBag;
 
+    /**
+     * ArticleController constructor.
+     * @param $action
+     * @param $params
+     */
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
@@ -25,11 +34,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws TwigException
      */
-    public function executeReadList()
+    public function executeReadList(): void
     {
         $articles = $this->manager->findAll(['id' => 'DESC']);
 
@@ -39,12 +46,10 @@ class ArticleController extends Controller
     }
 
     /**
-     * @throws \ReflectionException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws ReflectionException
+     * @throws TwigException
      */
-    public function executeCreate()
+    public function executeCreate(): void
     {
         if ($this->isFormSubmit('publish')) {
             $formCheck = (new Validator($_POST));
@@ -67,12 +72,12 @@ class ArticleController extends Controller
     }
 
     /**
-     * @throws \ReflectionException
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws EntityNotFoundException
+     * @throws FileException
+     * @throws ReflectionException
+     * @throws TwigException
      */
-    public function executeEdit()
+    public function executeEdit(): void
     {
         $article = $this->manager->findOneBy(['id' => $this->params['articleId']]);
 
@@ -99,6 +104,10 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * @throws EntityNotFoundException
+     * @throws FileException
+     */
     public function executeDelete(): void
     {
         $article = $this->manager->findOneBy(['id' => $this->params['articleId']]);
@@ -113,12 +122,17 @@ class ArticleController extends Controller
     /**
      * @param string $image
      * @return bool
+     * @throws FileException
      */
-    private function deleteImage(string $image)
+    private function deleteImage(string $image): bool
     {
         $config    = Yaml::parseFile(CONF_DIR . '/config.yml');
         $imagePath = PUBLIC_DIR . '/img' . $config['imgUploadPath'] . '/' . $image;
 
-        return unlink($imagePath);
+        try {
+            return unlink($imagePath);
+        } catch (\Exception $e) {
+            throw new FileException("Erreur lors la suppression de l'image.");
+        }
     }
 }
