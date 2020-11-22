@@ -11,6 +11,7 @@
         <meta property="og:url" content="{% block ogUrl %}{% endblock %}" />
         <meta property="og:site_name" content="{{ configParam('siteName') }}" />
         <meta property="og:image" content="{% block ogImg %}{% endblock %}" />
+        {% block meta %}{% endblock %}
         <title>{% block pageTitle %}{% endblock %}</title>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha512-znmTf4HNoF9U6mfB6KlhAShbRvbt4CvCaHoNV0gyssfToNQ/9A0eNdUbvsSwOIUoJdMjFG2ndSvr0Lo3ZpsTqQ==" crossorigin="anonymous" />
@@ -20,10 +21,11 @@
 
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha512-bnIvzh6FU75ZKxp0GXLH9bewza/OIw6dLVh9ICg0gogclmYGguQJWl8U30WpbsGTqbIiAwxTsbe76DErLq5EDQ==" crossorigin="anonymous"></script>
         <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js" integrity="sha512-c4wThPPCMmu4xsVufJHokogA9X4ka58cy9cEYf5t147wSw0Zo43fwdTy/IC0k1oLxXcUlPvWZMnD8be61swW7g==" crossorigin="anonymous"></script>
+        <script defer src="{{ asset('js/main.min.js') }}"></script>
     </head>
     <body>
     {% include 'public/partials/_header.html.twig' %}
-
+    {% include 'public/partials/flashbag.html.twig' %}
     {% block content %}{% endblock %}
 
     {% include 'public/partials/_footer.html.twig' %}

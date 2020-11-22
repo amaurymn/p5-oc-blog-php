@@ -1,0 +1,17 @@
+.flashMsg {
+  position: fixed;
+  right: 0;
+  z-index: 1;
+  padding: 0 1rem;
+  width: 100% ;
+
+  @media screen and (min-width: 1024px) {
+    width: 31.25rem;
+  }
+}
+
+.alert-error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}

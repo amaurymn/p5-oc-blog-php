@@ -4,18 +4,18 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div class="pt-3 pb-5 container">
             <h1 class="no-underline">Editer l'article</h1>
-            <h2 class="no-underline text-dark">Titre de l'article</h2>
-            <form method="post">
+            <h2 class="no-underline text-dark">{{ article.title }}</h2>
+            <form method="post" enctype="multipart/form-data">
                 <div class="row card">
                     <div class="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="a_title">
                                             <small class="text-uppercase">Titre de l'article</small>
                                         </label>
-                                        <input type="text" id="a_title" class="form-control" placeholder="Titre de l'article" required>
+                                        <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" value="{{ article.title }}" maxlength="255" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -23,7 +23,23 @@
                                         <label for="a_img">
                                             <small class="text-uppercase">Image de l'article</small>
                                         </label>
-                                        <input type="text" id="a_img" class="form-control" placeholder="Image URL" required>
+                                        <input type="file" id="a_img" name="image" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_imageAlt">
+                                            <small class="text-uppercase">Texte de l'image</small>
+                                        </label>
+                                        <input type="text" name="imageAlt" id="a_imageAlt" class="form-control" placeholder="Texte de l'image" value="{{ article.imageAlt }}" maxlength="100" required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="a_chapo">
+                                            <small class="text-uppercase">Chapô de l'article</small>
+                                        </label>
+                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required>{{ article.textHeader }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -31,7 +47,7 @@
                                         <label for="a_content">
                                             <small class="text-uppercase">Contenu de l'article</small>
                                         </label>
-                                        <textarea class="form-control" id="a_content" rows="3" required></textarea>
+                                        <textarea class="form-control" name="content" id="a_content" rows="5" required>{{ article.content }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +55,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="row justify-content-center">
-                            <button class="btn btn-outline-primary" type="submit">Publier <i class="fa fa-paper-plane"></i></button>
+                            <button class="btn btn-outline-primary" type="submit" name="publish">Publier <i class="fa fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>

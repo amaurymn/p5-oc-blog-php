@@ -4,33 +4,41 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div class="pt-3 pb-5 container">
             <h1 class="no-underline">Ajouter un article</h1>
-            <form method="post" action="">
+            <form method="post" enctype="multipart/form-data">
                 <div class="row card">
                     <div class="form">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="a_title">
                                             <small class="text-uppercase">Titre de l'article</small>
                                         </label>
-                                        <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" required>
+                                        <input type="text" name="title" id="a_title" class="form-control" placeholder="Titre de l'article" maxlength="255" required>
                                     </div>
                                 </div>
-{#                                <div class="col-md-6">#}
-{#                                    <div class="form-group">#}
-{#                                        <label for="a_img">#}
-{#                                            <small class="text-uppercase">Image de l'article</small>#}
-{#                                        </label>#}
-{#                                        <input type="text" id="a_img" class="form-control" placeholder="Image URL" required>#}
-{#                                    </div>#}
-{#                                </div>#}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_img">
+                                            <small class="text-uppercase">Image de l'article</small>
+                                        </label>
+                                        <input type="file" id="a_img" name="image" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="a_imageAlt">
+                                            <small class="text-uppercase">Texte de l'image</small>
+                                        </label>
+                                        <input type="text" name="imageAlt" id="a_imageAlt" class="form-control" placeholder="Texte de l'image" maxlength="100" required>
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                         <label for="a_chapo">
                                             <small class="text-uppercase">Chapô de l'article</small>
                                         </label>
-                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" required></textarea>
+                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required></textarea>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -38,7 +46,7 @@
                                         <label for="a_content">
                                             <small class="text-uppercase">Contenu de l'article</small>
                                         </label>
-                                        <textarea class="form-control" name="content" id="a_content" rows="3" required></textarea>
+                                        <textarea class="form-control" name="content" id="a_content" rows="5" placeholder="Contenu de l'article" required></textarea>
                                     </div>
                                 </div>
                             </div>

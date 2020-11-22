@@ -15,7 +15,11 @@
         "symfony/yaml": "^5.1",
         "twig/twig": "^3.0",
         "twig/intl-extra": "^3.0",
-      "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-fileinfo": "*",
+        "ext-exif": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"

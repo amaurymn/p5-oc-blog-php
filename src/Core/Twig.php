@@ -2,8 +2,11 @@
 
 namespace App\Core;
 
+use App\Exception\ConfigException;
+use App\Exception\TwigException;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Environment;
+use Twig\Error\LoaderError;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 
@@ -16,11 +19,16 @@ class Twig
 
     /**
      * Twig constructor.
-     * @throws \Twig\Error\LoaderError
+     * @throws ConfigException
+     * @throws LoaderError
      */
     public function __construct()
     {
-        $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
+        try {
+            $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
+        } catch (\Exception $e) {
+            throw new ConfigException($e->getMessage());
+        }
 
         $loader = new FilesystemLoader(TEMPLATE_DIR);
 
@@ -42,12 +50,14 @@ class Twig
      * @param $template
      * @param $array
      * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws TwigException
      */
-    public function twigRender($template, $array)
+    public function twigRender($template, $array): ?string
     {
-        return $this->twig->render($template, $array);
+        try {
+            return $this->twig->render($template, $array);
+        } catch (\Exception $e) {
+            throw new TwigException($e->getMessage());
+        }
     }
 }

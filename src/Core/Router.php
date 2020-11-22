@@ -2,31 +2,48 @@
 
 namespace App\Core;
 
-use App\Controllers\PublicController\HomeController;
+use App\Exception\ConfigException;
+use App\Exception\NotFoundException;
 use Symfony\Component\Yaml\Yaml;
 
 class Router
 {
     private $controller;
 
-    public function __construct(){
+    /**
+     * Router constructor.
+     * @throws ConfigException
+     * @throws NotFoundException
+     */
+    public function __construct()
+    {
         $this->setRoutes();
     }
 
+    /**
+     * @return mixed
+     * @throws ConfigException
+     * @throws NotFoundException
+     */
     public function setRoutes()
     {
-        $routes = Yaml::parseFile(CONF_DIR . '/routes.yml');
+        try {
+            $routes = Yaml::parseFile(CONF_DIR . '/routes.yml');
+        } catch (\Exception $e) {
+            throw new ConfigException($e->getMessage());
+        }
 
         foreach ($routes as $route) {
-            if (preg_match('#^'. $route['uri'] .'$#', $_SERVER['REQUEST_URI'], $matches)) {
-                $controller = '\\App\\Controllers\\' . $route['area'] .'Controller\\'. $route['controller'];
-                $params = array_combine($route['parameters'], array_slice($matches,1));
+
+            if (preg_match('#^' . $route['uri'] . '$#', $_SERVER['REQUEST_URI'], $matches)) {
+                $controller = '\\App\\Controllers\\' . $route['area'] . 'Controller\\' . $route['controller'];
+                $params     = array_combine($route['parameters'], array_slice($matches, 1));
 
                 return $this->controller = new $controller($route['action'], $params);
             }
         }
 
-        return $this->controller = new HomeController('ShowError404', []);
+        throw new NotFoundException($_SERVER['REQUEST_URI']);
     }
 
     public function getRoutes()

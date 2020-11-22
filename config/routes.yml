@@ -72,21 +72,28 @@ articleList:
   uri: /dashboard/article/list
   area: Admin
   controller: ArticleController
-  action: showArticleList
+  action: readList
   parameters: []
 
 articleAdd:
   uri: /dashboard/article/add
   area: Admin
   controller: ArticleController
-  action: showArticleAdd
+  action: create
   parameters: []
 
 articleEdit:
-  uri: /dashboard/article/edit/([0-9+])
+  uri: /dashboard/article/([0-9]+)/edit
   area: Admin
   controller: ArticleController
-  action: showArticleEdit
+  action: edit
+  parameters: ['articleId']
+
+articleDelete:
+  uri: /dashboard/article/([0-9]+)/delete
+  area: Admin
+  controller: ArticleController
+  action: delete
   parameters: ['articleId']
 
 commentList:
