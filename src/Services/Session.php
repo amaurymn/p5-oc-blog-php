@@ -48,6 +48,41 @@ class Session
             unset($_SESSION[$key]);
         }
     }
+
+    /**
+     * @param string $url
+     */
+    public function redirectUrl(string $url = '/'): void
+    {
+        if (!empty($url)) {
+            header('Location: ' . $url);
+            exit();
+        }
+    }
+
+    /**
+     * @return $this
+     */
+    public function isAdmin(): Session
+    {
+        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+            $this->redirectUrl('/dashboard');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function isAuth(): Session
+    {
+        if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
+            $this->redirectUrl('/login');
+        }
+
+        return $this;
+    }
 }
 
 
