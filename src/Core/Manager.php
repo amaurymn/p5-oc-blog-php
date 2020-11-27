@@ -9,9 +9,9 @@ use ReflectionException;
 
 abstract class Manager
 {
-    private PDO $pdo;
-    private string $table;
-    private string $entity;
+    protected PDO $pdo;
+    protected string $table;
+    protected string $entity;
 
     /**
      * Manager constructor.
