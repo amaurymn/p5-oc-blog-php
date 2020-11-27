@@ -29,6 +29,14 @@ class Session
     }
 
     /**
+     * @return array|null
+     */
+    public function getAll(): ?array
+    {
+        return $_SESSION ?? null;
+    }
+
+    /**
      * @param string|null $key
      */
     public function clear(?string $key = null): void
