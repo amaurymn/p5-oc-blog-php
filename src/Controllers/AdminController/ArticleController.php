@@ -11,6 +11,7 @@ use App\Exception\TwigException;
 use App\Manager\ArticleManager;
 use App\Services\FlashBag;
 use App\Services\ImageUpload;
+use App\Services\Session;
 use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -31,6 +32,7 @@ class ArticleController extends Controller
         parent::__construct($action, $params);
         $this->manager  = new ArticleManager();
         $this->flashBag = new FlashBag();
+        (new Session())->redirectIfNotAdmin();
     }
 
     /**
