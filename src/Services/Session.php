@@ -38,15 +38,19 @@ class Session
 
     /**
      * @param string|null $key
+     * @return $this
      */
-    public function clear(?string $key = null): void
+    public function clear(?string $key = null): Session
     {
         if ($key === null) {
             session_destroy();
+            $this->redirectUrl('/');
         }
         if ($key !== null && array_key_exists($key, $_SESSION)) {
             unset($_SESSION[$key]);
         }
+
+        return $this;
     }
 
     /**
@@ -63,9 +67,9 @@ class Session
     /**
      * @return $this
      */
-    public function isAdmin(): Session
+    public function redirectIfNotAdmin(): Session
     {
-        if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        if ($this->get('role') !== 'admin') {
             $this->redirectUrl('/dashboard');
         }
 
@@ -75,13 +79,29 @@ class Session
     /**
      * @return $this
      */
-    public function isAuth(): Session
+    public function redirectIfNotAuth(): Session
     {
-        if (!isset($_SESSION['auth']) || $_SESSION['auth'] !== true) {
+        if (!$this->get('auth')) {
             $this->redirectUrl('/login');
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->get('role') === 'admin';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAuth(): bool
+    {
+        return $this->get('auth') === true;
     }
 }
 
