@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Services\Session;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -11,10 +12,13 @@ final class TwigExtensions extends AbstractExtension
 {
     /** @var mixed */
     private $config;
+    /** @var Session */
+    private Session $session;
 
     public function __construct()
     {
-        $this->config = Yaml::parseFile(CONF_DIR . '/config.yml');
+        $this->config  = Yaml::parseFile(CONF_DIR . '/config.yml');
+        $this->session = new Session();
     }
 
     /**
@@ -32,7 +36,10 @@ final class TwigExtensions extends AbstractExtension
         return [
             new TwigFunction('configParam', [$this, 'getConfigParameter']),
             new TwigFunction('asset', [$this, 'getAssetPath']),
-            new TwigFunction('flashBag', [$this, 'getFlashBag'])
+            new TwigFunction('flashBag', [$this, 'getFlashBag']),
+            new TwigFunction('isAuth', [$this, 'isUserAuth']),
+            new TwigFunction('isAdmin', [$this, 'isUserAdmin']),
+            new TwigFunction('getSessionParam', [$this, 'getSessionParam']),
         ];
     }
 
@@ -68,5 +75,30 @@ final class TwigExtensions extends AbstractExtension
         }
 
         return $messages;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUserAuth(): bool
+    {
+        return $this->session->isAuth();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUserAdmin(): bool
+    {
+        return $this->session->isAdmin();
+    }
+
+    /**
+     * @param string $param
+     * @return mixed|null
+     */
+    public function getSessionParam(string $param)
+    {
+        return $this->session->get($param);
     }
 }
