@@ -69,7 +69,7 @@ class Session
      */
     public function redirectIfNotAdmin(): Session
     {
-        if ($this->get('role') !== 'admin') {
+        if (!$this->isAdmin()) {
             $this->redirectUrl('/dashboard');
         }
 
@@ -81,7 +81,7 @@ class Session
      */
     public function redirectIfNotAuth(): Session
     {
-        if (!$this->get('auth')) {
+        if (!$this->isAuth()) {
             $this->redirectUrl('/login');
         }
 
@@ -101,7 +101,7 @@ class Session
      */
     public function isAuth(): bool
     {
-        return $this->get('auth') === true;
+        return $this->get('id') !== null;
     }
 }
 

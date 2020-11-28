@@ -2,13 +2,14 @@
 
 namespace App\Services;
 
+use App\Exception\EntityNotFoundException;
 use App\Manager\UserManager;
 
 class UserAuth
 {
 
-    private $flash;
-    private $session;
+    private FlashBag $flash;
+    private Session $session;
 
     public function __construct()
     {
@@ -22,14 +23,10 @@ class UserAuth
      */
     public function authenticateUser(array $post): bool
     {
-        $user = (new UserManager())->findOneBy(['email' => $post['email']]);
+        $user = (new UserManager())->getUser($post['email']);
 
         if ($user && password_verify($post['password'], $user['password'])) {
-            $this->session->set([
-                'auth' => true,
-                'id'   => $user['id'],
-                'role' => $user['role']
-            ]);
+            $this->session->set($user);
 
             return true;
         }
@@ -42,6 +39,7 @@ class UserAuth
     /**
      * @param array $post
      * @return bool
+     * @throws EntityNotFoundException
      */
     public function isUserAlreadyRegistered(array $post): bool
     {

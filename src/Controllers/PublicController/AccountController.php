@@ -4,8 +4,8 @@ namespace App\Controllers\PublicController;
 
 use App\Core\Controller;
 use App\Core\Validator;
-use App\Entity\Admin;
 use App\Entity\User;
+use App\Exception\EntityNotFoundException;
 use App\Exception\TwigException;
 use App\Manager\UserManager;
 use App\Services\FlashBag;
@@ -40,6 +40,7 @@ class AccountController extends Controller
 
     /**
      * @throws TwigException
+     * @throws EntityNotFoundException
      * @throws \ReflectionException
      */
     public function executeShowRegister(): void
