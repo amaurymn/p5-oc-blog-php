@@ -21,6 +21,7 @@ class ArticleController extends Controller
 
     private ArticleManager $manager;
     private FlashBag $flashBag;
+    private Session $session;
 
     /**
      * ArticleController constructor.
@@ -32,7 +33,8 @@ class ArticleController extends Controller
         parent::__construct($action, $params);
         $this->manager  = new ArticleManager();
         $this->flashBag = new FlashBag();
-        (new Session())->redirectIfNotAdmin();
+        $this->session  = new Session();
+        $this->session->redirectIfNotAdmin();
     }
 
     /**
@@ -58,7 +60,7 @@ class ArticleController extends Controller
             $file      = (new ImageUpload($_FILES));
 
             if ($formCheck->articleValidation() && $file->checkImage()) {
-                $article = new Article(['admin_id' => 1]);
+                $article = new Article(['admin_id' => $this->session->get('id')]);
                 $file->upload();
 
                 $article->setImage($file->getName());
