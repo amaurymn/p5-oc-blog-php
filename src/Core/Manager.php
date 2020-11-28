@@ -3,15 +3,14 @@
 namespace App\Core;
 
 use App\Exception\EntityNotFoundException;
-use PDO;
 use ReflectionClass;
 use ReflectionException;
 
 abstract class Manager
 {
-    protected PDO $pdo;
     protected string $table;
     protected string $entity;
+    protected \PDO $pdo;
 
     /**
      * Manager constructor.
@@ -80,11 +79,18 @@ abstract class Manager
     /**
      * @param array $where
      * @param array $order
-     * @return array|false|mixed
+     * @return mixed
+     * @throws EntityNotFoundException
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        return $this->findBy($where, $order, 0, 1) ?: false;
+        $result = $this->findBy($where, $order, 0, 1);
+
+        if (!$result) {
+            throw new EntityNotFoundException("Le contenu n'existe pas.");
+        }
+
+        return new $this->entity($this->findBy($where, $order, 0, 1));
     }
 
     /**

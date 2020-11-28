@@ -32,7 +32,7 @@ class PDOFactory
                 $this->pdo = new PDO($dsn, $this->config['dbuser'], $this->config['dbpswd'], $options);
             }
         } catch (\PDOException $e) {
-            throw new DatabaseException($e->getMessage());
+            throw new DatabaseException('Erreur avec la base de données: ' . $e->getMessage());
         }
     }
 
