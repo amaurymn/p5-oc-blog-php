@@ -14,15 +14,16 @@ use App\Services\Session;
 
 class AccountController extends Controller
 {
-    /** @var UserManager */
     private UserManager $manager;
     private FlashBag $flashBag;
+    private UserAuth $userAuth;
 
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
         $this->manager  = new UserManager();
         $this->flashBag = new FlashBag();
+        $this->userAuth = new UserAuth();
     }
 
     /**
@@ -30,12 +31,8 @@ class AccountController extends Controller
      */
     public function executeShowLogin(): void
     {
-        if ($this->isFormSubmit('login')) {
-            $auth = new UserAuth();
-
-            if ($auth->authenticateUser($_POST)) {
-                $this->redirectUrl('/dashboard');
-            }
+        if ($this->isFormSubmit('login') && $this->userAuth->authenticateUser($_POST)) {
+            $this->redirectUrl('/dashboard');
         }
 
         $this->render('@public/login.html.twig');
@@ -51,7 +48,7 @@ class AccountController extends Controller
             $formCheck = (new Validator($_POST));
             $hadAdmin  = $this->manager->findOneBy(['role' => 'admin']);
 
-            if ($formCheck->registerValidation()) {
+            if ($formCheck->registerValidation() && !$this->userAuth->isUserAlreadyRegistered($_POST)) {
                 $user = new User();
                 $hadAdmin ? $user->setRole('user') : $user->setRole('admin');
 
