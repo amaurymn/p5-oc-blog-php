@@ -91,7 +91,7 @@ class Validator
         $this->check('email', 'L\'email')->required()->email()->maxLength(255);
         $this->check('password', 'Le mot de passe')->required()->minLength(8)->maxLength(255);
         $this->check('rpassword', 'La confirmation du mot de passe')->required();
-        $this->check('password', 'Les mot de passe')->checkSame('rpassword');
+        $this->check('password', 'Les mots de passe')->checkSame('rpassword');
 
         return $this->status;
     }
