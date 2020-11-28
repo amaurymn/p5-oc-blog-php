@@ -54,12 +54,11 @@ abstract class Manager
      * @param array $order
      * @param int|null $limit
      * @param int|null $offset
-     * @return array
+     * @return false|mixed
      */
-    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null): array
+    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null)
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
-
         $this->setWhereParams($where, $query, $binds, $key, $value);
         $this->setOrderBy($order, $query);
         $this->setLimitOffset($limit, $offset, $query);
@@ -68,8 +67,7 @@ abstract class Manager
         $this->setBinding($binds, $stmt);
         $stmt->execute();
 
-        $entityResults = [];
-
+        $entityResults = false;
         if ($stmt->rowCount() > 1) {
             $entityResults[] = new $this->entity($stmt->fetchAll());
         } else {
@@ -82,25 +80,18 @@ abstract class Manager
     /**
      * @param array $where
      * @param array $order
-     * @return mixed
-     * @throws EntityNotFoundException
+     * @return array|false|mixed
      */
     public function findOneBy(array $where = [], array $order = [])
     {
-        $result = $this->findBy($where, $order, 0, 1);
-
-        if (!$result) {
-            throw new EntityNotFoundException("L'entité n'existe pas.");
-        }
-
-        return new $this->entity($this->findBy($where, $order, 0, 1));
+        return $this->findBy($where, $order, 0, 1) ?: false;
     }
 
     /**
      * @param Entity $entity
      * @throws ReflectionException
      */
-    public function create(Entity $entity)
+    public function create(Entity $entity): void
     {
         $vars[] = array_values($this->getColumns($entity));
 
