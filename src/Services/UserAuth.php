@@ -22,13 +22,12 @@ class UserAuth
      */
     public function authenticateUser(array $post): bool
     {
-        $user = (new UserManager())->getUser($post['email']);
+        $user = (new UserManager())->findOneBy(['email' => $post['email']]);
 
         if ($user && password_verify($post['password'], $user['password'])) {
             $this->session->set([
                 'auth'     => true,
                 'id'       => $user['id'],
-                'username' => $user['username'],
                 'role'     => $user['role']
             ]);
 
@@ -36,7 +35,6 @@ class UserAuth
         }
 
         $this->flash->set(FlashBag::ERROR, 'Utilisateur ou mot de passe incorrect.');
-
         return false;
     }
 }
