@@ -60,7 +60,7 @@ class Session
     {
         if (!empty($url)) {
             header('Location: ' . $url);
-            exit();
+            exit;
         }
     }
 
