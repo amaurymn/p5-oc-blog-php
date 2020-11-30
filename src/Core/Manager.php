@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use App\Exception\EntityNotFoundException;
+use PDO;
 use ReflectionClass;
 use ReflectionException;
 
