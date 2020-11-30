@@ -24,4 +24,18 @@ class UserManager extends Manager
 
         return $stmt->fetch();
     }
+
+    public function checkAdminAlreadyExist()
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT *
+            FROM user AS u
+            WHERE u.role = :role
+        ");
+
+        $stmt->bindValue(':role', 'admin', PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }
