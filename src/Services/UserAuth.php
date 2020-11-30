@@ -37,13 +37,20 @@ class UserAuth
     }
 
     /**
+     * @return bool
+     */
+    public function isAdminAlreadyExist(): bool
+    {
+        return (new UserManager())->checkAdminAlreadyExist() ? true : false;
+    }
+
+    /**
      * @param array $post
      * @return bool
-     * @throws EntityNotFoundException
      */
     public function isUserAlreadyRegistered(array $post): bool
     {
-        $user = (new UserManager())->findOneBy(['email' => $post['email']]);
+        $user = (new UserManager())->getUser($post['email']);
 
         if ($user) {
             $this->flash->set(FlashBag::ERROR, 'Cette adresse email est déjà utilisée.');
