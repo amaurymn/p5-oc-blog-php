@@ -26,6 +26,24 @@ trait ValidatorTrait
     }
 
     /**
+     * @param string $string
+     * @return $this
+     */
+    public function checkSame(string $string): self
+    {
+        $inputStr  = $this->values[$this->input];
+        $repeatStr = $this->values[$string];
+
+        if ($inputStr !== $repeatStr) {
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, "[FIELD] ne sont pas identiques.");
+        }
+
+        return $this;
+    }
+
+    /**
      * @param string|null $message
      * @return $this
      */
@@ -34,7 +52,7 @@ trait ValidatorTrait
         $value = $this->values[$this->input];
 
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            $message      = empty($message) ? "[FIELD] doit être valide." : $message;
+            $message      = empty($message) ? "[FIELD] n'est pas valide." : $message;
             $this->status = false;
 
             return $this->addError(FlashBag::ERROR, $message);

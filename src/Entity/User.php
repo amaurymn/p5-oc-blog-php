@@ -9,29 +9,12 @@ class User extends Entity
 {
     use TimestampableEntity;
 
-    private int $id;
     private string $firstName;
     private string $lastName;
     private string $userName;
     private string $email;
     private string $password;
     private string $role;
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return string
@@ -78,7 +61,7 @@ class User extends Entity
      */
     public function setUserName(string $userName): void
     {
-        $this->userName = $userName;
+        $this->userName = mb_strtolower($userName);
     }
 
     /**
@@ -94,7 +77,7 @@ class User extends Entity
      */
     public function setEmail(string $email): void
     {
-        $this->email = $email;
+        $this->email = mb_strtolower($email);
     }
 
     /**
@@ -110,7 +93,7 @@ class User extends Entity
      */
     public function setPassword(string $password): void
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_ARGON2ID);
     }
 
     /**

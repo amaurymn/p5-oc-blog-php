@@ -31,21 +31,28 @@ contact:
   area: Public
   controller: ContactController
   action: showContact
-  parameters: []
+  parameters: [ ]
 
 login:
   uri: /login
   area: Public
   controller: AccountController
   action: showLogin
-  parameters: []
+  parameters: [ ]
+
+logout:
+  uri: /logout
+  area: Public
+  controller: AccountController
+  action: logout
+  parameters: [ ]
 
 register:
   uri: /register
   area: Public
   controller: AccountController
   action: showRegister
-  parameters: []
+  parameters: [ ]
 
 legal:
   uri: /mentions-legales

@@ -17,7 +17,7 @@ class PDOFactory
         try {
             $this->config = Yaml::parseFile(CONF_DIR . '/db-config.yml');
         } catch (\Exception $e) {
-            throw new ConfigException($e->getMessage());
+            throw new ConfigException("Le fichier de configuration du site est manquant.");
         }
 
         $dsn     = "mysql:host={$this->config['host']};dbname={$this->config['dbname']};charset={$this->config['charset']}";
@@ -32,7 +32,7 @@ class PDOFactory
                 $this->pdo = new PDO($dsn, $this->config['dbuser'], $this->config['dbpswd'], $options);
             }
         } catch (\PDOException $e) {
-            throw new DatabaseException($e->getMessage());
+            throw new DatabaseException('Erreur avec la base de données: ' . $e->getMessage());
         }
     }
 

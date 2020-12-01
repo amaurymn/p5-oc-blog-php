@@ -8,22 +8,31 @@
                     <h1>Inscription</h1>
                     <form method="post">
                         <div class="form-group">
-                            <label class="label" for="inputEmail">Email</label>
-                            <input id="inputEmail" type="email">
+                            <label class="label" for="inputFirstname">Nom</label>
+                            <input name="firstName" id="inputFirstname" type="text" value="{{ formpost.firstName }}" required>
                         </div>
-
+                        <div class="form-group">
+                            <label class="label" for="inputLastname">Prénom</label>
+                            <input name="lastName" id="inputLastname" type="text" value="{{ formpost.lastName }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="inputUsername">Nom d'utilisateur</label>
+                            <input name="userName" id="inputUsername" type="text" value="{{ formpost.userName }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="inputEmail">Email</label>
+                            <input name="email" id="inputEmail" type="email" value="{{ formpost.email }}" required>
+                        </div>
                         <div class="form-group">
                             <label class="label" for="inputPassword">Mot de passe</label>
-                            <input id="inputPassword" type="password">
+                            <input name="password" id="inputPassword" type="password" required>
                         </div>
-
                         <div class="form-group">
                             <label class="label" for="inputPasswordConfirm">Confirmation du mot de passe</label>
-                            <input id="inputPasswordConfirm" type="password">
+                            <input name="rpassword" id="inputPasswordConfirm" type="password" required>
                         </div>
-
                         <div class="form-group d-flex justify-content-center">
-                            <button type="submit" class="btn btn-default">Inscription</button>
+                            <button type="submit" class="btn btn-default" name="register">Inscription</button>
                         </div>
                     </form>
                 </div>

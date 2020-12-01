@@ -57,7 +57,7 @@ class Twig
         try {
             return $this->twig->render($template, $array);
         } catch (\Exception $e) {
-            throw new TwigException($e->getMessage());
+            throw new TwigException("Une erreur est survenue pendant le rendu de la page.");
         }
     }
 }

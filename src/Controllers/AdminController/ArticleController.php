@@ -11,6 +11,7 @@ use App\Exception\TwigException;
 use App\Manager\ArticleManager;
 use App\Services\FlashBag;
 use App\Services\ImageUpload;
+use App\Services\Session;
 use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -20,6 +21,7 @@ class ArticleController extends Controller
 
     private ArticleManager $manager;
     private FlashBag $flashBag;
+    private Session $session;
 
     /**
      * ArticleController constructor.
@@ -31,6 +33,8 @@ class ArticleController extends Controller
         parent::__construct($action, $params);
         $this->manager  = new ArticleManager();
         $this->flashBag = new FlashBag();
+        $this->session  = new Session();
+        $this->session->redirectIfNotAdmin();
     }
 
     /**
@@ -56,7 +60,7 @@ class ArticleController extends Controller
             $file      = (new ImageUpload($_FILES));
 
             if ($formCheck->articleValidation() && $file->checkImage()) {
-                $article = new Article(['admin_id' => 1]);
+                $article = new Article(['admin_id' => $this->session->get('id')]);
                 $file->upload();
 
                 $article->setImage($file->getName());
