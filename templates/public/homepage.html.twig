@@ -9,7 +9,7 @@
                     {% for article in articles %}
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card">
-                                <a href="#">
+                                <a href="/blog/{{ article.slug }}">
                                     <img class="img-fluid" src="{{ 'img/uploaded/' ~ article.image }}" alt="{{ article.imageAlt }}">
                                 </a>
                                 <div class="card-body">
