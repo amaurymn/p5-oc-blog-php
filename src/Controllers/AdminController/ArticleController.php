@@ -60,7 +60,7 @@ class ArticleController extends Controller
             $file      = (new ImageUpload($_FILES));
 
             if ($formCheck->articleValidation() && $file->checkImage()) {
-                $article = new Article(['admin_id' => $this->session->get('id')]);
+                $article = new Article(['admin_id' => $this->session->get('admin_id')]);
                 $file->upload();
 
                 $article->setImage($file->getName());

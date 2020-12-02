@@ -14,8 +14,12 @@ class UserManager extends Manager
     public function getUser(string $email)
     {
         $stmt = $this->pdo->prepare("
-            SELECT *
+            SELECT
+                u.id, a.id AS admin_id, u.first_name, u.last_name, u.user_name, u.email,
+                u.password, u.role, a.image, a.alt_img, a.cv_link, a.short_description
             FROM user AS u
+            LEFT JOIN admin AS a
+            ON u.id = a.user_id
             WHERE u.email = :email
         ");
 
