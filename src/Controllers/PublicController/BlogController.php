@@ -8,10 +8,17 @@ use App\Manager\ArticleManager;
 
 class BlogController extends Controller
 {
+    private $manager;
+
+    public function __construct($action, $params)
+    {
+        parent::__construct($action, $params);
+        $this->manager = new ArticleManager();
+    }
+
     public function executeShowBlog()
     {
-        $manager = new ArticleManager();
-        $articles = $manager->findBy([], ['created_at' => 'DESC'],3);
+        $articles = $this->manager->findAll(['created_at' => 'DESC'], 3);
 
         $this->render('@public/blog.html.twig', [
             'articles' => $articles
@@ -20,6 +27,11 @@ class BlogController extends Controller
 
     public function executeShowBlogSingle()
     {
-        $this->render('@public/blogSingle.html.twig');
+
+        $article = $this->manager->findOneBy(['slug' => $this->params['slug']]);
+
+        $this->render('@public/blogSingle.html.twig', [
+            'article' => $article
+        ]);
     }
 }
