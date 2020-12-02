@@ -10,7 +10,7 @@
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card">
                                 <a href="/blog/{{ article.slug }}">
-                                    <img class="img-fluid" src="{{ 'img/uploaded/' ~ article.image }}" alt="{{ article.imageAlt }}">
+                                    <img class="img-fluid" src="{{ uploadPath(article.image) }}" alt="{{ article.imageAlt }}">
                                 </a>
                                 <div class="card-body">
                                     <h2 class="title">
