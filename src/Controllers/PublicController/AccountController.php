@@ -67,7 +67,7 @@ class AccountController extends Controller
                     $this->createAdmin($user);
                 }
 
-                $this->flashBag->set(FlashBag::SUCCESS, "Utilisateur crée.");
+                $this->flashBag->set(FlashBag::SUCCESS, "Utilisateur {$user->getUserName()} crée.");
                 $this->redirectUrl('/login');
             }
         }
@@ -89,7 +89,7 @@ class AccountController extends Controller
         $admin->setUserId($getUser['id']);
         $adminManager->create($admin);
 
-        $this->flashBag->set(FlashBag::SUCCESS, "Admin crée.");
+        $this->flashBag->set(FlashBag::SUCCESS, "Le compte admin a été crée.");
         $this->redirectUrl('/login');
     }
 
