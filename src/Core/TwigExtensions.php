@@ -69,7 +69,7 @@ final class TwigExtensions extends AbstractExtension
      */
     public function getUploadPath(string $asset): string
     {
-        return sprintf('/img/' . $this->config['imgUploadPath'] . '/%s', ltrim($asset, '/'));
+        return sprintf('/img' . $this->config['imgUploadPath'] . '/%s', ltrim($asset, '/'));
     }
 
     /**
