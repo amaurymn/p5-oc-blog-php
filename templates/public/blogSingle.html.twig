@@ -1,13 +1,21 @@
 {% extends 'public/base.html.twig' %}
 
+{% block pageDescription %}{{ article.textHeader }}{% endblock %}
+{% block ogType %}article{% endblock %}
+{% block ogTitle %}{{ article.title }}{% endblock %}
+{% block ogDescription %}{{ article.textHeader }}{% endblock %}
+{% block ogUrl %}{{ parent() ~ "/blog/" ~ article.slug }}{% endblock %}
+{% block ogImg %}{{ configParam('siteUrl') ~ uploadPath(article.image) }}{% endblock %}
+{% block pageTitle %}- {{ article.title }}{% endblock %}
+
 {% block content %}
     <main>
         <div class="container section news mt-5">
             <div class="row">
                 <div class="col-sm-12 col-lg-8 m-auto">
                     <article>
-                        <div class="news-image rounded">
-                            <img src="{{ uploadPath(article.image) }}" class="img-fluid" alt="{{ article.imageAlt }}"/>
+                        <div class="news-image  rounded">
+                            <img src="{{ uploadPath(article.image) }}" class="img-fluid img-auto-cover obj-center-top mh:400 rounded shadow" alt="{{ article.imageAlt }}"/>
                         </div>
                         <h1 class="title h3 no-underline text-uppercase">{{ article.title }}</h1>
                         <p class="p-3">{{ article.textHeader }}</p>
