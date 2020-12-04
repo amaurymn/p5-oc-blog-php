@@ -12,7 +12,7 @@ class HomeController extends Controller
     {
         $manager = new ArticleManager();
 
-        $articles = $manager->findBy([], ['created_at' => 'DESC'], '3');
+        $articles = $manager->findAll(['created_at' => 'DESC'], '3');
 
         $this->render('@public/homepage.html.twig', [
             'articles' => $articles

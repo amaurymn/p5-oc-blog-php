@@ -136,3 +136,28 @@ hr {
     text-align: center;
   }
 }
+
+.mh\:255 {
+  max-height: 255px;
+}
+
+.mh\:300 {
+  max-height: 300px;
+}
+
+.mh\:400 {
+  max-height: 400px;
+}
+
+.img-auto-cover {
+  width: 100%;
+  object-fit: cover;
+}
+
+.obj-center-top {
+  object-position: center top;
+}
+
+.obj-center {
+  object-position: center;
+}

@@ -1,30 +1,31 @@
 {% extends 'public/base.html.twig' %}
 
 {% block content %}
-<main>
-    <div class="container section news list mt-5">
-        <div class="h1 mb-4">Blog</div>
-        <div class="row">
-            <div class="col-sm-12 col-md-9">
-                {% for article in articles %}
-                <article>
-                    <div class="news-image">
-                        <a href="/blog/test"><img src="https://picsum.photos/1260/800" class="img-fluid" alt="Title"/></a>
-                    </div>
-                    <div class="card-body">
-                        <h2 class="no-underline font-weight-bold"><a href="/blog/test">{{ article.title }}</a></h2>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-
-                        <div class="d-flex justify-content-between">
-                            <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> 28 JAN, 2020</span>
-                            <span class="small"><a class="text-muted" href="/blog/test">Lire la suite</a></span>
+    <main>
+        <div class="container section news list mt-5">
+            <div class="row">
+                <div class="col-sm-12 col-lg-8 m-auto">
+                    <div class="h1 mb-4">Blog</div>
+                    {% for article in articles %}
+                        <article>
+                            <div class="news-image">
+                                <a href="/blog/{{ article.slug }}">
+                                    <img class="img-fluid img-auto-cover obj-center-top mh:300 rounded-top" src="{{ uploadPath(article.image) }}" alt="{{ article.imageAlt }}">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h2 class="no-underline font-weight-bold">
+                                    <a href="/blog/{{ article.slug }}">{{ article.title }}</a>
+                                </h2>
+                                <p>{{ article.textHeader|length > 280 ? article.textHeader|striptags|slice(0, 280) ~ '...' : article.textHeader|striptags }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> {{ article.createdAt|date('d M, Y') }}</span>
+                                    <span class="small"><a class="text-muted" href="/blog/{{ article.slug }}">Lire la suite</a></span>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
                 {% endfor %}
             </div>
-
-            {% include 'public/partials/aside.html.twig' %}
         </div>
     </div>
 

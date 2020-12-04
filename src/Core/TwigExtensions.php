@@ -36,6 +36,7 @@ final class TwigExtensions extends AbstractExtension
         return [
             new TwigFunction('configParam', [$this, 'getConfigParameter']),
             new TwigFunction('asset', [$this, 'getAssetPath']),
+            new TwigFunction('uploadPath', [$this, 'getUploadPath']),
             new TwigFunction('flashBag', [$this, 'getFlashBag']),
             new TwigFunction('isAuth', [$this, 'isUserAuth']),
             new TwigFunction('isAdmin', [$this, 'isUserAdmin']),
@@ -60,6 +61,15 @@ final class TwigExtensions extends AbstractExtension
     public function getAssetPath(string $asset): string
     {
         return sprintf('/%s', ltrim($asset, '/'));
+    }
+
+    /**
+     * @param string $asset
+     * @return string
+     */
+    public function getUploadPath(string $asset): string
+    {
+        return sprintf('/img' . $this->config['imgUploadPath'] . '/%s', ltrim($asset, '/'));
     }
 
     /**

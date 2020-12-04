@@ -1,30 +1,39 @@
 {% extends 'public/base.html.twig' %}
 
+{% block pageDescription %}{{ article.textHeader }}{% endblock %}
+{% block ogType %}article{% endblock %}
+{% block ogTitle %}{{ article.title }}{% endblock %}
+{% block ogDescription %}{{ article.textHeader }}{% endblock %}
+{% block ogUrl %}{{ parent() ~ "/blog/" ~ article.slug }}{% endblock %}
+{% block ogImg %}{{ configParam('siteUrl') ~ uploadPath(article.image) }}{% endblock %}
+{% block pageTitle %}- {{ article.title }}{% endblock %}
+
 {% block content %}
     <main>
         <div class="container section news mt-5">
             <div class="row">
-                <div class="col-sm-12 col-md-9">
+                <div class="col-sm-12 col-lg-8 m-auto">
                     <article>
-                        <div class="news-image">
-                            <img src="https://picsum.photos/1280/800" class="img-fluid" alt="Title" />
+                        <div class="news-image  rounded">
+                            <img src="{{ uploadPath(article.image) }}" class="img-fluid img-auto-cover obj-center-top mh:400 rounded shadow" alt="{{ article.imageAlt }}"/>
                         </div>
-                        <span class="categories">Categorie: Lorem, Ipsum</span>
-                        <h1 class="title h3 no-underline text-uppercase">Lorem ipsum dolor sit amet.</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
-                        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</p>
-                        <p>Vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</p>
-                        <p>Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</p>
+                        <h1 class="title h3 no-underline text-uppercase">{{ article.title }}</h1>
+                        <p class="p-3">{{ article.textHeader }}</p>
+                        <p>{{ article.content }}</p>
                         <hr class="hr-orange">
-                        <div class="tags">
-                            <div class="single-tags">
-                                <i class="fas fa-tags"></i> <a href="#">Nouveauté</a>, <a href="#">Festival</a>
-                            </div>
+                        <div class="tags font-weight-light">
+                            <span class="card-date text-muted  d-block">
+                                Posté le: <time datetime="{{ article.createdAt }}">{{ article.createdAt|date('d M, Y') }}</time>
+                            </span>
+                            <span class="card-date text-muted ">
+                                {% if article.createdAt != article.updatedAt %}
+                                    Edité le:
+                                    <time datetime="{{ article.updatedAt }}">{{ article.updatedAt|date('d M, Y') }}</time>
+                                {% endif %}
+                            </span>
                         </div>
                     </article>
                 </div>
-
-                {% include 'public/partials/aside.html.twig' %}
             </div>
         </div>
     </main>
