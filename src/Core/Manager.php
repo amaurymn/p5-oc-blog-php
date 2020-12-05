@@ -67,9 +67,8 @@ abstract class Manager
         $this->setBinding($binds, $stmt);
         $stmt->execute();
 
-        $entityResults = false;
         if ($stmt->rowCount() > 1) {
-            $entityResults[] = new $this->entity($stmt->fetchAll());
+            $entityResults = $stmt->fetchAll();
         } else {
             $entityResults = $stmt->fetch();
         }
