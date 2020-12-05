@@ -8,33 +8,70 @@
 {% block ogImg %}{{ configParam('siteUrl') ~ uploadPath(article.image) }}{% endblock %}
 {% block pageTitle %}- {{ article.title }}{% endblock %}
 
+{% block javascripts %}
+    <script async src="https://cdn.jsdelivr.net/npm/jdenticon@3.0.1" integrity="sha384-im0a1VvEdl5EiBsEMbY7GyEL6DvEIChaqrtxjYyxqR/qkSYVmrBT1xP/yiIozXIA" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block content %}
-    <main>
-        <div class="container section news mt-5">
-            <div class="row">
-                <div class="col-sm-12 col-lg-8 m-auto">
-                    <article>
-                        <div class="news-image  rounded">
-                            <img src="{{ uploadPath(article.image) }}" class="img-fluid img-auto-cover obj-center-top mh:400 rounded shadow" alt="{{ article.imageAlt }}"/>
+    <main class="container section news mt-5">
+        <article class="row">
+            <div class="col-sm-12 col-lg-8 m-auto">
+                <div class="news-image  rounded">
+                    <img src="{{ uploadPath(article.image) }}" class="img-fluid img-auto-cover obj-center-top mh:400 rounded shadow" alt="{{ article.imageAlt }}"/>
+                </div>
+                <h1 class="title h3 no-underline text-uppercase">{{ article.title }}</h1>
+                <p class="p-3">{{ article.textHeader }}</p>
+                <p>{{ article.content }}</p>
+                <hr class="hr-orange">
+                <div class="tags font-weight-light d-flex justify-content-between">
+                    <span class="card-date text-muted  d-block">
+                        Posté le: <time datetime="{{ article.createdAt }}">{{ article.createdAt|date('d M, Y') }}</time>
+                    </span>
+                    <span class="card-date text-muted ">
+                    {% if article.createdAt != article.updatedAt %}
+                        Edité le:
+                        <time datetime="{{ article.updatedAt }}">{{ article.updatedAt|date('d M, Y') }}</time>
+                    {% endif %}
+                    </span>
+                </div>
+                <hr class="hr-orange my-3">
+            </div>
+        </article>
+
+        <section class="row">
+            <div class="col-sm-12 col-lg-8 m-auto">
+                <h3>Laisser un commentaire</h3>
+                {% if isAuth() %}
+                    <div class="news-comment-form">
+                        <form method="post">
+                            <div class="form-group mt-5">
+                                <textarea name="content" placeholder="Votre commentaire.."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button name="publish" class="btn btn-default">Poster</button>
+                            </div>
+                        </form>
+                    </div>
+                {% else %}
+                    <div class="my-5 text-center">
+                        <i class="fas fa-lock"></i> Veuillez vous <a class="font-weight-bolder" href="/login" title="Connexion">connecter</a> pour poster un commentaire.
+                    </div>
+                {% endif %}
+                <div class="news-comments mb-4">
+                    {% for comment in comments %}
+                        <div class="single-comment rounded shadow">
+                            <canvas width="64" height="64" data-jdenticon-value="{{ comment.user_name|sha1 }}"></canvas>
+                            <span class="date">Le: {{ comment.created_at|date('d/m/Y à H:i') }}</span>
+                            <span class="d-block text-muted mb-2">Par: {{ comment.user_name }}</span>
+                            <p>{{ comment.content }}</p>
                         </div>
-                        <h1 class="title h3 no-underline text-uppercase">{{ article.title }}</h1>
-                        <p class="p-3">{{ article.textHeader }}</p>
-                        <p>{{ article.content }}</p>
-                        <hr class="hr-orange">
-                        <div class="tags font-weight-light">
-                            <span class="card-date text-muted  d-block">
-                                Posté le: <time datetime="{{ article.createdAt }}">{{ article.createdAt|date('d M, Y') }}</time>
-                            </span>
-                            <span class="card-date text-muted ">
-                                {% if article.createdAt != article.updatedAt %}
-                                    Edité le:
-                                    <time datetime="{{ article.updatedAt }}">{{ article.updatedAt|date('d M, Y') }}</time>
-                                {% endif %}
-                            </span>
+                    {% else %}
+                        <div class="my-5">
+                            <div class="alert alert-secondary">Aucun commentaire pour le moment</div>
                         </div>
-                    </article>
+                    {% endfor %}
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 {% endblock %}
