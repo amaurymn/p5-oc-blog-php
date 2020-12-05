@@ -16,7 +16,7 @@ blogSingle:
   uri: /blog/([a-zA-Z0-9-]+)
   area: Public
   controller: BlogController
-  action: showBlogSingle
+  action: showSingle
   parameters: ['slug']
 
 blogPagin:
