@@ -13,8 +13,8 @@
     color: #4a4a4a;
   }
 
-  p:last-child {
-    margin-bottom: 0;
+  p {
+    word-wrap: break-word;
   }
 
   & > canvas {
