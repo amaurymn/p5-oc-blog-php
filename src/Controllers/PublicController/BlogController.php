@@ -75,7 +75,7 @@ class BlogController extends Controller
         $comment
             ->setContent($post['content'])
             ->setArticleId($articleId)
-            ->setUserId($this->session->get('id'))
+            ->setUserId($this->session->get('user')['id'])
             ->setOnline(1);
         $comment->hydrate($_POST);
         $manager->create($comment);
