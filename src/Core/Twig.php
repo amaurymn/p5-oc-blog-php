@@ -8,6 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Extension\DebugExtension;
+use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
 
 class Twig
@@ -42,6 +43,7 @@ class Twig
 
         $twig->addExtension(new TwigExtensions());
         $twig->addExtension(new DebugExtension());
+        $twig->addExtension(new IntlExtension());
 
         $this->twig = $twig;
     }
