@@ -9,11 +9,13 @@ class CommentManager extends Manager
 {
     public function getCommentsFromArticle(int $articleId, $online = false): array
     {
-        $query = "SELECT c.id, c.content, c.online, c.created_at, u.user_name
+        $query = "
+            SELECT c.id, c.content, c.online, c.created_at, u.user_name
             FROM comment AS c
             LEFT JOIN user AS u
-                ON u.id = c.user_id
-            WHERE c.article_id =  :articleId";
+            ON u.id = c.user_id
+            WHERE c.article_id = :articleId
+        ";
 
         if ($online) {
             $query .= " AND c.online = 1";
