@@ -95,4 +95,11 @@ class Validator
 
         return $this->status;
     }
+
+    public function commentValidation()
+    {
+        $this->check('content', 'Le message')->required()->maxLength(255);
+
+        return $this->status;
+    }
 }
