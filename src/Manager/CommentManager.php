@@ -7,7 +7,12 @@ use \PDO;
 
 class CommentManager extends Manager
 {
-    public function getCommentsFromArticle(int $articleId, $online = false): array
+    /**
+     * @param int $articleId
+     * @param bool $online
+     * @return array
+     */
+    public function getCommentsFromArticle(int $articleId, bool $online = true): array
     {
         $query = "
             SELECT c.id, c.content, c.online, c.created_at, u.user_name
