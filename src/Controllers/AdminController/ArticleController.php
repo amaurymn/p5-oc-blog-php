@@ -12,6 +12,7 @@ use App\Manager\ArticleManager;
 use App\Services\FlashBag;
 use App\Services\ImageUpload;
 use App\Services\Session;
+use App\Services\Slugifier;
 use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -22,6 +23,7 @@ class ArticleController extends Controller
     private ArticleManager $manager;
     private FlashBag $flashBag;
     private Session $session;
+    private Slugifier $slugifier;
 
     /**
      * ArticleController constructor.
@@ -31,9 +33,10 @@ class ArticleController extends Controller
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
-        $this->manager  = new ArticleManager();
-        $this->flashBag = new FlashBag();
-        $this->session  = new Session();
+        $this->manager   = new ArticleManager();
+        $this->flashBag  = new FlashBag();
+        $this->session   = new Session();
+        $this->slugifier = new Slugifier();
         $this->session->redirectIfNotAdmin();
     }
 
@@ -65,8 +68,10 @@ class ArticleController extends Controller
 
                 $article->setImage($file->getName());
                 $article->hydrate($_POST);
+                $article->setSlug($this->slugifier->getUniqueSlug($article->getTitle()));
 
                 $this->manager->create($article);
+
                 $this->flashBag->set(FlashBag::SUCCESS, "Article crée.");
                 $this->redirectUrl(self::ARTICLE_LIST);
             }
@@ -92,9 +97,10 @@ class ArticleController extends Controller
             if ($formCheck->articleValidation() && $file->checkImage()) {
                 $this->deleteImage($article->getImage());
                 $file->upload();
-                $article->setImage($file->getName());
 
+                $article->setImage($file->getName());
                 $article->hydrate($_POST);
+                $article->setSlug($this->slugifier->getUniqueSlug($article->getTitle()));
 
                 $this->manager->update($article);
 
