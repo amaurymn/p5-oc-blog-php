@@ -21,7 +21,7 @@ abstract class Manager
     {
         $this->pdo    = (new PDOFactory())->getPDO();
         $this->table  = $this->getTableName();
-        $this->entity = "App\Entity\\" . strtoupper($this->table);
+        $this->entity = "App\Entity\\" . ucfirst($this->table);
     }
 
     /**
