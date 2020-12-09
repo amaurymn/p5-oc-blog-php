@@ -30,7 +30,7 @@
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link active" href="/dashboard">{{ getSessionParam('first_name') }}</a>
+                                <a class="nav-link active" href="/dashboard">{{ getSessionParam('user').last_name }}</a>
                             </li>
                         {% endif %}
                     {% endif %}

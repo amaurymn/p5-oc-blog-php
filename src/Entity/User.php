@@ -61,7 +61,7 @@ class User extends Entity
      */
     public function setUserName(string $userName): void
     {
-        $this->userName = mb_strtolower($userName);
+        $this->userName = ucfirst($userName);
     }
 
     /**

@@ -26,7 +26,7 @@ class UserAuth
         $user = (new UserManager())->getUser($post['email']);
 
         if ($user && password_verify($post['password'], $user['password'])) {
-            $this->session->set($user);
+            $this->session->set('user', $user);
 
             return true;
         }
