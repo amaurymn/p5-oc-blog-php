@@ -21,10 +21,12 @@ body {
 
 a {
   transition: all .3s ease-in-out;
-  text-decoration: none !important;
+  text-decoration: none;
   color: $dark-grey;
+
   &:hover {
-    color: $orange !important;
+    text-decoration: none;
+    color: $orange;
   }
 }
 
