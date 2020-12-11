@@ -49,7 +49,7 @@ class BlogController extends Controller
     public function executeShowSingle(): void
     {
         $article  = $this->articleManager->findOneBy(['slug' => $this->params['slug']]);
-        $comments = $this->commentManager->getCommentsFromArticle($article->getId(), true);
+        $comments = $this->commentManager->getCommentsFromArticle($article->getId());
 
         if ($this->isFormSubmit('publish') && (new Validator($_POST))->commentValidation()) {
             $this->addNewComment($article->getId(), $_POST);
