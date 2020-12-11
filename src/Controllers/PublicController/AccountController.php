@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Core\Validator;
 use App\Entity\Admin;
 use App\Entity\User;
+use App\Exception\ConfigException;
 use App\Exception\EntityNotFoundException;
 use App\Exception\TwigException;
 use App\Manager\AdminManager;
@@ -13,6 +14,7 @@ use App\Manager\UserManager;
 use App\Services\FlashBag;
 use App\Services\Session;
 use App\Services\UserAuth;
+use Symfony\Component\Yaml\Yaml;
 
 class AccountController extends Controller
 {
@@ -70,6 +72,7 @@ class AccountController extends Controller
                 if (!$adminAlreadyExist) {
                     $_SESSION['installation'] = true;
                     $this->session->set('register_user', [$user]);
+                    $this->writeInstallStatus();
                     $this->redirectUrl('/registerAdmin');
                 } else {
                     $this->userManager->create($user);
@@ -122,5 +125,23 @@ class AccountController extends Controller
     public function executeLogout(): void
     {
         (new Session())->clear();
+    }
+
+    /**
+     * @throws ConfigException
+     */
+    private function writeInstallStatus(): void
+    {
+        try {
+            $configFile = CONF_DIR . '/config.yml';
+        } catch (\Exception $e) {
+            throw new ConfigException("Le fichier de configuration du site est manquant.");
+        }
+
+        $config                  = Yaml::parse(file_get_contents($configFile));
+        $config['install_state'] = true;
+        $saveConfig              = Yaml::dump($config, 2, 2);
+
+        file_put_contents($configFile, $saveConfig);
     }
 }
