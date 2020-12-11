@@ -68,7 +68,7 @@ abstract class Manager
         $stmt->execute();
 
         if ($stmt->rowCount() > 1) {
-            $entityResults = $stmt->fetchAll();
+            $entityResults = new $this->entity($stmt->fetchAll());
         } else {
             $entityResults = $stmt->fetch();
         }
