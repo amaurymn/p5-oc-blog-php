@@ -54,12 +54,19 @@ register:
   action: showRegister
   parameters: [ ]
 
+registerAdmin:
+  uri: /registerAdmin
+  area: Public
+  controller: AccountController
+  action: showRegisterAdmin
+  parameters: [ ]
+
 legal:
   uri: /mentions-legales
   area: Public
   controller: HomeController
   action: showMentions
-  parameters: []
+  parameters: [ ]
 
 rgpd:
   uri: /rgpd
