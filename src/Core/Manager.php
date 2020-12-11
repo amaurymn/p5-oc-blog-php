@@ -68,7 +68,9 @@ abstract class Manager
         $stmt->execute();
 
         if ($stmt->rowCount() > 1) {
-            $entityResults[] = new $this->entity($stmt->fetchAll());
+            foreach ($stmt->fetchAll() as $result) {
+                $entityResults[] = new $this->entity($result);
+            }
         } else {
             $entityResults = $stmt->fetch();
         }
