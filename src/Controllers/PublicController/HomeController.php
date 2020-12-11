@@ -5,16 +5,20 @@ namespace App\Controllers\PublicController;
 use App\Core\Controller;
 use App\Exception\TwigException;
 use App\Manager\ArticleManager;
+use App\Manager\UserManager;
 
 class HomeController extends Controller
 {
     public function executeShowHome(): void
     {
-        $manager = new ArticleManager();
+        $articleManager = new ArticleManager();
+        $userManager    = new UserManager();
 
-        $articles = $manager->findAll(['created_at' => 'DESC'], '3');
+        $articles = $articleManager->findAll(['created_at' => 'DESC'], '3');
+        $about    = $userManager->getAdminInfos();
 
         $this->render('@public/homepage.html.twig', [
+            'about'    => $about,
             'articles' => $articles
         ]);
     }
