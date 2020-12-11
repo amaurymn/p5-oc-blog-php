@@ -24,18 +24,39 @@
                             <a class="nav-link" href="/register">Inscription</a>
                         </li>
                     {% else %}
-                        {% if isAdmin() %}
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/dashboard">Dashboard</a>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link active" href="/dashboard">{{ getSessionParam('user').last_name }}</a>
-                            </li>
-                        {% endif %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle active" href="" id="menuDD" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ getSessionParam('user').user_name }}</a>
+                            <div class="dropdown-menu" aria-labelledby="menuDD">
+                                {% if isAdmin() %}
+                                    <a class="dropdown-item" href="/dashboard">Dashboard</a>
+                                {% endif %}
+                                <a class="dropdown-item" href="/dashboard/profil">Mon compte</a>
+                                <a class="dropdown-item" href="/" data-toggle="modal" data-target="#logoutModal">
+                                    Déconnexion
+                                </a>
+                            </div>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
         </div>
     </nav>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Se déconnecter?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">En cliquant sur Déconnexion vous aller mettre fin à votre session actuelle.</div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                    <a class="btn btn-danger" href="/logout">Déconnexion</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
