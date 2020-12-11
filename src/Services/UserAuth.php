@@ -22,7 +22,7 @@ class UserAuth
      */
     public function authenticateUser(array $post): bool
     {
-        $user = (new UserManager())->getUser($post['email']);
+        $user = (new UserManager())->getUserByMail($post['email']);
 
         if ($user && password_verify($post['password'], $user['password'])) {
             $this->session->set('user', $user);
@@ -66,7 +66,7 @@ class UserAuth
      */
     public function isUserAlreadyRegistered(array $post): bool
     {
-        $user = (new UserManager())->getUser($post['email']);
+        $user = (new UserManager())->getUserByMail($post['email']);
 
         if ($user) {
             $this->flash->set(FlashBag::ERROR, 'Cette adresse email est déjà utilisée.');
