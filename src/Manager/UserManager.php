@@ -42,4 +42,18 @@ class UserManager extends Manager
 
         return $stmt->fetch();
     }
+
+    /**
+     * @param string $userName
+     * @return mixed
+     */
+    public function checkUserNameAlreadyExist(string $userName)
+    {
+        $stmt = $this->pdo->prepare("SELECT id FROM user WHERE user_name = :userName");
+
+        $stmt->bindValue(':userName', $userName, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
 }

@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Core\Validator;
 use App\Entity\Admin;
 use App\Entity\User;
+use App\Exception\EntityNotFoundException;
 use App\Exception\TwigException;
 use App\Manager\AdminManager;
 use App\Manager\UserManager;
@@ -18,7 +19,7 @@ class AccountController extends Controller
     const ROLE_ADMIN = 'admin';
     const ROLE_USER  = 'user';
 
-    private UserManager $manager;
+    private UserManager $userManager;
     private FlashBag $flashBag;
     private UserAuth $userAuth;
     private Session $session;
@@ -26,10 +27,10 @@ class AccountController extends Controller
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
-        $this->manager  = new UserManager();
-        $this->flashBag = new FlashBag();
-        $this->userAuth = new UserAuth();
-        $this->session  = new Session();
+        $this->userManager = new UserManager();
+        $this->flashBag    = new FlashBag();
+        $this->userAuth    = new UserAuth();
+        $this->session     = new Session();
     }
 
     /**
@@ -38,7 +39,8 @@ class AccountController extends Controller
     public function executeShowLogin(): void
     {
         if ($this->isFormSubmit('login') && $this->userAuth->authenticateUser($_POST)) {
-            $this->redirectUrl('/dashboard');
+            $this->flashBag->set(FlashBag::INFO, "Vous êtes à présent connecté·e.");
+            $this->redirectUrl('/');
         }
 
         $this->render('@public/login.html.twig');
@@ -51,24 +53,29 @@ class AccountController extends Controller
     public function executeShowRegister(): void
     {
         if ($this->isFormSubmit('register')) {
-            $formCheck         = (new Validator($_POST));
+            $formCheck         = new Validator($_POST);
             $adminAlreadyExist = $this->userAuth->isAdminAlreadyExist();
 
-            if ($formCheck->registerValidation() && !$this->userAuth->isUserAlreadyRegistered($_POST)) {
+            if (
+                $formCheck->registerValidation()
+                && !$this->userAuth->isUserAlreadyRegistered($_POST)
+                && !$this->userAuth->isUserNameAlreadyExist($_POST)
+            ) {
                 $user = new User();
 
                 $role = (!$adminAlreadyExist) ? self::ROLE_ADMIN : self::ROLE_USER;
                 $user->setRole($role);
                 $user->hydrate($_POST);
 
-                $this->manager->create($user);
-
                 if (!$adminAlreadyExist) {
-                    $this->createAdmin($user);
+                    $_SESSION['installation'] = true;
+                    $this->session->set('register_user', [$user]);
+                    $this->redirectUrl('/registerAdmin');
+                } else {
+                    $this->userManager->create($user);
+                    $this->flashBag->set(FlashBag::SUCCESS, "Utilisateur {$user->getUserName()} crée.");
+                    $this->redirectUrl('/login');
                 }
-
-                $this->flashBag->set(FlashBag::SUCCESS, "Utilisateur {$user->getUserName()} crée.");
-                $this->redirectUrl('/login');
             }
         }
         $this->render('@public/register.html.twig', [
@@ -77,20 +84,39 @@ class AccountController extends Controller
     }
 
     /**
-     * @param User $user
+     * @throws TwigException
+     * @throws EntityNotFoundException
      * @throws \ReflectionException
      */
-    public function createAdmin(User $user): void
+    public function executeShowRegisterAdmin(): void
     {
-        $adminManager = new AdminManager();
-        $admin        = new Admin();
+        (!$this->session->get('installation')) ? $this->redirectUrl('/register') : null;
 
-        $getUser = $this->manager->findBy(['email' => $user->getEmail()]);
-        $admin->setUserId($getUser['id']);
-        $adminManager->create($admin);
+        $sessionUser = $this->session->get('register_user')[0];
 
-        $this->flashBag->set(FlashBag::SUCCESS, "Le compte admin a été crée.");
-        $this->redirectUrl('/login');
+        if ($this->isFormSubmit('registertwo')) {
+            $formCheck = new Validator($_POST);
+
+            if ($formCheck->registerValidationAdmin()) {
+                $adminManager = new AdminManager();
+                $admin        = new Admin();
+
+                $this->userManager->create($sessionUser);
+                $user = $this->userManager->findOneBy(['email' => $sessionUser->getEmail()]);
+
+                $admin->hydrate($_POST);
+                $admin->setUserId($user->getId());
+                $adminManager->create($admin);
+
+                $this->session->clear('installation')->clear('register_user');
+                $this->flashBag->set(FlashBag::SUCCESS, "Le compte admin a été crée.");
+                $this->redirectUrl('/login');
+            }
+        }
+
+        $this->render('@public/register-two.html.twig', [
+            'formpost' => $_POST
+        ]);
     }
 
     public function executeLogout(): void
