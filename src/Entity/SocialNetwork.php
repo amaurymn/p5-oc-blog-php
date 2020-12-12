@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use App\Core\Entity;
+use App\Core\TimestampableEntity;
 
 class SocialNetwork extends Entity
 {
+    use TimestampableEntity;
+
     private string $name;
     private string $url;
     private string $icon;
+    private int $adminId;
 
     /**
      * @return string
@@ -57,4 +61,21 @@ class SocialNetwork extends Entity
     {
         $this->icon = $icon;
     }
+
+    /**
+     * @return int
+     */
+    public function getAdminId(): int
+    {
+        return $this->adminId;
+    }
+
+    /**
+     * @param int $adminId
+     */
+    public function setAdminId(int $adminId): void
+    {
+        $this->adminId = $adminId;
+    }
+
 }

@@ -137,3 +137,10 @@ profile:
   controller: UserController
   action: showProfile
   parameters: [ ]
+
+socialNetDelete:
+  uri: /dashboard/profil/network/([0-9]+)/delete
+  area: Admin
+  controller: UserController
+  action: deleteNetwork
+  parameters: [ 'networkId' ]
