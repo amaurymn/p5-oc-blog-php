@@ -37,8 +37,6 @@ class Article extends Entity
     public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        self::setSlug($title);
     }
 
     /**
@@ -54,9 +52,7 @@ class Article extends Entity
      */
     public function setSlug(string $slug): void
     {
-        $slugifier = new Slugifier();
-
-        $this->slug = $slugifier->slugify($slug);
+        $this->slug = $slug;
     }
 
     /**

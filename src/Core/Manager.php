@@ -21,7 +21,7 @@ abstract class Manager
     {
         $this->pdo    = (new PDOFactory())->getPDO();
         $this->table  = $this->getTableName();
-        $this->entity = "App\Entity\\" . strtoupper($this->table);
+        $this->entity = "App\Entity\\" . ucfirst($this->table);
     }
 
     /**
@@ -67,9 +67,10 @@ abstract class Manager
         $this->setBinding($binds, $stmt);
         $stmt->execute();
 
-        $entityResults = false;
         if ($stmt->rowCount() > 1) {
-            $entityResults[] = new $this->entity($stmt->fetchAll());
+            foreach ($stmt->fetchAll() as $result) {
+                $entityResults[] = new $this->entity($result);
+            }
         } else {
             $entityResults = $stmt->fetch();
         }

@@ -12,11 +12,12 @@ class Session
     }
 
     /**
+     * @param string $key
      * @param array $values
      */
-    public function set(array $values): void
+    public function set(string $key, array $values): void
     {
-        $_SESSION = $values;
+        $_SESSION[$key] = $values;
     }
 
     /**
@@ -93,7 +94,7 @@ class Session
      */
     public function isAdmin(): bool
     {
-        return $this->get('role') === 'admin';
+        return $this->get('user')['role'] === 'admin';
     }
 
     /**
@@ -101,7 +102,7 @@ class Session
      */
     public function isAuth(): bool
     {
-        return $this->get('id') !== null;
+        return $this->get('user') !== null;
     }
 }
 

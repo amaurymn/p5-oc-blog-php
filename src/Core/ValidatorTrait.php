@@ -70,7 +70,7 @@ trait ValidatorTrait
     {
         $value = $this->values[$this->input];
 
-        if ((!empty($value) && strlen($value) < $length) || (!empty($value) && strlen($value) > $length)) {
+        if ((!empty($value) && mb_strlen($value) < $length) || (!empty($value) && mb_strlen($value) > $length)) {
             $message      = (empty($message)) ? "[FIELD] doit contenir {$length} caractères." : $message;
             $this->status = false;
 
@@ -89,7 +89,7 @@ trait ValidatorTrait
     {
         $value = $this->values[$this->input];
 
-        if (strlen($value) < $length) {
+        if (mb_strlen($value) < $length) {
             $message      = (empty($message)) ? "[FIELD] doit contenir au minimum {$length} caractères." : $message;
             $this->status = false;
 
@@ -108,7 +108,7 @@ trait ValidatorTrait
     {
         $value = $this->values[$this->input];
 
-        if (strlen($value) > $length) {
+        if (mb_strlen($value) > $length) {
             $message      = (empty($message)) ? "[FIELD] doit contenir au maximum {$length} caractères." : $message;
             $this->status = false;
 

@@ -16,7 +16,7 @@ blogSingle:
   uri: /blog/([a-zA-Z0-9-]+)
   area: Public
   controller: BlogController
-  action: showBlogSingle
+  action: showSingle
   parameters: ['slug']
 
 blogPagin:
@@ -101,18 +101,32 @@ articleDelete:
   area: Admin
   controller: ArticleController
   action: delete
-  parameters: ['articleId']
+  parameters: [ 'articleId' ]
 
 commentList:
   uri: /dashboard/comment/list
   area: Admin
   controller: CommentController
   action: showCommentList
-  parameters: []
+  parameters: [ ]
+
+commentValidate:
+  uri: /dashboard/comment/([0-9]+)/(validate|suspend)
+  area: Admin
+  controller: CommentController
+  action: validate
+  parameters: [ 'commentId', 'state' ]
+
+commentDelete:
+  uri: /dashboard/comment/([0-9]+)/delete
+  area: Admin
+  controller: CommentController
+  action: delete
+  parameters: [ 'commentId' ]
 
 profile:
   uri: /dashboard/profil
   area: Admin
   controller: UserController
   action: showProfile
-  parameters: []
+  parameters: [ ]

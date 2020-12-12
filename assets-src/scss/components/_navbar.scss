@@ -19,11 +19,11 @@
       color: $white;
 
       &:hover {
-        color: $orange !important;
+        color: $orange;
       }
 
       &:active, &.active {
-        color: $yellow !important;
+        color: $yellow;
       }
     }
   }

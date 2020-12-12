@@ -25,7 +25,9 @@ final class TwigExtensions extends AbstractExtension
      * @return array|TwigFilter[]
      */
     public function getFilters() {
-        return [];
+        return [
+            new TwigFilter('sha1', [$this, 'sha1']),
+        ];
     }
 
     /**
@@ -42,6 +44,16 @@ final class TwigExtensions extends AbstractExtension
             new TwigFunction('isAdmin', [$this, 'isUserAdmin']),
             new TwigFunction('getSessionParam', [$this, 'getSessionParam']),
         ];
+    }
+
+    /**
+     * Custom twig filters
+     * @param string $string
+     * @return string
+     */
+    public function sha1(string $string): string
+    {
+        return sha1($string);
     }
 
     /**

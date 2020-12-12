@@ -1,0 +1,48 @@
+.news-comments, .news-comment-form {
+  margin-top: 2.5rem;
+}
+
+.single-comment {
+  position: relative;
+  margin-bottom: 1.875rem;
+  margin-left: 1.5rem;
+  padding: 1.25rem 1.25rem 1.25rem 3.4375rem;
+  background-color: #f3f3f3;
+
+  h4 {
+    color: #4a4a4a;
+  }
+
+  p {
+    word-wrap: break-word;
+  }
+
+  & > canvas {
+    position: absolute;
+    top: 1.2rem;
+    left: -2rem;
+    max-width: 4rem;
+    height: auto;
+    margin: auto;
+    //border-radius: 50%;
+    //box-shadow: 5px 0 5px rgba(0,0,0,.1);
+    background: transparent;
+  }
+
+  .date {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: $orange;
+  }
+}
+
+.news-comment-form {
+  textarea {
+    transition: inherit;
+    border-radius: 5px;
+    box-shadow: 0 .2rem 1rem rgba(0, 0, 0, .15);
+  }
+
+}
+
