@@ -4,5 +4,7 @@
 /node_modules
 /public/css
 /public/js
+/public/img/uploaded
+/public/upload
 
 /config/db-config.yml
