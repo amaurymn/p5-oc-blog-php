@@ -9,7 +9,7 @@
                     <div class="about_infos mt-4">
                         <p class="about_name">
                             {{ about.last_name }} {{ about.first_name }}
-                            <span>- <i class="far fa-file"></i> <a href="{{ about.cv_link }}">CV</a></span>
+                            <span>- <i class="far fa-file"></i> <a href="/upload/{{ about.cv_link }}" target="_blank">CV</a></span>
                         </p>
                         <p>{{ about.short_description|nl2br }}</p>
                     </div>

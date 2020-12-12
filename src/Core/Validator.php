@@ -100,7 +100,6 @@ class Validator
     {
         $this->check('image', "L'URL de l'image")->required()->maxLength(255);
         $this->check('altImg', "La description de l'image")->required()->maxLength(255);
-        $this->check('cvLink', 'Le lien du CV')->required()->maxLength(255);
         $this->check('shortDescription', "La description")->required()->maxLength(500);
 
         return $this->status;

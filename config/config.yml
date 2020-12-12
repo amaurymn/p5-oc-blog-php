@@ -13,4 +13,8 @@ imgAllowedMime:
   - image/png
   - image/jpeg
   - image/webp
+fileAllowedExt:
+  - pdf
+fileAllowedMime:
+  - application/pdf
 imgUploadPath: /uploaded
