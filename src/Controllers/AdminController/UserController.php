@@ -10,6 +10,7 @@ use App\Exception\TwigException;
 use App\Manager\AdminManager;
 use App\Manager\SocialNetworkManager;
 use App\Manager\UserManager;
+use App\Services\FileUploader;
 use App\Services\FlashBag;
 use App\Services\Session;
 use App\Services\UserAuth;
@@ -55,6 +56,9 @@ class UserController extends Controller
         }
         if ($this->isFormSubmit('saveNetwork')) {
             $this->executeSaveNetwork($_POST);
+        }
+        if ($this->isFormSubmit('saveInfosCv')) {
+            $this->executeSaveCv($_FILES);
         }
 
         $this->render('@admin/profile.html.twig', [
@@ -155,6 +159,27 @@ class UserController extends Controller
 
         $this->flashBag->set(FlashBag::SUCCESS, "Réseau social supprimé.");
         $this->redirectUrl('/dashboard/profil#sociaNetworks');
+    }
+
+    /**
+     * @param array $file
+     * @throws EntityNotFoundException
+     * @throws \ReflectionException
+     */
+    private function executeSaveCv(array $file)
+    {
+        $filea = new FileUploader($file);
+
+        if ($filea->checkFile(FileUploader::FILE_PDF)) {
+            $filea->upload(FileUploader::FILE_PDF);
+            $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
+            $admin->setCvLink($filea->getName());
+            $this->adminManager->update($admin);
+
+            $this->flashBag->set(FlashBag::SUCCESS, "CV envoyé.");
+            $this->redirectUrl('/dashboard/profil');
+        }
+
     }
 }
 

@@ -10,7 +10,7 @@ use App\Exception\FileException;
 use App\Exception\TwigException;
 use App\Manager\ArticleManager;
 use App\Services\FlashBag;
-use App\Services\fileUploader;
+use App\Services\FileUploader;
 use App\Services\Session;
 use App\Services\Slugifier;
 use ReflectionException;
@@ -60,7 +60,7 @@ class ArticleController extends Controller
     {
         if ($this->isFormSubmit('publish')) {
             $formCheck = (new Validator($_POST));
-            $file      = (new fileUploader($_FILES));
+            $file      = (new FileUploader($_FILES));
 
             if ($formCheck->articleValidation() && $file->checkFile()) {
                 $article = new Article(['admin_id' => $this->session->get('user')['admin_id']]);
@@ -92,7 +92,7 @@ class ArticleController extends Controller
 
         if ($this->isFormSubmit('publish')) {
             $formCheck = (new Validator($_POST));
-            $file      = (new fileUploader($_FILES));
+            $file      = (new FileUploader($_FILES));
 
             if ($formCheck->articleValidation() && $file->checkFile()) {
                 $this->deleteImage($article->getImage());

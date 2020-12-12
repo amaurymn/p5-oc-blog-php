@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Symfony\Component\Yaml\Yaml;
 
-class fileUploader
+class FileUploader
 {
     private $fileName;
     private $fileType;
@@ -14,8 +14,9 @@ class fileUploader
     private $config;
     private $status = true;
     private $uploadPath;
-    private $imageName;
+    private $newFileName;
     private FlashBag $flashBag;
+    public const FILE_PDF = 'pdf';
 
     public function __construct(array $file)
     {
@@ -32,14 +33,15 @@ class fileUploader
     }
 
     /**
+     * @param string|null $type
      * @return bool
      */
-    public function checkFile()
+    public function checkFile(string $type = null)
     {
         $this
             ->checkEmptyFile()
-            ->checkFileExt()
-            ->checkFileMime()
+            ->checkFileExt($type)
+            ->checkFileMime($type)
             ->checkFileError();
 
         return $this->status;
@@ -50,28 +52,34 @@ class fileUploader
      */
     public function getName()
     {
-        return $this->imageName;
+        return $this->newFileName;
     }
 
     /**
+     * @param null $type
      * @return bool
      */
-    public function upload()
+    public function upload($type = null)
     {
-        $this->uploadPath = PUBLIC_DIR . '/img' . $this->config['imgUploadPath'];
+        $fileTypePath = ($type === self::FILE_PDF) ? '/upload' : '/img' . $this->config['imgUploadPath'];
+
+        $this->uploadPath = PUBLIC_DIR . $fileTypePath;
 
         if (!is_dir($this->uploadPath)) {
             mkdir($this->uploadPath, 755, true);
         }
 
-        $this->renameFile();
+        $this->renameFile($type);
 
         return move_uploaded_file($this->fileTmpName, $this->uploadPath . '/' . $this->getName());
     }
 
-    private function renameFile(): void
+    /**
+     * @param null $type
+     */
+    private function renameFile($type = null): void
     {
-        $this->imageName = date('ymd-His') . '_' . $this->fileName;
+        $this->newFileName = ($type === self::FILE_PDF) ? 'cv.pdf' : date('ymd-His') . '_' . $this->fileName;
     }
 
     /**
@@ -113,20 +121,20 @@ class fileUploader
     }
 
     /**
+     * @param $type
      * @return $this
      */
-    private function checkFileExt()
+    private function checkFileExt($type)
     {
         if (!empty($this->fileName)) {
-            $allowedImgExt = $this->config['fileAllowedExt'];
+            $allowedFileExt = ($type === self::FILE_PDF) ? $this->config['fileAllowedExt'] : $this->config['imgAllowedExt'];
+            $allowedExt     = '';
 
-            $allowedExt = '';
-
-            foreach ($allowedImgExt as $ext) {
+            foreach ($allowedFileExt as $ext) {
                 $allowedExt .= $ext . ',';
             }
 
-            if (!in_array($this->getFileExt($this->fileName), $allowedImgExt, true)) {
+            if (!in_array($this->getFileExt($this->fileName), $allowedFileExt)) {
                 $this->setError(FlashBag::ERROR, "Seul les fichiers {$allowedExt} sont valides.");
                 $this->status = false;
             }
@@ -136,15 +144,17 @@ class fileUploader
     }
 
     /**
+     * @param $type
      * @return $this
      */
-    private function checkFileMime()
+    private function checkFileMime($type)
     {
         if (!empty($this->fileTmpName)) {
+            $allowedMimeType = ($type === self::FILE_PDF) ? $this->config['fileAllowedMime'] : $this->config['imgAllowedMime'];
 
             $mimeType = mime_content_type($this->fileTmpName);
 
-            if (!in_array($mimeType, $this->config['fileAllowedMime'], true)) {
+            if (!in_array($mimeType, $allowedMimeType, true)) {
                 $this->setError(FlashBag::ERROR, "Le type de fichier est invalide.");
                 $this->status = false;
             }
