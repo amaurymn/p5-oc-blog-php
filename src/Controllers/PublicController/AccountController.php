@@ -11,6 +11,7 @@ use App\Exception\EntityNotFoundException;
 use App\Exception\TwigException;
 use App\Manager\AdminManager;
 use App\Manager\UserManager;
+use App\Services\FileUploader;
 use App\Services\FlashBag;
 use App\Services\Session;
 use App\Services\UserAuth;
@@ -100,15 +101,18 @@ class AccountController extends Controller
 
         if ($this->isFormSubmit('registertwo')) {
             $formCheck = new Validator($_POST);
+            $file      = new FileUploader($_FILES);
 
-            if ($formCheck->registerValidationAdmin()) {
+            if ($formCheck->registerValidationAdmin() && $file->checkFile(FileUploader::FILE_PDF)) {
                 $adminManager = new AdminManager();
                 $admin        = new Admin();
+                $file->upload(FileUploader::FILE_PDF);
 
                 $this->userManager->create($sessionUser);
                 $user = $this->userManager->findOneBy(['email' => $sessionUser->getEmail()]);
 
                 $admin->hydrate($_POST);
+                $admin->setCvLink($file->getName());
                 $admin->setUserId($user->getId());
                 $adminManager->create($admin);
 
@@ -121,11 +125,6 @@ class AccountController extends Controller
         $this->render('@public/register-two.html.twig', [
             'formpost' => $_POST
         ]);
-    }
-
-    public function executeLogout(): void
-    {
-        (new Session())->clear();
     }
 
     /**
@@ -144,5 +143,10 @@ class AccountController extends Controller
         $saveConfig              = Yaml::dump($config, 2, 2);
 
         file_put_contents($configFile, $saveConfig);
+    }
+
+    public function executeLogout(): void
+    {
+        (new Session())->clear();
     }
 }
