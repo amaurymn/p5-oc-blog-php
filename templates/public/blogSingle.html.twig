@@ -63,7 +63,7 @@
                             <canvas width="64" height="64" data-jdenticon-value="{{ comment.user_name|sha1 }}"></canvas>
                             <span class="date">Le: {{ comment.created_at|date('d/m/Y à H:i') }}</span>
                             <span class="d-block text-muted mb-2">Par: {{ comment.user_name }}</span>
-                            <p>{{ comment.content|nl2br }}</p>
+                            <p>{{ comment.content|trim|nl2br }}</p>
                         </div>
                     {% else %}
                         <div class="my-5">

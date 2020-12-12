@@ -11,7 +11,7 @@ class UserManager extends Manager
      * @param string $email
      * @return mixed
      */
-    public function getUser(string $email)
+    public function getUserByMail(string $email)
     {
         $stmt = $this->pdo->prepare("
             SELECT
@@ -24,6 +24,23 @@ class UserManager extends Manager
         ");
 
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdminInfos()
+    {
+        $stmt = $this->pdo->prepare("
+            SELECT u.*, a.*
+            FROM user AS u
+            LEFT JOIN admin AS a
+            ON u.id = a.user_id
+            WHERE u.role = 'admin'
+        ");
         $stmt->execute();
 
         return $stmt->fetch();

@@ -21,14 +21,15 @@
                                 <div class="d-flex justify-content-between">
                                     <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> {{ article.createdAt|date('d M, Y') }}</span>
                                     <span class="small"><a class="text-muted" href="/blog/{{ article.slug }}">Lire la suite</a></span>
+                                </div>
                             </div>
-                        </div>
-                    </article>
-                {% endfor %}
+                        </article>
+                    {% else %}
+                        <p>Aucun article pour le moment.</p>
+                    {% endfor %}
             </div>
         </div>
     </div>
-
 
     <div class="section py-5">
         <div class="container">

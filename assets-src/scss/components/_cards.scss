@@ -138,3 +138,25 @@
     font-weight: bold;
   }
 }
+
+.card_about-me {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .about_img {
+    justify-content: center;
+    max-width: 150px;
+    border-radius: 50%;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.5);
+  }
+
+  .about_infos {
+    text-align: center;
+  }
+
+  .about_name {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}

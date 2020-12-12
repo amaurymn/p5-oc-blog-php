@@ -1,7 +1,21 @@
 {% extends 'public/base.html.twig' %}
 
 {% block content %}
-    <main class="d-flex flex-column justify-content-center">
+    <main>
+        {% if about %}
+            <header class="container d-flex justify-content-center my-5">
+                <div class="col-lg-10 card_about-me">
+                    <img class="about_img img-fluid" src="{{ about.image }}" alt="{{ about.alt_img }}"/>
+                    <div class="about_infos mt-4">
+                        <p class="about_name">
+                            {{ about.last_name }} {{ about.first_name }}
+                            <span>- <i class="far fa-file"></i> <a href="{{ about.cv_link }}">CV</a></span>
+                        </p>
+                        <p>{{ about.short_description }}</p>
+                    </div>
+                </div>
+            </header>
+        {% endif %}
         <div class="container">
             <div class="h1 ml-3">Dernières actualités</div>
             <section class="hp-card-area mt-4">
@@ -24,6 +38,8 @@
                                 </div>
                             </div>
                         </div>
+                    {% else %}
+                        <p>Aucun article pour le moment.</p>
                     {% endfor %}
                 </div>
             </section>
