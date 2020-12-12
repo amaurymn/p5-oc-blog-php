@@ -5,100 +5,148 @@
         <div class="pt-3 pb-5 container px-0">
             <h1 class="no-underline ml-3">Profil</h1>
             <div class="d-flex flex-wrap">
-                <div class="col-lg-6 mb-2">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            Mon Email
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="profilepic" id="currEmail">Photo de profil</label>
-                                <input id="profilepic" type="text" class="form-control" placeholder="URL">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                    <div class="card shadow">
-                        <div class="card-header">
-                            Liens
-                        </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="cvlink">Lien du CV</label>
-                                <input id="cvlink" type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mb-2">
+                <div class="col-lg-12 mb-2">
                     <div class="card shadow">
                         <div class="card-header">
                             Mes infos
                         </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="profilename" id="currEmail">Nom</label>
-                                <input id="profilename" type="text" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="profilesurname" id="currEmail">Prénom</label>
-                                <input id="profilesurname" type="text" class="form-control">
-                            </div>
+                        <div class="col-12 card-body">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="profilFirstname" id="currEmail">Nom</label>
+                                        <input id="profilFirstname" type="text" class="form-control" name="firstName" value="{{ user.first_name }}" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="profilLastname" id="currEmail">Prénom</label>
+                                        <input id="profilLastname" type="text" class="form-control" name="lastName" value="{{ user.last_name }}" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-lg-6">
+                                        <label for="profilUsername" id="currEmail">Nom d'utilisateur</label>
+                                        <input id="profilUsername" type="text" class="form-control" name="userName" value="{{ user.user_name }}" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="profilEmail" id="currEmail">Email</label>
+                                        <input id="profilEmail" type="email" class="form-control" name="email" value="{{ user.email }}" required>
+                                    </div>
+                                    <div class="col mt-4">
+                                        <button class="btn btn-primary" name="saveInfos">Sauvegarder</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6 mb-2">
-                    <div class="card shadow">
+                    <div class="card shadow mt-3">
                         <div class="card-header">
-                            Phrase d'accroche
+                            Changer mon mot de passe
                         </div>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="catchphrase">Phrase d'accroche</label>
-                                <textarea class="form-control" id="catchphrase" cols="30" rows="4"></textarea>
-                            </div>
+                        <div class="col-12 card-body">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label for="profilename" id="currEmail">Mot de passe</label>
+                                        <input id="profilename" type="password" class="form-control" name="password">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="profilesurname" id="currEmail">Retapez le mot de passe</label>
+                                        <input id="profilesurname" type="password" class="form-control" name="rpassword">
+                                    </div>
+                                    <div class="col mt-4">
+                                        <button class="btn btn-primary" name="savePassword">Sauvegarder</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+
+                {% if user.role == 'admin' %}
+                    <div class="col-lg-12 mb-2">
+                        <div class="card shadow">
+                            <div class="card-header">
+                                Infos Admin
+                            </div>
+                            <div class="col-12 card-body">
+                                <form method="post">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label class="label" for="inputImgUrl">Image URL</label>
+                                            <input class="form-control" name="image" id="inputImgUrl" type="text" value="{{ user.image }}" required>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="label" for="inputAltImg">Image Alt</label>
+                                            <input class="form-control" name="altImg" id="inputAltImg" type="text" value="{{ user.alt_img }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <label class="label" for="inputCvLink">CV Link</label>
+                                            <input class="form-control" name="cvLink" id="inputCvLink" type="text" value="{{ user.cv_link }}" required>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="label" for="inputShortDescription">A propos de moi</label>
+                                            <textarea class="form-control" name="shortDescription" id="inputShortDescription" rows="1" required>{{ user.short_description }}</textarea>
+                                        </div>
+                                        <div class="col mt-4">
+                                            <button class="btn btn-primary" name="saveInfosAdmin">Sauvegarder</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="col-lg-12" id="sociaNetworks">
                     <div class="card shadow">
                         <div class="card-header">
                             Réseaux sociaux
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-5 mb-sm-3 mb-xs-3">
-                                    <label for="catchphrase">Nom</label>
-                                    <input type="text" class="form-control" id="catchphrase" placeholder="Nom">
+                            <form method="post">
+                                <div class="row">
+                                    <div class="col-lg-1 px-0 text-center mt-1">
+                                        <i class="fas fa-share-alt"></i>
+                                    </div>
+                                    <div class="col-lg-3 px-lg-0">
+                                        <input type="text" class="form-control" name="name" placeholder="Nom" required>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input type="text" class="form-control" name="icon" placeholder="fas fa-share-alt" required>
+                                    </div>
+                                    <div class="col-lg-5 px-lg-0">
+                                        <input type="text" class="form-control" name="url" placeholder="https://" required>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <button type="submit" class="form-control btn btn-outline-primary" name="saveNetwork">
+                                            <i class="fas fa-save"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <label for="catchphrase">URL</label>
-                                    <input type="text" class="form-control" id="catchphrase" placeholder="URL">
-                                </div>
-                                <div class="col-lg-1">
-                                    <label for="catchphrase">&nbsp;</label>
-                                    <button class="form-control btn btn-outline-primary">
-                                        <i class="far fa-save"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            </form>
                             <hr>
-                            <div class="row">
-                                <div class="col-lg-5 mb-sm-3 mb-xs-3">
-                                    <input type="text" class="form-control" value="linkedIn" disabled>
+                            {% for item in socialNetwork %}
+                                <div class="row mb-3">
+                                    <div class="col-lg-1 px-0 text-center">
+                                        <i class="{{ item.icon }}"></i>
+                                    </div>
+                                    <div class="col-lg-3 px-lg-0">
+                                        <input type="text" class="form-control" value="{{ item.name }}" disabled>
+                                    </div>
+                                    <div class="col-lg-2 py-md-1 py-lg-0">
+                                        <input type="text" class="form-control" value="{{ item.icon }}" disabled>
+                                    </div>
+                                    <div class="col-lg-5 px-lg-0">
+                                        <input type="text" class="form-control" value="{{ item.url }}" disabled>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <a href="/dashboard/profil/network/{{ item.id }}/delete" class="form-control btn btn-outline-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-
-                                    <input type="text" class="form-control" value="https://" disabled>
-                                </div>
-                                <div class="col-lg-1">
-
-                                    <button class="form-control btn btn-outline-danger">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

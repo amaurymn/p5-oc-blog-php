@@ -76,4 +76,13 @@ class UserAuth
 
         return false;
     }
+
+    /**
+     * @param string $password
+     * @return false|string|null
+     */
+    public function setPassword(string $password)
+    {
+        return password_hash($password, PASSWORD_ARGON2ID);
+    }
 }

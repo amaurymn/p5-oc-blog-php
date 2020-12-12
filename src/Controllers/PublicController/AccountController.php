@@ -68,6 +68,7 @@ class AccountController extends Controller
                 $role = (!$adminAlreadyExist) ? self::ROLE_ADMIN : self::ROLE_USER;
                 $user->setRole($role);
                 $user->hydrate($_POST);
+                $user->setPassword($this->userAuth->setPassword($user->getPassword()));
 
                 if (!$adminAlreadyExist) {
                     $_SESSION['installation'] = true;

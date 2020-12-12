@@ -93,7 +93,7 @@ class User extends Entity
      */
     public function setPassword(string $password): void
     {
-        $this->password = password_hash($password, PASSWORD_ARGON2ID);
+        $this->password = $password;
     }
 
     /**
