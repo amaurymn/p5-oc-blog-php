@@ -4,13 +4,15 @@ charset: utf-8
 lang: fr
 siteName: MonSuperBlog.fr
 siteUrl: 'https://project5.tld'
-imgAllowedExt:
+fileAllowedExt:
   - jpg
   - jpeg
   - png
   - webp
-imgAllowedMime:
+  - pdf
+fileAllowedMime:
   - image/png
   - image/jpeg
   - image/webp
+  - application/pdf
 imgUploadPath: /uploaded

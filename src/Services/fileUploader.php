@@ -4,16 +4,14 @@ namespace App\Services;
 
 use Symfony\Component\Yaml\Yaml;
 
-class ImageUpload
+class fileUploader
 {
     private $fileName;
     private $fileType;
     private $fileTmpName;
     private $fileError;
     private $fileSize;
-
     private $config;
-    private $errors = false;
     private $status = true;
     private $uploadPath;
     private $imageName;
@@ -36,7 +34,7 @@ class ImageUpload
     /**
      * @return bool
      */
-    public function checkImage()
+    public function checkFile()
     {
         $this
             ->checkEmptyFile()
@@ -94,7 +92,7 @@ class ImageUpload
     private function checkFileError()
     {
         if ($this->fileError !== 0) {
-            $this->setError(FlashBag::ERROR, "Une erreur est survenue pendant le chargement de l'image.");
+            $this->setError(FlashBag::ERROR, "Une erreur est survenue pendant le chargement du fichier.");
             $this->status = false;
         }
 
@@ -107,7 +105,7 @@ class ImageUpload
     private function checkEmptyFile()
     {
         if ($this->fileSize === 0) {
-            $this->setError(FlashBag::ERROR, "L'image ne peut pas être vide.");
+            $this->setError(FlashBag::ERROR, "Le fichier ne peut pas être vide.");
             $this->status = false;
         }
 
@@ -120,7 +118,7 @@ class ImageUpload
     private function checkFileExt()
     {
         if (!empty($this->fileName)) {
-            $allowedImgExt = $this->config['imgAllowedExt'];
+            $allowedImgExt = $this->config['fileAllowedExt'];
 
             $allowedExt = '';
 
@@ -128,8 +126,8 @@ class ImageUpload
                 $allowedExt .= $ext . ',';
             }
 
-            if (!in_array($this->getFileExt($this->fileName), $allowedImgExt)) {
-                $this->setError(FlashBag::ERROR, "Seul les images {$allowedExt} sont valides.");
+            if (!in_array($this->getFileExt($this->fileName), $allowedImgExt, true)) {
+                $this->setError(FlashBag::ERROR, "Seul les fichiers {$allowedExt} sont valides.");
                 $this->status = false;
             }
         }
@@ -146,7 +144,7 @@ class ImageUpload
 
             $mimeType = mime_content_type($this->fileTmpName);
 
-            if (!in_array($mimeType, $this->config['imgAllowedMime'])) {
+            if (!in_array($mimeType, $this->config['fileAllowedMime'], true)) {
                 $this->setError(FlashBag::ERROR, "Le type de fichier est invalide.");
                 $this->status = false;
             }
