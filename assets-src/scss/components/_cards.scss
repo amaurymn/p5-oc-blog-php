@@ -141,11 +141,11 @@
 
 .card_about-me {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: center;
 
   .about_img {
-    justify-content: center;
+    align-self: center;
     max-width: 150px;
     border-radius: 50%;
     box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.5);
