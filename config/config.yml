@@ -1,18 +1,22 @@
-install_state: false
+install_state: true
 env: dev
 charset: utf-8
 lang: fr
 siteName: MonSuperBlog.fr
 siteUrl: 'https://project5.tld'
-fileAllowedExt:
+imgAllowedExt:
   - jpg
   - jpeg
   - png
   - webp
   - pdf
-fileAllowedMime:
+imgAllowedMime:
   - image/png
   - image/jpeg
   - image/webp
+  - application/pdf
+fileAllowedExt:
+  - pdf
+fileAllowedMime:
   - application/pdf
 imgUploadPath: /uploaded
