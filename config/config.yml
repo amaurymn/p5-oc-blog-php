@@ -1,4 +1,4 @@
-install_state: true
+install_state: false
 env: dev
 charset: utf-8
 lang: fr
@@ -9,12 +9,10 @@ imgAllowedExt:
   - jpeg
   - png
   - webp
-  - pdf
 imgAllowedMime:
   - image/png
   - image/jpeg
   - image/webp
-  - application/pdf
 fileAllowedExt:
   - pdf
 fileAllowedMime:
