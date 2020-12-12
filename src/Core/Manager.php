@@ -56,7 +56,7 @@ abstract class Manager
      * @param int|null $offset
      * @return false|mixed
      */
-    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null)
+    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null): array
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
         $this->setWhereParams($where, $query, $binds, $key, $value);

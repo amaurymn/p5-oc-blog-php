@@ -7,19 +7,19 @@
                 <h1 class="no-underline">Liste des articles</h1>
                 <div class="row">
                     {% for article in articles %}
-                        <div class="col-lg-4 col-md-6 mb-4">
-                            <div class="card">
-                                <img class="img-fluid img-auto-cover obj-center mh:255" src="{{ uploadPath(article.image) }}" alt="{{ article.imageAlt }}">
-                                <div class="card-body">
-                                    <h2 class="title no-underline">
-                                        <a href="/dashboard/article/{{ article.id }}/edit">{{ article.title }}</a>
-                                    </h2>
-                                    <div class="d-flex justify-content-end">
-                                        <div class="btn-group">
-                                            <a href="/dashboard/article/{{ article.id }}/edit" class="btn btn-sm btn-warning text-dark">Editer</a>
-                                            <button type="button" class="btn btn-sm btn-danger text-light" data-toggle="modal" data-target="#modal_{{ article.id }}">Supprimer</button>
-                                        </div>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card">
+                            <img class="img-fluid img-auto-cover obj-center mh:255" src="{{ uploadPath(article.image) }}" alt="{{ article.imageAlt }}">
+                            <div class="card-body">
+                                <h2 class="title no-underline">
+                                    <a href="/dashboard/article/{{ article.id }}/edit">{{ article.title }}</a>
+                                </h2>
+                                <div class="d-flex justify-content-end">
+                                    <div class="btn-group">
+                                        <a href="/dashboard/article/{{ article.id }}/edit" class="btn btn-sm btn-warning text-dark">Editer</a>
+                                        <button type="button" class="btn btn-sm btn-danger text-light" data-toggle="modal" data-target="#modal_{{ article.id }}">Supprimer</button>
                                     </div>
+                                </div>
                             </div>
                         </div>
                     </div>
