@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\PublicController\AccountController;
 use App\Controllers\PublicController\HomeController;
 use App\Core\Router;
 use App\Exception\NotFoundException;
@@ -9,10 +10,15 @@ define('CONF_DIR', realpath(dirname(__DIR__)) . '/config');
 define('TEMPLATE_DIR', realpath(dirname(__DIR__)) . '/templates');
 define('PUBLIC_DIR', realpath(dirname(__DIR__)) . '/public');
 
-require_once (ROOT_DIR . '/vendor/autoload.php');
+require_once(ROOT_DIR . '/vendor/autoload.php');
+
+$config = \Symfony\Component\Yaml\Yaml::parseFile(CONF_DIR . '/config.yml');
+if (!isset($config['install_state']) || $config['install_state'] !== true) {
+    return (new AccountController('showRegister', []))->execute();
+}
 
 try {
-    $router = new Router();
+    $router     = new Router();
     $controller = $router->getRoutes();
     $controller->execute();
 } catch (Throwable $e) {

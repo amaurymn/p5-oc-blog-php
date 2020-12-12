@@ -1,0 +1,34 @@
+{% extends 'public/base.html.twig' %}
+
+{% block content %}
+    <main class="d-flex flex-column justify-content-center">
+        <div class="container form-login">
+            <div class="d-flex justify-content-center">
+                <div class="col-lg-5 col-md-6">
+                    <h1>Inscription Admin</h1>
+                    <form method="post">
+                        <div class="form-group">
+                            <label class="label" for="inputImgUrl">Image URL</label>
+                            <input name="image" id="inputImgUrl" type="text" value="{{ formpost.image }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="inputAltImg">Image Alt</label>
+                            <input name="altImg" id="inputAltImg" type="text" value="{{ formpost.altImg }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="inputCvLink">CV Link</label>
+                            <input name="cvLink" id="inputCvLink" type="text" value="{{ formpost.cvLink }}" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="label" for="inputShortDescription">A propos de moi</label>
+                            <textarea name="shortDescription" id="inputShortDescription" rows="4" required>{{ formpost.shortDescription }}</textarea>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-default" name="registertwo">Valider</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

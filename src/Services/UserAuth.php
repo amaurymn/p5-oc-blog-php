@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Exception\EntityNotFoundException;
 use App\Manager\UserManager;
 
 class UserAuth
@@ -42,6 +41,23 @@ class UserAuth
     public function isAdminAlreadyExist(): bool
     {
         return (new UserManager())->checkAdminAlreadyExist() ? true : false;
+    }
+
+    /**
+     * @param array $post
+     * @return bool
+     */
+    public function isUserNameAlreadyExist(array $post): bool
+    {
+        $userNameExist = (new UserManager())->checkUserNameAlreadyExist($post['userName']);
+
+        if ($userNameExist) {
+            $this->flash->set(FlashBag::ERROR, "Ce nom d'utilisateur est déjà utilisé.");
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

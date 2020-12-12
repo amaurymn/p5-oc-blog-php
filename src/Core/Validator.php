@@ -85,13 +85,23 @@ class Validator
 
     public function registerValidation()
     {
-        $this->check('firstName', 'Le nom')->required()->maxLength(255);
-        $this->check('lastName', 'Le prénom')->required()->maxLength(255);
-        $this->check('userName', 'Le nom d\'utilisateur')->required()->maxLength(255);
+        $this->check('firstName', 'Le nom')->required()->maxLength(50);
+        $this->check('lastName', 'Le prénom')->required()->maxLength(50);
+        $this->check('userName', 'Le nom d\'utilisateur')->required()->maxLength(50);
         $this->check('email', 'L\'email')->required()->email()->maxLength(255);
         $this->check('password', 'Le mot de passe')->required()->minLength(8)->maxLength(255);
         $this->check('rpassword', 'La confirmation du mot de passe')->required();
         $this->check('password', 'Les mots de passe')->checkSame('rpassword');
+
+        return $this->status;
+    }
+
+    public function registerValidationAdmin()
+    {
+        $this->check('image', "L'URL de l'image")->required()->maxLength(255);
+        $this->check('altImg', "La description de l'image")->required()->maxLength(255);
+        $this->check('cvLink', 'Le lien du CV')->required()->maxLength(255);
+        $this->check('shortDescription', "La description")->required()->maxLength(500);
 
         return $this->status;
     }
