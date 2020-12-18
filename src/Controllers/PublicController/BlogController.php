@@ -10,6 +10,7 @@ use App\Exception\TwigException;
 use App\Manager\ArticleManager;
 use App\Manager\CommentManager;
 use App\Services\FlashBag;
+use App\Services\Paginator\Paginator;
 use App\Services\Session;
 use ReflectionException;
 
@@ -34,10 +35,13 @@ class BlogController extends Controller
      */
     public function executeShowBlog(): void
     {
-        $articles = $this->articleManager->findAll(['created_at' => 'DESC'], 3);
+        $paginator = new Paginator($this->articleManager->findAll(['created_at' => 'DESC']));
+        $paginator->setPath('/blog/page/');
+        $articles = $paginator->paginateItems($this->params['page'] ?? 1);
 
         $this->render('@public/blog.html.twig', [
-            'articles' => $articles
+            'articles'  => $articles,
+            'paginator' => $paginator->getPager()
         ]);
     }
 
@@ -48,17 +52,20 @@ class BlogController extends Controller
      */
     public function executeShowSingle(): void
     {
-        $article  = $this->articleManager->findOneBy(['slug' => $this->params['slug']]);
-        $comments = $this->commentManager->getCommentsFromArticle($article->getId());
+        $article   = $this->articleManager->findOneBy(['slug' => $this->params['slug']]);
+        $paginator = new Paginator($this->commentManager->getCommentsFromArticle($article->getId()));
+        $paginator->setPath('/blog/' . $article->getSlug() . '/page/');
+        $comments = $paginator->paginateItems($this->params['page'] ?? 1, 6);
 
         if ($this->isFormSubmit('publish') && (new Validator($_POST))->commentValidation()) {
             $this->addNewComment($article->getId(), $_POST);
         }
 
         $this->render('@public/blogSingle.html.twig', [
-            'article'  => $article,
-            'comments' => $comments,
-            'post'     => $_POST
+            'article'   => $article,
+            'comments'  => $comments,
+            'post'      => $_POST,
+            'paginator' => $paginator->getPager()
         ]);
     }
 

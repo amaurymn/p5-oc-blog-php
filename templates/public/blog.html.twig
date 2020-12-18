@@ -27,22 +27,14 @@
                     {% else %}
                         <p>Aucun article pour le moment.</p>
                     {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="section py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="paginator">
-                        <li><a href="#"><i class="fas fa-chevron-left"></i></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#" class="active">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
-                    </ul>
-                </div>
+        <div class="section pt-3 pb-5">
+            <div class="container">
+                <div class="row">
+                    {{ paginator|raw }}
             </div>
         </div>
     </div>

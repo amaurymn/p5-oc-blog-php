@@ -48,6 +48,9 @@
         {% else %}
             <p>Aucun commentaire</p>
         {% endfor %}
-    </div>
-</main>
+            <div class="d-flex justify-content-center">
+                {{ paginator|raw }}
+            </div>
+        </div>
+    </main>
 {% endblock %}

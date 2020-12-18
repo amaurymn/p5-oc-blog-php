@@ -7,6 +7,7 @@ use App\Exception\EntityNotFoundException;
 use App\Exception\TwigException;
 use App\Manager\CommentManager;
 use App\Services\FlashBag;
+use App\Services\Paginator\Paginator;
 use App\Services\Session;
 
 class CommentController extends Controller
@@ -30,10 +31,13 @@ class CommentController extends Controller
      */
     public function executeShowCommentList(): void
     {
-        $comments = $this->commentManager->getCommentAndAuthor();
+        $paginator = new Paginator($this->commentManager->getCommentAndAuthor());
+        $paginator->setPath(self::COMMENT_LIST . '/');
+        $comments = $paginator->paginateItems($this->params['page'] ?? 1, 10);
 
         $this->render('@admin/commentList.html.twig', [
-            'comments' => $comments
+            'comments'  => $comments,
+            'paginator' => $paginator->getPager()
         ]);
     }
 
