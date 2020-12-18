@@ -4,9 +4,9 @@
     </div>
     <div class="container">
         <hr class="hr-orange">
-        <div class="row mt-5">
+        <div class="row mt-5 text-center">
             <div class="col-lg-4">
-                <p class="title-separator">Navigation</p>
+                <p class="separator">Navigation</p>
                 <ul class="footer-list">
                     <li class="footer-nav-link"><a href="/">Accueil</a></li>
                     <li class="footer-nav-link"><a href="/blog">Blog</a></li>
@@ -14,15 +14,19 @@
                 </ul>
             </div>
             <div class="col-lg-4">
-                <p class="title-separator">A propos</p>
+                <p class="separator">A propos</p>
                 <p class="footer-complement">
-                    Complement
+                    Ce blog est destiné à des fins d'apprentissage de PHP.
                 </p>
             </div>
             <div class="col-lg-4">
-                <p class="title-separator">Liens externe</p>
+                <p class="separator">Réseaux sociaux</p>
                 <ul class="social-list">
-                    <li class="social-item"><a href="#" target="_blank" title="facebook"><i class="fab fa-facebook"></i></a></li>
+                    {% for network in showSocialNetworks() %}
+                        <li class="social-item">
+                            <a href="{{ network.url }}" target="_blank" title="{{ network.name }}"><i class="{{ network.icon }}"></i></a>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
