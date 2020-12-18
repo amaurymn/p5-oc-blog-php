@@ -2,6 +2,7 @@
 
 namespace App\Core;
 
+use App\Manager\SocialNetworkManager;
 use App\Services\Session;
 use Symfony\Component\Yaml\Yaml;
 use Twig\Extension\AbstractExtension;
@@ -43,6 +44,7 @@ final class TwigExtensions extends AbstractExtension
             new TwigFunction('isAuth', [$this, 'isUserAuth']),
             new TwigFunction('isAdmin', [$this, 'isUserAdmin']),
             new TwigFunction('getSessionParam', [$this, 'getSessionParam']),
+            new TwigFunction('showSocialNetworks', [$this, 'getSocialNetworks']),
         ];
     }
 
@@ -122,5 +124,15 @@ final class TwigExtensions extends AbstractExtension
     public function getSessionParam(string $param)
     {
         return $this->session->get($param);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSocialNetworks(): array
+    {
+        $networkManager = new SocialNetworkManager();
+
+        return $networkManager->findAll();
     }
 }
