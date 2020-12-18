@@ -3,28 +3,35 @@ home:
   area: Public
   controller: HomeController
   action: showHome
-  parameters: []
+  parameters: [ ]
 
 blog:
   uri: /blog
   area: Public
   controller: BlogController
   action: showBlog
-  parameters: []
-
-blogSingle:
-  uri: /blog/([a-zA-Z0-9-]+)
-  area: Public
-  controller: BlogController
-  action: showSingle
-  parameters: ['slug']
+  parameters: [ ]
 
 blogPagin:
   uri: /blog/page/([0-9]+)
   area: Public
   controller: BlogController
   action: showBlog
-  parameters: ['page']
+  parameters: [ 'page' ]
+
+blogSingle:
+  uri: /blog/([a-zA-Z0-9-]+)
+  area: Public
+  controller: BlogController
+  action: showSingle
+  parameters: [ 'slug' ]
+
+blogSinglePagin:
+  uri: /blog/([a-zA-Z0-9-]+)/page/([0-9]+)
+  area: Public
+  controller: BlogController
+  action: showSingle
+  parameters: [ 'slug', 'page' ]
 
 contact:
   uri: /contact
@@ -80,21 +87,28 @@ dashboard:
   area: Admin
   controller: DashboardController
   action: showDashboard
-  parameters: []
+  parameters: [ ]
 
 articleList:
   uri: /dashboard/article/list
   area: Admin
   controller: ArticleController
   action: readList
-  parameters: []
+  parameters: [ ]
+
+articleListPagin:
+  uri: /dashboard/article/list/([0-9]+)
+  area: Admin
+  controller: ArticleController
+  action: readList
+  parameters: [ 'page' ]
 
 articleAdd:
   uri: /dashboard/article/add
   area: Admin
   controller: ArticleController
   action: create
-  parameters: []
+  parameters: [ ]
 
 articleEdit:
   uri: /dashboard/article/([0-9]+)/edit
@@ -116,6 +130,13 @@ commentList:
   controller: CommentController
   action: showCommentList
   parameters: [ ]
+
+commentListPagin:
+  uri: /dashboard/comment/list/([0-9]+)
+  area: Admin
+  controller: CommentController
+  action: showCommentList
+  parameters: [ 'page' ]
 
 commentValidate:
   uri: /dashboard/comment/([0-9]+)/(validate|suspend)
