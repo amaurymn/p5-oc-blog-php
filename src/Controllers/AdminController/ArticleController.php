@@ -11,6 +11,7 @@ use App\Exception\TwigException;
 use App\Manager\ArticleManager;
 use App\Services\FlashBag;
 use App\Services\FileUploader;
+use App\Services\Paginator\Paginator;
 use App\Services\Session;
 use App\Services\Slugifier;
 use ReflectionException;
@@ -45,10 +46,13 @@ class ArticleController extends Controller
      */
     public function executeReadList(): void
     {
-        $articles = $this->manager->findAll(['id' => 'DESC']);
+        $paginator = new Paginator($this->manager->findAll(['created_at' => 'DESC']));
+        $paginator->setPath(self::ARTICLE_LIST . '/');
+        $articles = $paginator->paginateItems($this->params['page'] ?? 1, 6);
 
         $this->render('@admin/articleList.html.twig', [
-            'articles' => $articles
+            'articles'  => $articles,
+            'paginator' => $paginator->getPager()
         ]);
     }
 
