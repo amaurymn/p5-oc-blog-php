@@ -19,7 +19,8 @@
         "ext-fileinfo": "*",
         "ext-exif": "*",
         "ext-gd": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "pagerfanta/pagerfanta": "^2.5"
     },
     "require-dev": {
         "symfony/var-dumper": "^5.1"
