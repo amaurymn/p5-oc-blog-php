@@ -139,4 +139,14 @@ class Validator
 
         return $this->status;
     }
+
+    public function contactFormValidation()
+    {
+        $this->check('nom', "Le nom/prénom")->required()->maxLength(255);
+        $this->check('email', "L'email")->required()->email()->maxLength(255);
+        $this->check('subject', "Le sujet")->required()->maxLength(255);
+        $this->check('message', "Le message")->required();
+
+        return $this->status;
+    }
 }
