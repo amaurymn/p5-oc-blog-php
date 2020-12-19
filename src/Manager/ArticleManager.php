@@ -10,14 +10,14 @@ class ArticleManager extends Manager
 {
     /**
      * @param string $slug
-     * @return int
+     * @return mixed
      */
-    public function checkSlugExist(string $slug): int
+    public function checkSlugExist(string $slug)
     {
-        $stmt = $this->pdo->prepare("SELECT slug from article WHERE slug LIKE :slug");
-        $stmt->bindValue(':slug', '%' . $slug . '%', PDO::PARAM_STR);
+        $stmt = $this->pdo->prepare("SELECT slug from article WHERE slug = :slug");
+        $stmt->bindValue(':slug', $slug, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->rowCount();
+        return $stmt->fetch();
     }
 }
