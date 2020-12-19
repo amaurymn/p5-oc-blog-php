@@ -18,3 +18,8 @@ fileAllowedExt:
 fileAllowedMime:
   - application/pdf
 imgUploadPath: /uploaded
+mailer:
+  host: localhost
+  username: no-reply@mywebsite.com
+  password: my_strong_password
+  mailer_name: No-Reply
