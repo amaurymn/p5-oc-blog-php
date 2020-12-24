@@ -133,7 +133,7 @@ class Validator
     public function socialNetworkValidator()
     {
         $this->check('name', "Le nom")->required()->maxLength(50);
-        $this->check('url', "L'URL")->required()->maxLength(255);
+        $this->check('url', "L'URL")->required()->url()->maxLength(255);
         $this->check('icon', "L'icone")->required()->maxLength(50);
 
         return $this->status;
