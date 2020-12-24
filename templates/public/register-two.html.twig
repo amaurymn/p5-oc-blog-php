@@ -8,16 +8,16 @@
                     <h1>Inscription Admin</h1>
                     <form method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label class="label" for="inputImgUrl">Image URL</label>
-                            <input name="image" id="inputImgUrl" type="text" value="{{ formpost.image }}" required>
+                            <label class="label" for="inputImgFile">Image</label>
+                            <input type="file" name="image" id="inputImgFile" required>
                         </div>
                         <div class="form-group">
                             <label class="label" for="inputAltImg">Image Alt</label>
-                            <input name="altImg" id="inputAltImg" type="text" value="{{ formpost.altImg }}" required>
+                            <input type="text" name="altImg" id="inputAltImg" value="{{ formpost.altImg }}" required>
                         </div>
                         <div class="form-group">
                             <label class="label" for="inputCvLink">CV Link</label>
-                            <input type="file" id="inputCvLink" name="cvLink" class="form-control" accept="application/pdf" required>
+                            <input type="file" name="cvLink" id="inputCvLink" class="form-control" accept="application/pdf" required>
                         </div>
                         <div class="form-group">
                             <label class="label" for="inputShortDescription">A propos de moi</label>

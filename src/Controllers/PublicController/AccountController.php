@@ -15,6 +15,7 @@ use App\Services\FileUploader;
 use App\Services\FlashBag;
 use App\Services\Session;
 use App\Services\UserAuth;
+use ReflectionException;
 use Symfony\Component\Yaml\Yaml;
 
 class AccountController extends Controller
@@ -50,8 +51,9 @@ class AccountController extends Controller
     }
 
     /**
+     * @throws ConfigException
      * @throws TwigException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function executeShowRegister(): void
     {
@@ -89,9 +91,9 @@ class AccountController extends Controller
     }
 
     /**
-     * @throws TwigException
      * @throws EntityNotFoundException
-     * @throws \ReflectionException
+     * @throws TwigException
+     * @throws ReflectionException
      */
     public function executeShowRegisterAdmin(): void
     {
@@ -101,21 +103,28 @@ class AccountController extends Controller
 
         if ($this->isFormSubmit('registertwo')) {
             $formCheck = new Validator($_POST);
-            $file      = new FileUploader($_FILES);
+            $pdf       = new FileUploader($_FILES, 'cvLink');
+            $image     = new FileUploader($_FILES, 'image');
 
-            if ($formCheck->registerValidationAdmin() && $file->checkFile(FileUploader::FILE_PDF)) {
+            if (
+                $formCheck->registerValidationAdmin()
+                && $pdf->checkFile(FileUploader::FILE_PDF)
+                && $image->checkFile()
+            ) {
                 $adminManager = new AdminManager();
                 $admin        = new Admin();
-                $file->upload(FileUploader::FILE_PDF);
+                $pdf->upload(FileUploader::FILE_PDF);
+                $image->upload(FileUploader::FILE_IMG, FileUploader::FILE_ADMIN_PATH);
 
                 $this->userManager->create($sessionUser);
                 $user = $this->userManager->findOneBy(['email' => $sessionUser->getEmail()]);
 
                 $admin->hydrate($_POST);
-                $admin->setCvLink($file->getName());
+                $admin->setImage($image->getName());
+                $admin->setCvLink($pdf->getName());
                 $admin->setUserId($user->getId());
-                $adminManager->create($admin);
 
+                $adminManager->create($admin);
                 $this->session->clear('installation')->clear('register_user');
                 $this->flashBag->set(FlashBag::SUCCESS, "Le compte admin a été crée.");
                 $this->redirectUrl('/login');
