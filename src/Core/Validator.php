@@ -116,6 +116,12 @@ class Validator
         $this->check('firstName', 'Le nom')->required()->maxLength(50);
         $this->check('lastName', 'Le prénom')->required()->maxLength(50);
         $this->check('userName', 'Le nom d\'utilisateur')->required()->maxLength(50);
+
+        return $this->status;
+    }
+
+    public function emailAdmValidation()
+    {
         $this->check('email', 'L\'email')->required()->email()->maxLength(255);
 
         return $this->status;

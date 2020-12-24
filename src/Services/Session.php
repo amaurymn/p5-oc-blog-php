@@ -13,9 +13,19 @@ class Session
 
     /**
      * @param string $key
-     * @param array $values
+     * @param string $subKey
+     * @param string $value
      */
-    public function set(string $key, array $values): void
+    public function setSubKey(string $key, string $subKey, string $value): void
+    {
+        $_SESSION[$key][$subKey] = $value;
+    }
+
+    /**
+     * @param string $key
+     * @param $values
+     */
+    public function set(string $key, $values): void
     {
         $_SESSION[$key] = $values;
     }
