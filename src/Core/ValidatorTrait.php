@@ -69,7 +69,10 @@ trait ValidatorTrait
     {
         $value = $this->values[$this->input];
 
-        if (!filter_var($value, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+        if (
+            !filter_var($value, FILTER_VALIDATE_URL)
+            || !in_array(parse_url($value, PHP_URL_SCHEME), ['http', 'https'], true)
+        ) {
             $message      = empty($message) ? "[FIELD] n'est pas valide." : $message;
             $this->status = false;
 
