@@ -1,4 +1,100 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block content %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <div class="pt-3 container-fluid stats-cards">
+            <h1 class="no-underline">Statistiques</h1>
+            <div class="row">
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="title mb-1">
+                                        Articles en ligne
+                                    </div>
+                                    <div class="h5 count">{{ count_onl_articles }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-file-alt fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-success shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="title mb-1">Commentaires</div>
+                                    <div class="h5 count">{{ count_com_total }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comment fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="title mb-1">
+                                        Commentaires à valider
+                                    </div>
+                                    <div class="h5 count">{{ count_com_pending }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-comment-slash fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-danger shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="title mb-1">
+                                        Utilisateurs inscrits
+                                    </div>
+                                    <div class="h5 count">{{ count_reg_users }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-users fa-2x text-gray-300"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-3 container">
+            <p class="h2 no-underline mb-3">Les 3 derniers commentaires</p>
+            <div class="row">
+                {% for comment in lastComments %}
+                    <div class="comment-card col-12 shadow">
+                        <p class="m-0">
+                            {{ comment.content }}
+                        </p>
+                        <hr>
+                        <div class="bottom">
+                            <div class="author col-12">
+                                <p><span>Par: </span><a href="mailto:{{ comment.email }}" title="{{ comment.email }}">{{ comment.user_name }}</a></p>
+                                <p><span>Date: </span>{{ comment.created_at|date('d/m/Y à H:i:s') }}</p>
+                                <p><span>Article: </span><a href="/blog/{{ comment.artSlug }}" target="_blank">{{ comment.artTitle }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="ml-3">Aucun commentaire pour le moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
 {% endblock %}

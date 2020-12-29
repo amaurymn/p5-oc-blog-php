@@ -163,3 +163,9 @@ hr {
 .obj-center {
   object-position: center;
 }
+
+.dropdown-item.active, .dropdown-item:active, .dropdown-item:hover {
+  text-decoration: none;
+  color: #fff;
+  background-color: $orange;
+}

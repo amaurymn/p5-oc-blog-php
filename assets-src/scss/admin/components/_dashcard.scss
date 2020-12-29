@@ -1,0 +1,26 @@
+.stats-cards {
+  @each $name, $color in (primary, $blue), (success, $green), (danger, $red), (warning, $yellow) {
+    .border-left-#{$name} {
+      border-left: .25rem solid $color;
+    }
+  }
+
+  .title {
+    font-size: .9rem;
+    text-transform: uppercase;
+    color: $black;
+  }
+
+  .count {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0;
+    color: $gray-800;
+  }
+
+  i {
+    color: $gray-300 !important;
+  }
+}
+
+
