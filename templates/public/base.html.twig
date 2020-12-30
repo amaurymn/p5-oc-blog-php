@@ -7,9 +7,9 @@
     <meta property="og:type" content="{% block ogType %}website{% endblock %}"/>
     <meta property="og:title" content="{% block ogTitle %}{{ configParam('siteName') }}{% endblock %}"/>
     <meta property="og:description" content="{% block ogDescription %}Bienvenue sur mon blog ! Le blog dédié à la formation OpenClassroom.{% endblock %}"/>
-    <meta property="og:url" content="{% block ogUrl %}{{ configParam('siteUrl') }}{% endblock %}"/>
+    <meta property="og:url" content="{% block ogUrl %}{{ siteUrl() }}{% endblock %}"/>
     <meta property="og:site_name" content="{{ configParam('siteName') }}"/>
-    <meta property="og:image" content="{% block ogImg %}{{ configParam('siteUrl') ~ asset('img/logo.png') }}{% endblock %}"/>
+    <meta property="og:image" content="{% block ogImg %}{{ siteUrl(asset('img/logo.png')) }}{% endblock %}"/>
     {% block meta %}{% endblock %}
     <title>{{ configParam('siteName') }} {% block pageTitle %}{% endblock %}</title>
     <meta name="description" content="{% block pageDescription %}Bienvenue sur mon blog ! Le blog dédié à la formation OpenClassroom.{% endblock %}"/>

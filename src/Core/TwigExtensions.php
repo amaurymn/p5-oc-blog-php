@@ -25,7 +25,8 @@ final class TwigExtensions extends AbstractExtension
     /**
      * @return array|TwigFilter[]
      */
-    public function getFilters() {
+    public function getFilters(): array
+    {
         return [
             new TwigFilter('sha1', [$this, 'sha1']),
         ];
@@ -34,7 +35,7 @@ final class TwigExtensions extends AbstractExtension
     /**
      * @return array|TwigFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('configParam', [$this, 'getConfigParameter']),
@@ -45,6 +46,7 @@ final class TwigExtensions extends AbstractExtension
             new TwigFunction('isAdmin', [$this, 'isUserAdmin']),
             new TwigFunction('getSessionParam', [$this, 'getSessionParam']),
             new TwigFunction('showSocialNetworks', [$this, 'getSocialNetworks']),
+            new TwigFunction('siteUrl', [$this, 'siteUrl']),
         ];
     }
 
@@ -89,7 +91,7 @@ final class TwigExtensions extends AbstractExtension
     /**
      * @return array|mixed
      */
-    public function getFlashBag()
+    public function getFlashBag(): array
     {
         $messages = [];
 
@@ -134,5 +136,18 @@ final class TwigExtensions extends AbstractExtension
         $networkManager = new SocialNetworkManager();
 
         return $networkManager->findAll();
+    }
+
+    /**
+     * @param string|null $string
+     * @return string
+     */
+    public function siteUrl(?string $string = null): string
+    {
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
+        $url .= $_SERVER['HTTP_HOST'];
+        $url .= $string ?: null;
+
+        return $url;
     }
 }
