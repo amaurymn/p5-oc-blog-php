@@ -7,4 +7,5 @@
 /public/img/uploaded
 /public/upload
 
+/config/config.yml
 /config/db-config.yml

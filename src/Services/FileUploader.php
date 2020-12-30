@@ -16,27 +16,34 @@ class FileUploader
     private $uploadPath;
     private $newFileName;
     private FlashBag $flashBag;
-    public const FILE_PDF = 'pdf';
+    public const FILE_PDF        = 'pdf';
+    public const FILE_IMG        = 'image';
+    public const FILE_ADMIN_PATH = '/upload';
 
-    public function __construct(array $file)
+    /**
+     * FileUploader constructor.
+     * @param array $file
+     * @param string|null $inputName
+     */
+    public function __construct(array $file, ?string $inputName = null)
     {
         $this->config   = Yaml::parseFile(CONF_DIR . '/config.yml');
         $this->flashBag = new FlashBag();
 
-        $inputName = array_key_first($file);
+        $fieldName = $inputName ?? array_key_first($file);
 
-        $this->fileName    = $file[$inputName]['name'];
-        $this->fileType    = $file[$inputName]['type'];
-        $this->fileTmpName = $file[$inputName]['tmp_name'];
-        $this->fileError   = $file[$inputName]['error'];
-        $this->fileSize    = $file[$inputName]['size'];
+        $this->fileName    = $file[$fieldName]['name'];
+        $this->fileType    = $file[$fieldName]['type'];
+        $this->fileTmpName = $file[$fieldName]['tmp_name'];
+        $this->fileError   = $file[$fieldName]['error'];
+        $this->fileSize    = $file[$fieldName]['size'];
     }
 
     /**
      * @param string|null $type
      * @return bool
      */
-    public function checkFile(string $type = null)
+    public function checkFile(string $type = null): bool
     {
         $this
             ->checkEmptyFile()
@@ -56,12 +63,13 @@ class FileUploader
     }
 
     /**
-     * @param null $type
+     * @param string|null $type
+     * @param string|null $customPath
      * @return bool
      */
-    public function upload($type = null)
+    public function upload(?string $type = null, ?string $customPath = null): bool
     {
-        $fileTypePath = ($type === self::FILE_PDF) ? '/upload' : '/img' . $this->config['imgUploadPath'];
+        $fileTypePath = $customPath ?? '/img' . $this->config['imgUploadPath'];
 
         $this->uploadPath = PUBLIC_DIR . $fileTypePath;
 
@@ -87,7 +95,7 @@ class FileUploader
      * @param string $message
      * @return $this
      */
-    private function setError(string $type, string $message)
+    private function setError(string $type, string $message): FileUploader
     {
         $this->flashBag->set($type, $message);
 
@@ -97,7 +105,7 @@ class FileUploader
     /**
      * @return $this
      */
-    private function checkFileError()
+    private function checkFileError(): FileUploader
     {
         if ($this->fileError !== 0) {
             $this->setError(FlashBag::ERROR, "Une erreur est survenue pendant le chargement du fichier.");
@@ -110,7 +118,7 @@ class FileUploader
     /**
      * @return $this
      */
-    private function checkEmptyFile()
+    private function checkEmptyFile(): FileUploader
     {
         if ($this->fileSize === 0) {
             $this->setError(FlashBag::ERROR, "Le fichier ne peut pas être vide.");
@@ -124,7 +132,7 @@ class FileUploader
      * @param $type
      * @return $this
      */
-    private function checkFileExt($type)
+    private function checkFileExt($type): FileUploader
     {
         if (!empty($this->fileName)) {
             $allowedFileExt = ($type === self::FILE_PDF) ? $this->config['fileAllowedExt'] : $this->config['imgAllowedExt'];
@@ -147,7 +155,7 @@ class FileUploader
      * @param $type
      * @return $this
      */
-    private function checkFileMime($type)
+    private function checkFileMime($type): FileUploader
     {
         if (!empty($this->fileTmpName)) {
             $allowedMimeType = ($type === self::FILE_PDF) ? $this->config['fileAllowedMime'] : $this->config['imgAllowedMime'];

@@ -4,8 +4,8 @@
 {% block ogType %}article{% endblock %}
 {% block ogTitle %}{{ article.title }}{% endblock %}
 {% block ogDescription %}{{ article.textHeader }}{% endblock %}
-{% block ogUrl %}{{ parent() ~ "/blog/" ~ article.slug }}{% endblock %}
-{% block ogImg %}{{ configParam('siteUrl') ~ uploadPath(article.image) }}{% endblock %}
+{% block ogUrl %}{{ siteUrl("/blog/" ~ article.slug) }}{% endblock %}
+{% block ogImg %}{{ siteUrl(uploadPath(article.image)) }}{% endblock %}
 {% block pageTitle %}- {{ article.title }}{% endblock %}
 
 {% block javascripts %}

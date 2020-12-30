@@ -46,13 +46,15 @@ class Slugifier
      */
     public function getUniqueSlug(string $string): string
     {
-        $slug  = $this->slugify($string);
-        $count = (new ArticleManager())->checkSlugExist($slug);
-
-        if ($count > 0) {
+        $count = -1;
+        do {
+            $slug = $this->slugify($string);
             ++$count;
-            $slug .= "-" . $count;
-        }
+
+            if ($count > 0) {
+                $slug .= "-" . $count;
+            }
+        } while ((new ArticleManager())->checkSlugExist($slug) !== false);
 
         return $slug;
     }

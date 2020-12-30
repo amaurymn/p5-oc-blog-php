@@ -3,7 +3,6 @@ env: dev
 charset: utf-8
 lang: fr
 siteName: MonSuperBlog.fr
-siteUrl: 'https://project5.tld'
 imgAllowedExt:
   - jpg
   - jpeg
@@ -19,7 +18,7 @@ fileAllowedMime:
   - application/pdf
 imgUploadPath: /uploaded
 mailer:
-  host: localhost
-  username: no-reply@mywebsite.com
-  password: my_strong_password
+  host: smtp_host
+  username: smtp_username
+  password: smtp_password
   mailer_name: No-Reply

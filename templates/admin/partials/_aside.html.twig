@@ -6,9 +6,16 @@
                 <span>Dashboard</span>
             </h6>
             <ul class="nav flex-column mb-2">
+                {% if isAdmin() %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            Dashboard
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="/dashboard/profil">
-                        Profil
+                        Mon profil
                     </a>
                 </li>
                 {% if isAdmin() %}

@@ -98,7 +98,6 @@ class Validator
 
     public function registerValidationAdmin()
     {
-        $this->check('image', "L'URL de l'image")->required()->maxLength(255);
         $this->check('altImg', "La description de l'image")->required()->maxLength(255);
         $this->check('shortDescription', "La description")->required()->maxLength(500);
 
@@ -117,6 +116,12 @@ class Validator
         $this->check('firstName', 'Le nom')->required()->maxLength(50);
         $this->check('lastName', 'Le prénom')->required()->maxLength(50);
         $this->check('userName', 'Le nom d\'utilisateur')->required()->maxLength(50);
+
+        return $this->status;
+    }
+
+    public function emailAdmValidation()
+    {
         $this->check('email', 'L\'email')->required()->email()->maxLength(255);
 
         return $this->status;
@@ -134,7 +139,7 @@ class Validator
     public function socialNetworkValidator()
     {
         $this->check('name', "Le nom")->required()->maxLength(50);
-        $this->check('url', "L'URL")->required()->maxLength(255);
+        $this->check('url', "L'URL")->required()->url()->maxLength(255);
         $this->check('icon', "L'icone")->required()->maxLength(50);
 
         return $this->status;

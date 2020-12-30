@@ -83,11 +83,11 @@ class BlogController extends Controller
             ->setContent($post['content'])
             ->setArticleId($articleId)
             ->setUserId($this->session->get('user')['id'])
-            ->setOnline(1);
+            ->setOnline(0);
         $comment->hydrate($_POST);
         $manager->create($comment);
 
-        $this->flashBag->set(FlashBag::SUCCESS, "Commentaire ajouté.");
+        $this->flashBag->set(FlashBag::SUCCESS, "Commentaire ajouté, il sera visible après validation.");
         $this->redirectUrl($_SERVER['REQUEST_URI']);
     }
 }

@@ -30,10 +30,14 @@ class CommentManager extends Manager
         return $stmt->fetchAll();
     }
 
-    public function getCommentAndAuthor()
+    /**
+     * @param int|null $limit
+     * @return array
+     */
+    public function getCommentAndAuthor(?int $limit = null)
     {
         $query = "
-            SELECT c.id, c.content, c.online, c.created_at, u.user_name, a.title AS artTitle, a.slug AS artSlug
+            SELECT c.id, c.content, c.online, c.created_at, u.user_name, u.email, a.title AS artTitle, a.slug AS artSlug
             FROM comment AS c
             LEFT JOIN user AS u
                 ON c.user_id = u.id
@@ -41,6 +45,10 @@ class CommentManager extends Manager
                 ON c.article_id = a.id
             ORDER BY c.created_at DESC
         ";
+
+        if ($limit !== null) {
+            $query .= sprintf(" LIMIT %d", $limit);
+        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();

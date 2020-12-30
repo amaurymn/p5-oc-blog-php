@@ -62,6 +62,27 @@ trait ValidatorTrait
     }
 
     /**
+     * @param string|null $message
+     * @return $this|Validator
+     */
+    public function url(?string $message = null)
+    {
+        $value = $this->values[$this->input];
+
+        if (
+            !filter_var($value, FILTER_VALIDATE_URL)
+            || !in_array(parse_url($value, PHP_URL_SCHEME), ['http', 'https'], true)
+        ) {
+            $message      = empty($message) ? "[FIELD] n'est pas valide." : $message;
+            $this->status = false;
+
+            return $this->addError(FlashBag::ERROR, $message);
+        }
+
+        return $this;
+    }
+
+    /**
      * @param int $length
      * @param string|null $message
      * @return $this
