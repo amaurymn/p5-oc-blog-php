@@ -13,6 +13,7 @@ use App\Manager\AdminManager;
 use App\Manager\UserManager;
 use App\Services\FileUploader;
 use App\Services\FlashBag;
+use App\Services\InstallState;
 use App\Services\Session;
 use App\Services\UserAuth;
 use ReflectionException;
@@ -60,6 +61,7 @@ class AccountController extends Controller
         if ($this->isFormSubmit('register')) {
             $formCheck         = new Validator($_POST);
             $adminAlreadyExist = $this->userAuth->isAdminAlreadyExist();
+            $installState      = new InstallState();
 
             if (
                 $formCheck->registerValidation()
@@ -76,7 +78,7 @@ class AccountController extends Controller
                 if (!$adminAlreadyExist) {
                     $_SESSION['installation'] = true;
                     $this->session->set('register_user', [$user]);
-                    $this->writeInstallStatus();
+                    $installState->writeInstallStatus(true);
                     $this->redirectUrl('/registerAdmin');
                 } else {
                     $this->userManager->create($user);
@@ -134,24 +136,6 @@ class AccountController extends Controller
         $this->render('@public/register-two.html.twig', [
             'formpost' => $_POST
         ]);
-    }
-
-    /**
-     * @throws ConfigException
-     */
-    private function writeInstallStatus(): void
-    {
-        try {
-            $configFile = CONF_DIR . '/config.yml';
-        } catch (\Exception $e) {
-            throw new ConfigException("Le fichier de configuration du site est manquant.");
-        }
-
-        $config                  = Yaml::parse(file_get_contents($configFile));
-        $config['install_state'] = true;
-        $saveConfig              = Yaml::dump($config, 2, 2);
-
-        file_put_contents($configFile, $saveConfig);
     }
 
     public function executeLogout(): void
