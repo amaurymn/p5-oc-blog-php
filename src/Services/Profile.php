@@ -102,21 +102,27 @@ class Profile
 
     /**
      * @param array $file
+     * @param array $post
      * @throws EntityNotFoundException
      * @throws FileException
      * @throws ReflectionException
      */
-    public function executeSaveImageAdmin(array $file): void
+    public function executeSaveImageAdmin(array $file, array $post): void
     {
-        $file  = new FileUploader($file);
-        $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
+        $file      = new FileUploader($file);
+        $formCheck = new Validator($post);
+        $admin     = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
 
-        if ($file->checkFile(FileUploader::FILE_IMG)) {
+        if ($file->checkFile(FileUploader::FILE_IMG) && $formCheck->imgAltValidationAdmin()) {
+
             $file->deleteFile(FileUploader::TYPE_PROFILE, $admin->getImage());
             $file->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
 
             $admin->setImage($file->getName());
+            $admin->hydrate($post);
             $this->adminManager->update($admin);
+
+            $this->session->setSubKey('user', 'alt_img', $admin->getAltImg());
 
             $this->flashBag->set(FlashBag::SUCCESS, "Image mise à jour..");
             $this->session->redirectUrl(self::DASHBOARD_PROFILE);
@@ -138,7 +144,6 @@ class Profile
             $admin->hydrate($post);
             $this->adminManager->update($admin);
 
-            $this->session->setSubKey('user', 'alt_img', $admin->getAltImg());
             $this->session->setSubKey('user', 'short_description', $admin->getShortDescription());
 
             $this->flashBag->set(FlashBag::INFO, 'Infos Admin mis à jour.');

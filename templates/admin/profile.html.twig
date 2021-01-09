@@ -85,9 +85,13 @@
                             <div class="col-12 card-body">
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-lg-11">
+                                        <div class="col-lg-6">
                                             <label class="label" for="inputImgUrl">Image</label>
                                             <input class="form-control" name="image" id="inputImgUrl" type="file">
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <label class="label" for="inputAltImg">Image Alt</label>
+                                            <input class="form-control" name="altImg" id="inputAltImg" type="text" maxlength="255maxlength=" 50" " value="{{ user.alt_img }}" required>
                                         </div>
                                         <div class="col mt-4">
                                             <button class="btn btn-outline-primary" name="saveImageAdmin"><i class="fas fa-save"></i></button>
@@ -104,12 +108,6 @@
                             </div>
                             <div class="col-12 card-body">
                                 <form method="post">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <label class="label" for="inputAltImg">Image Alt</label>
-                                            <input class="form-control" name="altImg" id="inputAltImg" type="text" maxlength="255maxlength=" 50" " value="{{ user.alt_img }}" required>
-                                        </div>
-                                    </div>
                                     <div class="row mt-2">
                                         <div class="col-lg-11">
                                             <label class="label" for="inputShortDescription">A propos de moi</label>
