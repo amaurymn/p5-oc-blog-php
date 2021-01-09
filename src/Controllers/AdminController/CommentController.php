@@ -56,7 +56,7 @@ class CommentController extends Controller
         $this->commentManager->delete($article);
 
         $this->flashBag->set(FlashBag::SUCCESS, "Commentaire supprimé.");
-        $this->redirectUrl(self::COMMENT_LIST);
+        $this->redirectUrl($_SERVER['HTTP_REFERER']);
     }
 
     /**
@@ -82,6 +82,7 @@ class CommentController extends Controller
         }
 
         $this->commentManager->update($comment);
-        $this->redirectUrl(self::COMMENT_LIST);
+
+        $this->redirectUrl($_SERVER['HTTP_REFERER']);
     }
 }
