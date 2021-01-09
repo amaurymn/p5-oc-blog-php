@@ -105,7 +105,6 @@ class Validator
 
     public function registerValidationAdmin()
     {
-        $this->check('altImg', "La description de l'image")->required()->maxLength(100);
         $this->check('shortDescription', "La description")->required()->maxLength(500);
 
         return $this->status;
