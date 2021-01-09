@@ -157,9 +157,9 @@ class UserController extends Controller
         $file  = new FileUploader($file);
         $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
 
-        if ($file->checkFile()) {
-            $this->deleteImage($admin->getImage());
-            $file->upload(FileUploader::FILE_IMG, FileUploader::FILE_ADMIN_PATH);
+        if ($file->checkFile(FileUploader::FILE_IMG)) {
+            $file->deleteFile(FileUploader::TYPE_PROFILE, $admin->getImage());
+            $file->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
 
             $admin->setImage($file->getName());
             $this->adminManager->update($admin);
@@ -226,6 +226,7 @@ class UserController extends Controller
     /**
      * @param array $file
      * @throws EntityNotFoundException
+     * @throws FileException
      * @throws ReflectionException
      */
     private function executeSaveCv(array $file): void
@@ -233,8 +234,11 @@ class UserController extends Controller
         $file = new FileUploader($file);
 
         if ($file->checkFile(FileUploader::FILE_PDF)) {
-            $file->upload(FileUploader::FILE_PDF);
             $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
+
+            $file->deleteFile(FileUploader::TYPE_PROFILE, $admin->getCvLink());
+            $file->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
+
             $admin->setCvLink($file->getName());
             $this->adminManager->update($admin);
 
@@ -242,22 +246,6 @@ class UserController extends Controller
             $this->redirectUrl('/dashboard/profil');
         }
 
-    }
-
-    /**
-     * @param string $image
-     * @return bool
-     * @throws FileException
-     */
-    private function deleteImage(string $image): bool
-    {
-        $imagePath = PUBLIC_DIR . '/upload/' . $image;
-
-        try {
-            return unlink($imagePath);
-        } catch (\Exception $e) {
-            throw new FileException("Erreur lors la suppression de l'image.");
-        }
     }
 
 }

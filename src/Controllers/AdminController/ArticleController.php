@@ -66,9 +66,9 @@ class ArticleController extends Controller
             $formCheck = (new Validator($_POST));
             $file      = (new FileUploader($_FILES));
 
-            if ($formCheck->articleValidation() && $file->checkFile()) {
+            if ($formCheck->articleValidation() && $file->checkFile(FileUploader::FILE_IMG)) {
                 $article = new Article(['admin_id' => $this->session->get('user')['admin_id']]);
-                $file->upload();
+                $file->upload(FileUploader::TYPE_POST);
 
                 $article->setImage($file->getName());
                 $article->hydrate($_POST);
@@ -95,12 +95,12 @@ class ArticleController extends Controller
         $article = $this->manager->findOneBy(['id' => $this->params['articleId']]);
 
         if ($this->isFormSubmit('publish')) {
-            $formCheck = (new Validator($_POST));
-            $file      = (new FileUploader($_FILES));
+            $formCheck = new Validator($_POST);
+            $file      = new FileUploader($_FILES);
 
-            if ($formCheck->articleValidation() && $file->checkFile()) {
-                $this->deleteImage($article->getImage());
-                $file->upload();
+            if ($formCheck->articleValidation() && $file->checkFile(FileUploader::FILE_IMG)) {
+                $file->deleteFile(FileUploader::TYPE_POST, $article->getImage());
+                $file->upload(FileUploader::TYPE_POST);
 
                 $article->setImage($file->getName());
                 $article->hydrate($_POST);
@@ -124,29 +124,13 @@ class ArticleController extends Controller
      */
     public function executeDelete(): void
     {
+        $file = new FileUploader();
         $article = $this->manager->findOneBy(['id' => $this->params['articleId']]);
 
-        $this->deleteImage($article->getImage());
+        $file->deleteFile(FileUploader::TYPE_POST, $article->getImage());
         $this->manager->delete($article);
 
         $this->flashBag->set(FlashBag::SUCCESS, "Article supprimé.");
         $this->redirectUrl(self::ARTICLE_LIST);
-    }
-
-    /**
-     * @param string $image
-     * @return bool
-     * @throws FileException
-     */
-    private function deleteImage(string $image): bool
-    {
-        $config    = Yaml::parseFile(CONF_DIR . '/config.yml');
-        $imagePath = PUBLIC_DIR . '/img' . $config['imgUploadPath'] . '/' . $image;
-
-        try {
-            return unlink($imagePath);
-        } catch (\Exception $e) {
-            throw new FileException("Erreur lors la suppression de l'image.");
-        }
     }
 }

@@ -111,12 +111,12 @@ class AccountController extends Controller
             if (
                 $formCheck->registerValidationAdmin()
                 && $pdf->checkFile(FileUploader::FILE_PDF)
-                && $image->checkFile()
+                && $image->checkFile(FileUploader::FILE_IMG)
             ) {
                 $adminManager = new AdminManager();
                 $admin        = new Admin();
-                $pdf->upload(FileUploader::FILE_PDF);
-                $image->upload(FileUploader::FILE_IMG, FileUploader::FILE_ADMIN_PATH);
+                $pdf->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
+                $image->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
 
                 $this->userManager->create($sessionUser);
                 $user = $this->userManager->findOneBy(['email' => $sessionUser->getEmail()]);
