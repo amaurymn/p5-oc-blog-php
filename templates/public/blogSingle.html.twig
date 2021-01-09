@@ -13,15 +13,15 @@
 {% endblock %}
 
 {% block content %}
-    <main class="container section news mt-5">
+    <main class="container blogSingle section news mt-5">
         <article class="row">
             <div class="col-sm-12 col-lg-8 m-auto">
                 <div class="news-image  rounded">
                     <img src="{{ uploadPath(article.image) }}" class="img-fluid img-auto-cover obj-center-center mh:400 rounded shadow" alt="{{ article.imageAlt }}"/>
                 </div>
-                <h1 class="title h3 no-underline text-uppercase">{{ article.title }}</h1>
-                <p class="p-3">{{ article.textHeader }}</p>
-                <p>{{ article.content }}</p>
+                <h1 class="title m-0 no-underline text-uppercase text-justify">{{ article.title }}</h1>
+                <div class="p-3 textHeader">{{ article.textHeader|markdown_to_html }}</div>
+                <div class="articleContent">{{ article.content|markdown_to_html }}</div>
                 <hr class="hr-orange">
                 <div class="tags font-weight-light d-flex justify-content-between">
                     <span class="card-date text-muted  d-block">

@@ -169,3 +169,19 @@ hr {
   color: #fff;
   background-color: $orange;
 }
+
+.blogSingle {
+
+  h1::after, .h1::after, h2::after, h3::after, h4::after, h5::after {
+    display: none;
+  }
+
+  .textHeader ul, .textHeader ol,
+  .articleContent ul, .articleContent ol {
+    padding-left: 1rem;
+  }
+
+  .textHeader p {
+    margin-bottom: 0;
+  }
+}
