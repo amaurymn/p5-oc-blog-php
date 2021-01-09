@@ -26,6 +26,7 @@ class UserController extends Controller
         $this->session              = new Session();
         $this->socialNetworkManager = new SocialNetworkManager();
         $this->profileService       = new Profile();
+        $this->flashBag             = new FlashBag();
     }
 
     /**
