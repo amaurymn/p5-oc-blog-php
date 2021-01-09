@@ -17,12 +17,11 @@ use App\Services\InstallState;
 use App\Services\Session;
 use App\Services\UserAuth;
 use ReflectionException;
-use Symfony\Component\Yaml\Yaml;
 
 class AccountController extends Controller
 {
-    const ROLE_ADMIN = 'admin';
-    const ROLE_USER  = 'user';
+    private const ROLE_ADMIN = 'admin';
+    private const ROLE_USER  = 'user';
 
     private UserManager $userManager;
     private FlashBag $flashBag;

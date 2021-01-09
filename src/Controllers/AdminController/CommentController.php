@@ -9,6 +9,7 @@ use App\Manager\CommentManager;
 use App\Services\FlashBag;
 use App\Services\Paginator\Paginator;
 use App\Services\Session;
+use ReflectionException;
 
 class CommentController extends Controller
 {
@@ -17,6 +18,11 @@ class CommentController extends Controller
     private CommentManager $commentManager;
     private FlashBag $flashBag;
 
+    /**
+     * CommentController constructor.
+     * @param $action
+     * @param $params
+     */
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
@@ -55,7 +61,7 @@ class CommentController extends Controller
 
     /**
      * @throws EntityNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function executeValidate(): void
     {

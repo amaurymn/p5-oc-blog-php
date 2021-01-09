@@ -7,5 +7,4 @@ use \PDO;
 
 class SocialNetworkManager extends Manager
 {
-
 }

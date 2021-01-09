@@ -12,6 +12,10 @@ class Paginator
     private string $pager;
     private string $path;
 
+    /**
+     * Paginator constructor.
+     * @param array $items
+     */
     public function __construct(array $items)
     {
         $this->pagerView  = new PagerView();

@@ -16,7 +16,6 @@ use App\Services\FlashBag;
 use App\Services\Session;
 use App\Services\UserAuth;
 use ReflectionException;
-use Symfony\Component\Yaml\Yaml;
 
 class UserController extends Controller
 {
@@ -27,6 +26,11 @@ class UserController extends Controller
     private FlashBag $flashBag;
     private SocialNetworkManager $socialNetworkManager;
 
+    /**
+     * UserController constructor.
+     * @param $action
+     * @param $params
+     */
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
@@ -40,9 +44,9 @@ class UserController extends Controller
 
     /**
      * @throws EntityNotFoundException
+     * @throws FileException
      * @throws ReflectionException
      * @throws TwigException
-     * @throws FileException
      */
     public function executeShowProfile(): void
     {
@@ -214,7 +218,7 @@ class UserController extends Controller
     /**
      * @throws EntityNotFoundException
      */
-    public function executeDeleteNetwork()
+    public function executeDeleteNetwork(): void
     {
         $network = $this->socialNetworkManager->findOneBy(['id' => $this->params['networkId']]);
         $this->socialNetworkManager->delete($network);

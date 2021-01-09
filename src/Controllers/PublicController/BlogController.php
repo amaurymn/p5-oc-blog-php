@@ -21,6 +21,11 @@ class BlogController extends Controller
     private Session $session;
     private FlashBag $flashBag;
 
+    /**
+     * BlogController constructor.
+     * @param $action
+     * @param $params
+     */
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);

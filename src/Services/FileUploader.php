@@ -43,8 +43,6 @@ class FileUploader
         }
     }
 
-
-
     /**
      * @param string|null $type
      * @return bool
@@ -173,7 +171,7 @@ class FileUploader
                 $allowedExt .= $ext . ',';
             }
 
-            if (!in_array($this->getFileExt($this->fileName), $allowedFileExt)) {
+            if (!in_array($this->getFileExt($this->fileName), $allowedFileExt, true)) {
                 $this->setError(FlashBag::ERROR, "Seul les fichiers {$allowedExt} sont valides.");
                 $this->status = false;
             }

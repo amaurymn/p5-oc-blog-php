@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Core\PDOFactory;
+use PDO;
 
 class DashboardStats
 {
-    private \PDO $pdo;
+    private PDO $pdo;
 
     public function __construct()
     {
@@ -18,15 +19,14 @@ class DashboardStats
      */
     public function getStats()
     {
-        $stmt = $this->pdo->prepare("
+        $stmt = $this->pdo->query("
             SELECT *
             FROM
-                (SELECT COUNT(*) AS art_online FROM article) AS art,
-                (SELECT COUNT(*) AS com_total FROM comment) AS cv,
-                (SELECT COUNT(*) AS com_pending FROM comment WHERE online = 0) AS cp,
-                (SELECT COUNT(*) AS usr_registered FROM user) AS usr;
+                (SELECT COUNT(id) AS art_online FROM article) AS art,
+                (SELECT COUNT(id) AS com_total FROM comment) AS cv,
+                (SELECT COUNT(id) AS com_pending FROM comment WHERE online = 0) AS cp,
+                (SELECT COUNT(id) AS usr_registered FROM user) AS usr;
         ");
-        $stmt->execute();
 
         return $stmt->fetch();
     }

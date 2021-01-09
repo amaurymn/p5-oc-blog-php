@@ -15,7 +15,6 @@ use App\Services\Paginator\Paginator;
 use App\Services\Session;
 use App\Services\Slugifier;
 use ReflectionException;
-use Symfony\Component\Yaml\Yaml;
 
 class ArticleController extends Controller
 {

@@ -6,7 +6,6 @@ use App\Manager\UserManager;
 
 class UserAuth
 {
-
     private FlashBag $flash;
     private Session $session;
 
@@ -79,9 +78,9 @@ class UserAuth
 
     /**
      * @param string $password
-     * @return false|string|null
+     * @return string
      */
-    public function setPassword(string $password)
+    public function setPassword(string $password): string
     {
         return password_hash($password, PASSWORD_ARGON2ID);
     }

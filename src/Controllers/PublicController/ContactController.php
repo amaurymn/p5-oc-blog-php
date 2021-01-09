@@ -14,7 +14,7 @@ class ContactController extends Controller
      * @throws TwigException
      * @throws EmailException
      */
-    public function executeShowContact()
+    public function executeShowContact(): void
     {
         $formCheck = new Validator($_POST);
 

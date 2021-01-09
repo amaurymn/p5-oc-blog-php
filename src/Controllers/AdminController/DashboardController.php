@@ -13,6 +13,11 @@ class DashboardController extends Controller
     /** @var Session */
     private Session $session;
 
+    /**
+     * DashboardController constructor.
+     * @param $action
+     * @param $params
+     */
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
