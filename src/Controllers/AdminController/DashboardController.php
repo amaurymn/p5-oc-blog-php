@@ -5,7 +5,6 @@ namespace App\Controllers\AdminController;
 use App\Core\Controller;
 use App\Exception\TwigException;
 use App\Manager\CommentManager;
-use App\Services\DashboardStats;
 use App\Services\Session;
 
 class DashboardController extends Controller
@@ -35,17 +34,15 @@ class DashboardController extends Controller
             $this->session->redirectUrl('/dashboard/profil');
         }
 
-        $stats    = new DashboardStats();
-        $comments = new CommentManager();
-
-        $count = $stats->getStats();
+        $manager = new CommentManager();
+        $counter = $manager->getDashboardStats();
 
         $this->render('@admin/dashboard.html.twig', [
-            'count_onl_articles' => $count['art_online'],
-            'count_com_total'    => $count['com_total'],
-            'count_com_pending'  => $count['com_pending'],
-            'count_reg_users'    => $count['usr_registered'],
-            'lastComments'       => $comments->getCommentAndAuthor(3)
+            'count_onl_articles' => $counter['art_online'],
+            'count_com_total'    => $counter['com_total'],
+            'count_com_pending'  => $counter['com_pending'],
+            'count_reg_users'    => $counter['usr_registered'],
+            'lastComments'       => $manager->getCommentAndAuthor(3)
         ]);
     }
 }
