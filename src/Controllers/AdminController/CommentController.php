@@ -70,11 +70,11 @@ class CommentController extends Controller
         switch ($this->params['state']) {
             case 'validate':
                 $comment->setOnline(1);
-                $this->flashBag->set(FlashBag::SUCCESS, "Article validé.");
+                $this->flashBag->set(FlashBag::SUCCESS, "Commentaire validé.");
                 break;
             case 'suspend':
                 $comment->setOnline(0);
-                $this->flashBag->set(FlashBag::WARNING, "Article suspendu.");
+                $this->flashBag->set(FlashBag::WARNING, "Commentaire suspendu.");
                 break;
             default:
                 $this->flashBag->set(FlashBag::ERROR, "Un problème est survenu.");
