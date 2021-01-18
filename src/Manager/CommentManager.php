@@ -38,7 +38,7 @@ class CommentManager extends Manager
     {
         $query = "
             SELECT c.id, c.content, c.online, c.created_at, u.user_name, u.email, a.title AS artTitle, a.slug AS artSlug
-            FROM comment AS c
+            FROM $this->table AS c
             LEFT JOIN user AS u
                 ON c.user_id = u.id
             LEFT JOIN article AS a

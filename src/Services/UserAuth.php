@@ -2,7 +2,10 @@
 
 namespace App\Services;
 
+use App\Manager\AdminManager;
 use App\Manager\UserManager;
+use ReflectionClass;
+use ReflectionException;
 
 class UserAuth
 {
@@ -18,13 +21,28 @@ class UserAuth
     /**
      * @param array $post
      * @return bool
+     * @throws ReflectionException
      */
     public function authenticateUser(array $post): bool
     {
         $user = (new UserManager())->getUserByMail($post['email']);
 
-        if ($user && password_verify($post['password'], $user['password'])) {
-            $this->session->set('user', $user);
+        if ($user && password_verify($post['password'], $user->getPassword())) {
+            $admin = (new AdminManager())->getAdminByUser($user->getId());
+
+            if ($admin) {
+                $userArray = $this->dismountObject($user);
+
+                foreach ($userArray as $key => $value)
+                {
+                    $setter = 'set' . ucfirst($key);
+                    $admin->$setter($value);
+                }
+
+                $this->session->set('user', $admin);
+            } else {
+                $this->session->set('user', $user);
+            }
 
             return true;
         }
@@ -65,9 +83,9 @@ class UserAuth
      */
     public function isUserAlreadyRegistered(array $post): bool
     {
-        $user = (new UserManager())->getUserByMail($post['email']);
+        $user = (new UserManager())->findBy(['email' => $post['email']]);
 
-        if ($user) {
+        if (!empty($user)) {
             $this->flash->set(FlashBag::ERROR, 'Cette adresse email est déjà utilisée.');
 
             return true;
@@ -83,5 +101,22 @@ class UserAuth
     public function setPassword(string $password): string
     {
         return password_hash($password, PASSWORD_ARGON2ID);
+    }
+
+    /**
+     * @param object $object
+     * @return array
+     * @throws ReflectionException
+     */
+    private function dismountObject(object $object): array
+    {
+        $reflectionClass = new ReflectionClass(get_class($object));
+        $array = array();
+        foreach ($reflectionClass->getProperties() as $property) {
+            $property->setAccessible(true);
+            $array[$property->getName()] = $property->getValue($object);
+            $property->setAccessible(false);
+        }
+        return $array;
     }
 }

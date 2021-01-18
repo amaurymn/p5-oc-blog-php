@@ -21,9 +21,9 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="a_img">
-                                            <small class="text-uppercase">Image de l'article</small>
+                                            <small class="text-uppercase">Image de l'article <i>({{ article.image }})</i></small>
                                         </label>
-                                        <input type="file" id="a_img" name="image" class="form-control" accept="image/webp, image/png, image/jpeg" required>
+                                        <input type="file" id="a_img" name="image" class="form-control" accept="image/webp, image/png, image/jpeg">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -39,7 +39,7 @@
                                         <label for="a_chapo">
                                             <small class="text-uppercase">Chapô de l'article</small>
                                         </label>
-                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="3" placeholder="Chapô" required>{{ article.textHeader }}</textarea>
+                                        <textarea class="form-control" name="textHeader" id="a_chapo" rows="5" placeholder="Chapô" required>{{ article.textHeader }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -47,7 +47,7 @@
                                         <label for="a_content">
                                             <small class="text-uppercase">Contenu de l'article</small>
                                         </label>
-                                        <textarea class="form-control" name="content" id="a_content" rows="5" required>{{ article.content }}</textarea>
+                                        <textarea class="form-control" name="content" id="a_content" rows="10" required>{{ article.content }}</textarea>
                                     </div>
                                 </div>
                             </div>

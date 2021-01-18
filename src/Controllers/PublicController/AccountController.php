@@ -64,8 +64,8 @@ class AccountController extends Controller
 
             if (
                 $formCheck->registerValidation()
-                && !$this->userAuth->isUserAlreadyRegistered($_POST)
                 && !$this->userAuth->isUserNameAlreadyExist($_POST)
+                && !$this->userAuth->isUserAlreadyRegistered($_POST)
             ) {
                 $user = new User();
 
@@ -76,7 +76,7 @@ class AccountController extends Controller
 
                 if (!$adminAlreadyExist) {
                     $_SESSION['installation'] = true;
-                    $this->session->set('register_user', [$user]);
+                    $this->session->set('register_user', $user);
                     $installState->writeInstallStatus(true);
                     $this->redirectUrl('/registerAdmin');
                 } else {
@@ -99,8 +99,7 @@ class AccountController extends Controller
     public function executeShowRegisterAdmin(): void
     {
         (!$this->session->get('installation')) ? $this->redirectUrl('/register') : null;
-
-        $sessionUser = $this->session->get('register_user')[0];
+        $sessionUser = $this->session->get('register_user');
 
         if ($this->isFormSubmit('registertwo')) {
             $formCheck = new Validator($_POST);
@@ -114,18 +113,18 @@ class AccountController extends Controller
             ) {
                 $adminManager = new AdminManager();
                 $admin        = new Admin();
-                $pdf->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
-                $image->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
+                $pdf->upload(FileUploader::TYPE_PROFILE);
+                $image->upload(FileUploader::TYPE_PROFILE);
 
                 $this->userManager->create($sessionUser);
                 $user = $this->userManager->findOneBy(['email' => $sessionUser->getEmail()]);
-
                 $admin->hydrate($_POST);
                 $admin->setImage($image->getName());
                 $admin->setCvLink($pdf->getName());
                 $admin->setUserId($user->getId());
 
                 $adminManager->create($admin);
+
                 $this->session->clear('installation')->clear('register_user');
                 $this->flashBag->set(FlashBag::SUCCESS, "Le compte admin a été crée.");
                 $this->redirectUrl('/login');

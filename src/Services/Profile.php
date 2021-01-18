@@ -38,8 +38,8 @@ class Profile
      */
     public function executeSaveInfos(array $post): void
     {
-        $formCheck = (new Validator($post));
-        $user      = $this->userManager->findOneBy(['email' => $this->session->get('user')['email']]);
+        $formCheck = new Validator($post);
+        $user      = $this->userManager->findOneBy(['email' => $this->session->get('user')->getEmail()]);
         if ($formCheck->userInfoAdmValidation()) {
 
             if ($post['userName'] !== $user->getUserName() && !$this->userAuth->isUserNameAlreadyExist($post)) {
@@ -48,9 +48,9 @@ class Profile
             $user->hydrate($post);
             $this->userManager->update($user);
 
-            $this->session->setSubKey('user', 'first_name', $user->getFirstName());
-            $this->session->setSubKey('user', 'last_name', $user->getLastName());
-            $this->session->setSubKey('user', 'user_name', $user->getUserName());
+            $this->session->setSubKey('user', 'FirstName', $user->getFirstName());
+            $this->session->setSubKey('user', 'LastName', $user->getLastName());
+            $this->session->setSubKey('user', 'UserName', $user->getUserName());
 
             $this->flashBag->set(FlashBag::INFO, 'Infos mis à jour.');
             $this->session->redirectUrl(self::DASHBOARD_PROFILE);
@@ -64,10 +64,10 @@ class Profile
      */
     public function executeSaveEmail(array $post): void
     {
-        $formCheck = (new Validator($post));
+        $formCheck = new Validator($post);
 
         if ($formCheck->emailAdmValidation() && !$this->userAuth->isUserAlreadyRegistered($post)) {
-            $user = $this->userManager->findOneBy(['email' => $this->session->get('user')['email']]);
+            $user = $this->userManager->findOneBy(['email' => $this->session->get('user')->getEmail()]);
 
             $user->hydrate($post);
             $this->userManager->update($user);
@@ -86,10 +86,10 @@ class Profile
      */
     public function executeSavePassword(array $post): void
     {
-        $formCheck = (new Validator($post));
+        $formCheck = new Validator($post);
 
         if ($formCheck->userPasswordAdmValidation()) {
-            $user = $this->userManager->findOneBy(['email' => $this->session->get('user')['email']]);
+            $user = $this->userManager->findOneBy(['email' => $this->session->get('user')->getEmail()]);
 
             $user->hydrate($post);
             $user->setPassword($this->userAuth->setPassword($user->getPassword()));
@@ -111,18 +111,19 @@ class Profile
     {
         $file      = new FileUploader($file);
         $formCheck = new Validator($post);
-        $admin     = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
+        $admin     = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')->getUserId()]);
 
         if ($file->checkFile(FileUploader::FILE_IMG) && $formCheck->imgAltValidationAdmin()) {
 
             $file->deleteFile(FileUploader::TYPE_PROFILE, $admin->getImage());
-            $file->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
+            $file->upload(FileUploader::TYPE_PROFILE);
 
             $admin->setImage($file->getName());
             $admin->hydrate($post);
+
             $this->adminManager->update($admin);
 
-            $this->session->setSubKey('user', 'alt_img', $admin->getAltImg());
+            $this->session->setSubKey('user', 'AltImg', $admin->getAltImg());
 
             $this->flashBag->set(FlashBag::SUCCESS, "Image mise à jour..");
             $this->session->redirectUrl(self::DASHBOARD_PROFILE);
@@ -139,12 +140,12 @@ class Profile
         $formCheck = new Validator($post);
 
         if ($formCheck->registerValidationAdmin()) {
-            $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
+            $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')->getUserId()]);
 
             $admin->hydrate($post);
             $this->adminManager->update($admin);
 
-            $this->session->setSubKey('user', 'short_description', $admin->getShortDescription());
+            $this->session->setSubKey('user', 'ShortDescription', $admin->getShortDescription());
 
             $this->flashBag->set(FlashBag::INFO, 'Infos Admin mis à jour.');
             $this->session->redirectUrl(self::DASHBOARD_PROFILE);
@@ -160,7 +161,7 @@ class Profile
         $formCheck = new Validator($post);
 
         if ($formCheck->socialNetworkValidator()) {
-            $socialNetwork = new SocialNetwork(['admin_id' => $this->session->get('user')['admin_id']]);
+            $socialNetwork = new SocialNetwork(['admin_id' => $this->session->get('user')->getId()]);
 
             $socialNetwork->hydrate($post);
             $this->socialNetworkManager->create($socialNetwork);
@@ -181,10 +182,10 @@ class Profile
         $file = new FileUploader($file);
 
         if ($file->checkFile(FileUploader::FILE_PDF)) {
-            $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')['id']]);
+            $admin = $this->adminManager->findOneBy(['user_id' => $this->session->get('user')->getUserId()]);
 
             $file->deleteFile(FileUploader::TYPE_PROFILE, $admin->getCvLink());
-            $file->upload(FileUploader::TYPE_PROFILE, FileUploader::FILE_ADMIN_PATH);
+            $file->upload(FileUploader::TYPE_PROFILE);
 
             $admin->setCvLink($file->getName());
             $this->adminManager->update($admin);

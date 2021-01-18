@@ -17,10 +17,11 @@
                                 <h2 class="no-underline font-weight-bold">
                                     <a href="/blog/{{ article.slug }}">{{ article.title }}</a>
                                 </h2>
-                                <p>{{ article.textHeader|length > 280 ? article.textHeader|striptags|slice(0, 280) ~ '...' : article.textHeader|striptags }}</p>
+                                {% set articleText = article.textHeader|markdown_to_html %}
+                                <p>{{ articleText|length > 280 ? articleText|striptags|slice(0, 280) ~ '...' : articleText|striptags }}</p>
                                 <div class="d-flex justify-content-between">
                                     <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> {{ article.createdAt|date('d M, Y') }}</span>
-                                    <span class="small"><a class="text-muted" href="/blog/{{ article.slug }}">Lire la suite</a></span>
+                                    <span class="small"><a href="/blog/{{ article.slug }}">Lire la suite</a></span>
                                 </div>
                             </div>
                         </article>

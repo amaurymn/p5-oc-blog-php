@@ -1,4 +1,10 @@
-.news-comments, .news-comment-form {
+
+
+.news-comment-form {
+
+}
+
+.news-comments {
   margin-top: 2.5rem;
 }
 
@@ -15,6 +21,7 @@
 
   p {
     word-wrap: break-word;
+    margin-bottom: 0;
   }
 
   & > canvas {

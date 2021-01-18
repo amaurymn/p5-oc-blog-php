@@ -16,7 +16,8 @@ fileAllowedExt:
   - pdf
 fileAllowedMime:
   - application/pdf
-imgUploadPath: /uploaded
+imgUploadPath: /upload/pictures
+profileUploadPath: /upload/profile
 mailer:
   host: smtp_host
   username: smtp_username

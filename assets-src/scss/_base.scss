@@ -170,12 +170,24 @@ hr {
   background-color: $orange;
 }
 
-.blogSingle {
-
+.card-body {
   h1::after, .h1::after, h2::after, h3::after, h4::after, h5::after {
     display: none;
   }
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+  }
+}
 
+.blogSingle article {
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 .5rem 0;
+    padding: 0 0 .25rem 0;
+  }
+}
+
+.blogSingle {
   .textHeader ul, .textHeader ol,
   .articleContent ul, .articleContent ol {
     padding-left: 1rem;
@@ -184,4 +196,64 @@ hr {
   .textHeader p {
     margin-bottom: 0;
   }
+
+  a {
+    color: inherit;
+    transition: background-color 80ms ease-in-out;
+    padding: 0 3px;
+
+    &:hover {
+      background-color: $yellow;
+      border-radius: 2px;
+    }
+  }
+
+  code:not(.hljs) {
+    font-size: 87.5%;
+    color: $orange;
+    word-wrap: break-word;
+    background: #fff0db;
+    padding: 0 5px;
+    border-radius: 2px;
+  }
+
+  pre {
+    border-radius: 5px;
+    border: 1px solid #d3d3d3;
+  }
+
+  blockquote {
+    font-family: Open Sans, serif;
+    font-size: 1.25em;
+    font-style: italic;
+    line-height: 1.6;
+    position: relative;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    color: #555555;
+    border-left: 5px solid $yellow;
+    background: #fafafa;
+    border-radius: 0 5px 5px 0;
+    margin: 1rem 0;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+    p {
+      margin: 0;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  hr:not(.hr-orange) {
+    margin: 1rem auto;
+    border: 0;
+    height: 2px;
+    max-width: 75%;
+    background-image: linear-gradient(to left, #fff, #9b9b9b, #fff);
+  }
 }
+
+

@@ -20,8 +20,7 @@ class FileUploader
     public const TYPE_POST    = 'post';
     public const TYPE_PROFILE = 'profile';
     public const FILE_PDF     = 'pdf';
-    public const FILE_IMG        = 'image';
-    public const FILE_ADMIN_PATH = '/upload';
+    public const FILE_IMG     = 'image';
 
     /**
      * FileUploader constructor.
@@ -68,20 +67,26 @@ class FileUploader
 
     /**
      * @param string $actionType
-     * @param string|null $customPath
      * @return bool
      */
-    public function upload(string $actionType, ?string $customPath = null): bool
+    public function upload(string $actionType): bool
     {
-        $fileTypePath = $customPath ?? '/img' . $this->config['imgUploadPath'];
-        $this->uploadPath = PUBLIC_DIR . $fileTypePath;
+        switch ($actionType) {
+            case self::TYPE_POST;
+                $this->uploadPath = PUBLIC_DIR . $this->config['imgUploadPath'];
+                break;
+            case self::TYPE_PROFILE;
+                $this->uploadPath = PUBLIC_DIR . $this->config['profileUploadPath'];
+                break;
+            default:
+                $this->uploadPath = null;
+        }
 
         if (!is_dir($this->uploadPath)) {
             mkdir($this->uploadPath, 755, true);
         }
 
         $this->renameFile($actionType);
-
         return move_uploaded_file($this->fileTmpName, $this->uploadPath . '/' . $this->getName());
     }
 
@@ -95,10 +100,10 @@ class FileUploader
     {
         switch ($actionType) {
             case self::TYPE_POST;
-                $imagePath = PUBLIC_DIR . '/img' . $this->config['imgUploadPath'] . '/' . $file;
+                $imagePath = PUBLIC_DIR . $this->config['imgUploadPath'] . '/' . $file;
                 break;
             case self::TYPE_PROFILE;
-                $imagePath = PUBLIC_DIR . self::FILE_ADMIN_PATH . '/' . $file;
+                $imagePath = PUBLIC_DIR . $this->config['profileUploadPath'] . '/' . $file;
                 break;
             default:
                 $imagePath = null;
