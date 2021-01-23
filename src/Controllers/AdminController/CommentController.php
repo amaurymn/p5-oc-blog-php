@@ -9,6 +9,7 @@ use App\Manager\CommentManager;
 use App\Services\FlashBag;
 use App\Services\Paginator\Paginator;
 use App\Services\Session;
+use ReflectionException;
 
 class CommentController extends Controller
 {
@@ -17,6 +18,11 @@ class CommentController extends Controller
     private CommentManager $commentManager;
     private FlashBag $flashBag;
 
+    /**
+     * CommentController constructor.
+     * @param $action
+     * @param $params
+     */
     public function __construct($action, $params)
     {
         parent::__construct($action, $params);
@@ -50,12 +56,12 @@ class CommentController extends Controller
         $this->commentManager->delete($article);
 
         $this->flashBag->set(FlashBag::SUCCESS, "Commentaire supprimé.");
-        $this->redirectUrl(self::COMMENT_LIST);
+        $this->redirectUrl($_SERVER['HTTP_REFERER']);
     }
 
     /**
      * @throws EntityNotFoundException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function executeValidate(): void
     {
@@ -64,11 +70,11 @@ class CommentController extends Controller
         switch ($this->params['state']) {
             case 'validate':
                 $comment->setOnline(1);
-                $this->flashBag->set(FlashBag::SUCCESS, "Article validé.");
+                $this->flashBag->set(FlashBag::SUCCESS, "Commentaire validé.");
                 break;
             case 'suspend':
                 $comment->setOnline(0);
-                $this->flashBag->set(FlashBag::WARNING, "Article suspendu.");
+                $this->flashBag->set(FlashBag::WARNING, "Commentaire suspendu.");
                 break;
             default:
                 $this->flashBag->set(FlashBag::ERROR, "Un problème est survenu.");
@@ -76,6 +82,7 @@ class CommentController extends Controller
         }
 
         $this->commentManager->update($comment);
-        $this->redirectUrl(self::COMMENT_LIST);
+
+        $this->redirectUrl($_SERVER['HTTP_REFERER']);
     }
 }

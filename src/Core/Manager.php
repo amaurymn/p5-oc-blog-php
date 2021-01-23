@@ -15,7 +15,6 @@ abstract class Manager
 
     /**
      * Manager constructor.
-     * @throws ReflectionException
      */
     public function __construct()
     {
@@ -54,9 +53,9 @@ abstract class Manager
      * @param array $order
      * @param int|null $limit
      * @param int|null $offset
-     * @return false|mixed
+     * @return array|mixed
      */
-    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null): array
+    public function findBy(array $where = [], array $order = [], int $limit = null, int $offset = null)
     {
         $query = sprintf("SELECT * FROM %s ", $this->table);
         $this->setWhereParams($where, $query, $binds, $key, $value);
@@ -118,7 +117,7 @@ abstract class Manager
      * @param Entity $entity
      * @throws ReflectionException
      */
-    public function update(Entity $entity)
+    public function update(Entity $entity): void
     {
         $vars[] = array_values($this->getColumns($entity));
 
@@ -144,8 +143,24 @@ abstract class Manager
     }
 
     /**
+     * @return mixed
+     */
+    public function getDashboardStats()
+    {
+        $stmt = $this->pdo->query("
+            SELECT *
+            FROM
+                (SELECT COUNT(id) AS art_online FROM article) AS art,
+                (SELECT COUNT(id) AS com_total FROM comment) AS cv,
+                (SELECT COUNT(id) AS com_pending FROM comment WHERE online = 0) AS cp,
+                (SELECT COUNT(id) AS usr_registered FROM user) AS usr;
+        ");
+
+        return $stmt->fetch();
+    }
+
+    /**
      * @return string
-     * @throws ReflectionException
      */
     private function getTableName(): string
     {

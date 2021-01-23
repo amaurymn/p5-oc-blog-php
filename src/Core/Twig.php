@@ -10,6 +10,10 @@ use Twig\Error\LoaderError;
 use Twig\Extension\DebugExtension;
 use Twig\Extra\Intl\IntlExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\Extra\Markdown\DefaultMarkdown;
+use Twig\Extra\Markdown\MarkdownRuntime;
+use Twig\RuntimeLoader\RuntimeLoaderInterface;
+use Twig\Extra\Markdown\MarkdownExtension;
 
 class Twig
 {
@@ -41,9 +45,21 @@ class Twig
             'cache' => $this->config['env'] === 'dev' ? false : ROOT_DIR . '/var/cache'
         ]);
 
+        $twig->addRuntimeLoader(new class implements RuntimeLoaderInterface {
+            public function load($class)
+            {
+                if (MarkdownRuntime::class === $class) {
+                    return new MarkdownRuntime(new DefaultMarkdown());
+                }
+
+                return null;
+            }
+        });
+
         $twig->addExtension(new TwigExtensions());
         $twig->addExtension(new DebugExtension());
         $twig->addExtension(new IntlExtension());
+        $twig->addExtension(new MarkdownExtension());
 
         $this->twig = $twig;
     }
@@ -59,7 +75,7 @@ class Twig
         try {
             return $this->twig->render($template, $array);
         } catch (\Exception $e) {
-            throw new TwigException("Une erreur est survenue pendant le rendu de la page.");
+            throw new TwigException("Une erreur est survenue pendant le rendu de la page." . $e);
         }
     }
 }

@@ -18,7 +18,8 @@ class Session
      */
     public function setSubKey(string $key, string $subKey, string $value): void
     {
-        $_SESSION[$key][$subKey] = $value;
+        $concat = 'set' . $subKey;
+        $_SESSION[$key]->$concat($value);
     }
 
     /**
@@ -104,7 +105,7 @@ class Session
      */
     public function isAdmin(): bool
     {
-        return $this->get('user')['role'] === 'admin';
+      return $this->get('user') instanceof \App\Entity\Admin;
     }
 
     /**
@@ -115,5 +116,3 @@ class Session
         return $this->get('user') !== null;
     }
 }
-
-

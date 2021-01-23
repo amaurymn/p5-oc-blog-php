@@ -7,30 +7,33 @@
 {% block ogUrl %}{{ siteUrl("/blog/" ~ article.slug) }}{% endblock %}
 {% block ogImg %}{{ siteUrl(uploadPath(article.image)) }}{% endblock %}
 {% block pageTitle %}- {{ article.title }}{% endblock %}
-
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/stackoverflow-light.min.css" integrity="sha512-cG1IdFxqipi3gqLmksLtuk13C+hBa57a6zpWxMeoY3Q9O6ooFxq50DayCdm0QrDgZjMUn23z/0PMZlgft7Yp5Q==" crossorigin="anonymous" />
+{% endblock %}
 {% block javascripts %}
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js" integrity="sha512-9GIHU4rPKUMvNOHFOer5Zm2zHnZOjayOO3lZpokhhCtgt8FNlNiW/bb7kl0R5ZXfCDVPcQ8S4oBdNs92p5Nm2w==" crossorigin="anonymous"></script>
     <script async src="https://cdn.jsdelivr.net/npm/jdenticon@3.0.1" integrity="sha384-im0a1VvEdl5EiBsEMbY7GyEL6DvEIChaqrtxjYyxqR/qkSYVmrBT1xP/yiIozXIA" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block content %}
-    <main class="container section news mt-5">
+    <main class="container blogSingle section news mt-5">
         <article class="row">
             <div class="col-sm-12 col-lg-8 m-auto">
-                <div class="news-image  rounded">
+                <div class="news-image-single rounded">
                     <img src="{{ uploadPath(article.image) }}" class="img-fluid img-auto-cover obj-center-center mh:400 rounded shadow" alt="{{ article.imageAlt }}"/>
                 </div>
-                <h1 class="title h3 no-underline text-uppercase">{{ article.title }}</h1>
-                <p class="p-3">{{ article.textHeader }}</p>
-                <p>{{ article.content }}</p>
+                <h1 class="title m-0 no-underline text-uppercase text-justify">{{ article.title }}</h1>
+                <div class="p-3 textHeader">{{ article.textHeader|markdown_to_html }}</div>
+                <div class="articleContent">{{ article.content|markdown_to_html }}</div>
                 <hr class="hr-orange">
                 <div class="tags font-weight-light d-flex justify-content-between">
                     <span class="card-date text-muted  d-block">
-                        Posté le: <time datetime="{{ article.createdAt }}">{{ article.createdAt|date('d M, Y') }}</time>
+                        Posté le: <time datetime="{{ article.createdAt }}">{{ article.createdAt|date('d M, Y à H:i') }}</time>
                     </span>
                     <span class="card-date text-muted ">
                     {% if article.createdAt != article.updatedAt %}
                         Edité le:
-                        <time datetime="{{ article.updatedAt }}">{{ article.updatedAt|date('d M, Y') }}</time>
+                        <time datetime="{{ article.updatedAt }}">{{ article.updatedAt|date('d M, Y à H:i') }}</time>
                     {% endif %}
                     </span>
                 </div>
@@ -44,8 +47,8 @@
                 {% if isAuth() %}
                     <div class="news-comment-form">
                         <form method="post">
-                            <div class="form-group mt-5">
-                                <textarea name="content" rows="4" maxlength="255" placeholder="Votre commentaire.." required>{{ post.content }}</textarea>
+                            <div class="form-group mt-3">
+                                <textarea name="content" rows="4" maxlength="300" placeholder="Votre commentaire.." required>{{ post.content }}</textarea>
                             </div>
                             <div class="form-group">
                                 <button name="publish" class="btn btn-default">Poster</button>
@@ -54,7 +57,7 @@
                     </div>
                 {% else %}
                     <div class="my-5 text-center">
-                        <i class="fas fa-lock"></i> Veuillez vous <a class="font-weight-bolder" href="/login" title="Connexion">connecter</a> pour poster un commentaire.
+                        <i class="fas fa-lock"></i> Veuillez <a class="font-weight-bolder" href="/login" title="Connexion">vous connecter</a> pour poster un commentaire.
                     </div>
                 {% endif %}
                 <div class="news-comments mb-4">

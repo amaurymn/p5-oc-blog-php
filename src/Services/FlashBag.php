@@ -4,12 +4,11 @@ namespace App\Services;
 
 class FlashBag
 {
-    const        SESSION_KEY = 'flash';
-    public const INFO        = 'info';
-    public const WARNING     = 'warning';
-    public const ERROR       = 'error';
-    public const SUCCESS     = 'success';
-
+    private const SESSION_KEY = 'flash';
+    public const  INFO        = 'info';
+    public const  WARNING     = 'warning';
+    public const  ERROR       = 'error';
+    public const  SUCCESS     = 'success';
     private $flash;
 
     public function __construct()
@@ -29,7 +28,6 @@ class FlashBag
     public function getAll()
     {
         $flashMsg = $this->flash;
-
         $this->clear();
 
         return $flashMsg;
@@ -46,7 +44,6 @@ class FlashBag
         }
 
         $flashMsg = $this->flash[$type];
-
         $this->clear($type);
 
         return $flashMsg;
@@ -57,10 +54,9 @@ class FlashBag
      * @param string $message
      * @return $this
      */
-    public function set(string $type, string $message)
+    public function set(string $type, string $message): FlashBag
     {
         $this->flash[$type][] = $message;
-
         $this->saveToSession();
 
         return $this;
@@ -70,7 +66,7 @@ class FlashBag
      * @param string|null $type
      * @return $this
      */
-    public function clear(?string $type = null)
+    public function clear(?string $type = null): FlashBag
     {
         if ($type === null) {
             $this->flash = [];

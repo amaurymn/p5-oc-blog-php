@@ -15,15 +15,15 @@
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <label for="profilFirstname" id="currEmail">Nom</label>
-                                        <input id="profilFirstname" type="text" class="form-control" name="firstName" maxlength="50" value="{{ user.first_name }}" required>
+                                        <input id="profilFirstname" type="text" class="form-control" name="firstName" maxlength="50" placeholder="Nom" value="{{ user.firstName }}" required>
                                     </div>
                                     <div class="col-lg-4">
                                         <label for="profilLastname" id="currEmail">Prénom</label>
-                                        <input id="profilLastname" type="text" class="form-control" name="lastName" maxlength="50" value="{{ user.last_name }}" required>
+                                        <input id="profilLastname" type="text" class="form-control" name="lastName" maxlength="50" placeholder="Prénom" value="{{ user.lastName }}" required>
                                     </div>
                                     <div class="col-lg-3">
                                         <label for="profilUsername" id="currEmail">Nom d'utilisateur</label>
-                                        <input id="profilUsername" type="text" class="form-control" name="userName" maxlength="50" value="{{ user.user_name }}" required>
+                                        <input id="profilUsername" type="text" class="form-control" name="userName" maxlength="50" placeholder="Nom d'utilisateur" value="{{ user.userName }}" required>
                                     </div>
                                     <div class="col mt-4">
                                         <button class="btn btn-outline-primary" name="saveInfos"><i class="fas fa-save"></i></button>
@@ -42,7 +42,7 @@
                                 <div class="row">
                                     <div class="col-11">
                                         <label for="profilEmail" id="currEmail">Email</label>
-                                        <input id="profilEmail" type="email" class="form-control" name="email" maxlength="255" value="{{ user.email }}" required>
+                                        <input id="profilEmail" type="email" class="form-control" name="email" maxlength="255" placeholder="Email" value="{{ user.email }}" required>
                                     </div>
                                     <div class="col mt-4">
                                         <button class="btn btn-outline-primary" name="saveEmail"><i class="fas fa-save"></i></button>
@@ -85,9 +85,13 @@
                             <div class="col-12 card-body">
                                 <form method="post" enctype="multipart/form-data">
                                     <div class="row">
-                                        <div class="col-lg-11">
+                                        <div class="col-lg-6">
                                             <label class="label" for="inputImgUrl">Image</label>
                                             <input class="form-control" name="image" id="inputImgUrl" type="file">
+                                        </div>
+                                        <div class="col-lg-5">
+                                            <label class="label" for="inputAltImg">Image Alt</label>
+                                            <input class="form-control" name="altImg" id="inputAltImg" type="text" maxlength="255" placeholder="Texte d'image alternatif" value="{{ user.altImg }}" required>
                                         </div>
                                         <div class="col mt-4">
                                             <button class="btn btn-outline-primary" name="saveImageAdmin"><i class="fas fa-save"></i></button>
@@ -104,16 +108,10 @@
                             </div>
                             <div class="col-12 card-body">
                                 <form method="post">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <label class="label" for="inputAltImg">Image Alt</label>
-                                            <input class="form-control" name="altImg" id="inputAltImg" type="text" maxlength="255maxlength=" 50" " value="{{ user.alt_img }}" required>
-                                        </div>
-                                    </div>
                                     <div class="row mt-2">
                                         <div class="col-lg-11">
                                             <label class="label" for="inputShortDescription">A propos de moi</label>
-                                            <textarea class="form-control" name="shortDescription" id="inputShortDescription" rows="2" maxlength="500" required>{{ user.short_description }}</textarea>
+                                            <textarea class="form-control" name="shortDescription" id="inputShortDescription" rows="2" maxlength="500" placeholder="A propos" required>{{ user.shortDescription }}</textarea>
                                         </div>
                                         <div class="col mt-4">
                                             <button class="btn btn-outline-primary" name="saveInfosAdmin"><i class="fas fa-save"></i></button>

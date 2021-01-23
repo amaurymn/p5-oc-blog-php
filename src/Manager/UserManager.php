@@ -14,19 +14,15 @@ class UserManager extends Manager
     public function getUserByMail(string $email)
     {
         $stmt = $this->pdo->prepare("
-            SELECT
-                u.id, a.id AS admin_id, u.first_name, u.last_name, u.user_name, u.email,
-                u.password, u.role, a.image, a.alt_img, a.cv_link, a.short_description
-            FROM user AS u
-            LEFT JOIN admin AS a
-            ON u.id = a.user_id
-            WHERE u.email = :email
+            SELECT *
+            FROM $this->table
+            WHERE email = :email
         ");
 
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
-        return $stmt->fetch();
+        return new $this->entity($stmt->fetch());
     }
 
     /**
@@ -36,7 +32,7 @@ class UserManager extends Manager
     {
         $stmt = $this->pdo->prepare("
             SELECT u.*, a.*
-            FROM user AS u
+            FROM $this->table AS u
             LEFT JOIN admin AS a
             ON u.id = a.user_id
             WHERE u.role = 'admin'
@@ -50,7 +46,7 @@ class UserManager extends Manager
     {
         $stmt = $this->pdo->prepare("
             SELECT *
-            FROM user AS u
+            FROM $this->table AS u
             WHERE u.role = :role
         ");
 
@@ -66,7 +62,7 @@ class UserManager extends Manager
      */
     public function checkUserNameAlreadyExist(string $userName)
     {
-        $stmt = $this->pdo->prepare("SELECT id FROM user WHERE user_name = :userName");
+        $stmt = $this->pdo->prepare("SELECT id FROM $this->table WHERE user_name = :userName");
 
         $stmt->bindValue(':userName', $userName, PDO::PARAM_STR);
         $stmt->execute();

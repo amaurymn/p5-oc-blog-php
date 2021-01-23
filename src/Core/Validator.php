@@ -88,7 +88,7 @@ class Validator
         $this->check('firstName', 'Le nom')->required()->maxLength(50);
         $this->check('lastName', 'Le prénom')->required()->maxLength(50);
         $this->check('userName', 'Le nom d\'utilisateur')->required()->maxLength(50);
-        $this->check('email', 'L\'email')->required()->email()->maxLength(255);
+        $this->check('email', 'L\'email')->required()->email()->maxLength(100);
         $this->check('password', 'Le mot de passe')->required()->minLength(8)->maxLength(255);
         $this->check('rpassword', 'La confirmation du mot de passe')->required();
         $this->check('password', 'Les mots de passe')->checkSame('rpassword');
@@ -96,9 +96,15 @@ class Validator
         return $this->status;
     }
 
+    public function imgAltValidationAdmin()
+    {
+        $this->check('altImg', "La description de l'image")->required()->maxLength(100);
+
+        return $this->status;
+    }
+
     public function registerValidationAdmin()
     {
-        $this->check('altImg', "La description de l'image")->required()->maxLength(255);
         $this->check('shortDescription', "La description")->required()->maxLength(500);
 
         return $this->status;
@@ -106,7 +112,7 @@ class Validator
 
     public function commentValidation()
     {
-        $this->check('content', 'Le message')->required()->maxLength(255);
+        $this->check('content', 'Le message')->required()->maxLength(300);
 
         return $this->status;
     }
@@ -122,7 +128,7 @@ class Validator
 
     public function emailAdmValidation()
     {
-        $this->check('email', 'L\'email')->required()->email()->maxLength(255);
+        $this->check('email', 'L\'email')->required()->email()->maxLength(100);
 
         return $this->status;
     }
@@ -147,8 +153,8 @@ class Validator
 
     public function contactFormValidation()
     {
-        $this->check('nom', "Le nom/prénom")->required()->maxLength(255);
-        $this->check('email', "L'email")->required()->email()->maxLength(255);
+        $this->check('nom', "Le nom/prénom")->required()->maxLength(100);
+        $this->check('email', "L'email")->required()->email()->maxLength(100);
         $this->check('subject', "Le sujet")->required()->maxLength(255);
         $this->check('message', "Le message")->required();
 

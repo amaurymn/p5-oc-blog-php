@@ -14,10 +14,9 @@ class Slugifier
     /**
      * @param $rawString
      * @param string $delimiter
-     * @param int $threshold
      * @return false|string
      */
-    public function slugify($rawString, $delimiter = '-', $threshold = 2)
+    public function slugify($rawString, $delimiter = '-')
     {
         if (!in_array($delimiter, ['-', '_'])) {
             return false;
@@ -28,8 +27,6 @@ class Slugifier
         $cleanString = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", $delimiter, $cleanString);
         // Replace unwanted chars by a dash and space
         $cleanString = preg_replace("/[^a-zA-Z0-9 -]/", '', $cleanString);
-        // Add threshold for little words
-        $cleanString = preg_replace("/\b[a-zA-Z0-9]{1,$threshold}\b/", $delimiter, $cleanString);
         // Replace spaces and doublons $delimiter by one $delimiter
         $cleanString = preg_replace("/[\/_|+ -]+/", $delimiter, $cleanString);
         // Set string in lowercase

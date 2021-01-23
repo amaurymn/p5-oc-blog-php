@@ -18,6 +18,10 @@ class Article extends Entity
     private string $imageAlt;
     private int $adminId;
 
+    /**
+     * Article constructor.
+     * @param array $data
+     */
     public function __construct(array $data = [])
     {
         parent::__construct($data);
