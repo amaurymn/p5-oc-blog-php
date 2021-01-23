@@ -33,6 +33,6 @@
     2. `env`: options `dev|prod`  (mettre prod une fois le site en ligne)
     3. `mailer`: à remplir avec mes informations smtp du serveur mail pour pouvoir envoyer les mails depuis le site.
 
-5. Copier `config/db-config.yml.exemple` vers `config/db-config.yml` et éditer les lignes nécessaires.
+5. Copier `config/db-config.yml.exemple` vers `config/db-config.yml` et éditer les lignes nécessaires correspondante à votre base de données MySQL/MariaDB.
 
 6. Lancer le site.
