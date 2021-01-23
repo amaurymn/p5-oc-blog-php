@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use ReflectionClass;
+use ReflectionProperty;
 
 class Entity
 {
@@ -36,10 +37,9 @@ class Entity
     }
 
     /**
-     * @return \ReflectionProperty[]
-     * @throws \ReflectionException
+     * @return ReflectionProperty[]
      */
-    public function getObjectProperties()
+    public function getObjectProperties(): array
     {
         $reflectionClass = new ReflectionClass($this);
 

@@ -1,11 +1,13 @@
 .idea
+
+/var
 /vendor
-/_UML
 /node_modules
-/public/css
-/public/js
-/public/img/uploaded
-/public/upload
 
 /config/config.yml
 /config/db-config.yml
+
+/public/css
+/public/js
+/public/upload
+/public/img/uploaded

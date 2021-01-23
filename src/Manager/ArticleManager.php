@@ -14,7 +14,7 @@ class ArticleManager extends Manager
      */
     public function checkSlugExist(string $slug)
     {
-        $stmt = $this->pdo->prepare("SELECT slug from article WHERE slug = :slug");
+        $stmt = $this->pdo->prepare("SELECT slug from $this->table WHERE slug = :slug");
         $stmt->bindValue(':slug', $slug, PDO::PARAM_STR);
         $stmt->execute();
 

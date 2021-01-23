@@ -79,15 +79,42 @@
             <div class="row">
                 {% for comment in lastComments %}
                     <div class="comment-card col-12 shadow">
-                        <p class="m-0">
+                        <p class="content">
                             {{ comment.content }}
                         </p>
                         <hr>
                         <div class="bottom">
-                            <div class="author col-12">
-                                <p><span>Par: </span><a href="mailto:{{ comment.email }}" title="{{ comment.email }}">{{ comment.user_name }}</a></p>
+                            <div class="author col-lg-6 col-sm-12">
+                                <p><span>Par: </span>{{ comment.user_name }}</p>
                                 <p><span>Date: </span>{{ comment.created_at|date('d/m/Y à H:i:s') }}</p>
                                 <p><span>Article: </span><a href="/blog/{{ comment.artSlug }}" target="_blank">{{ comment.artTitle }}</a></p>
+                            </div>
+                            <div class="actions col-lg-3 col-sm-12">
+                                {% if not comment.online %}
+                                    <a href="/dashboard/comment/{{ comment.id }}/validate" class="btn btn-sm btn-outline-success mr-1">Valider</a>
+                                {% else %}
+                                    <a href="/dashboard/comment/{{ comment.id }}/suspend" class="btn btn-sm btn-outline-warning text-dark mr-1">Suspendre</a>
+                                {% endif %}
+                                <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#dcom_{{ comment.id }}">Supprimer</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="dcom_{{ comment.id }}" tabindex="-1" role="dialog" aria-labelledby="dcom_{{ comment.id }}_label" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="dcom_{{ comment.id }}_label">Suppression du commentaire</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Êtes-vous sûr de vouloir supprimer le commentaire ?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                                    <a href="/dashboard/comment/{{ comment.id }}/delete" class="btn btn-danger">Confirmer</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -9,6 +9,9 @@ use App\Manager\UserManager;
 
 class HomeController extends Controller
 {
+    /**
+     * @throws TwigException
+     */
     public function executeShowHome(): void
     {
         $articleManager = new ArticleManager();

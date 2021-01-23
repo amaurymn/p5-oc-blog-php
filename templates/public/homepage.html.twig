@@ -5,11 +5,11 @@
         {% if about %}
             <header class="container d-flex justify-content-center my-5">
                 <div class="col-lg-10 card_about-me">
-                    <img class="about_img img-fluid" src="/upload/{{ about.image }}" alt="{{ about.alt_img }}"/>
+                    <img class="about_img img-fluid" src="{{ configParam('profileUploadPath') ~ '/' ~ about.image }}" alt="{{ about.alt_img }}"/>
                     <div class="about_infos mt-4">
                         <p class="about_name">
                             {{ about.last_name }} {{ about.first_name }}
-                            <span>- <i class="far fa-file"></i> <a href="/upload/{{ about.cv_link }}" target="_blank">CV</a></span>
+                            <span>- <i class="far fa-file"></i> <a href="{{ configParam('profileUploadPath') ~ '/' ~about.cv_link }}" target="_blank">CV</a></span>
                         </p>
                         <p>{{ about.short_description|nl2br }}</p>
                     </div>
@@ -30,10 +30,11 @@
                                     <h2 class="title">
                                         <a href="/blog/{{ article.slug }}">{{ article.title }}</a>
                                     </h2>
-                                    <p class="card-text">{{ article.textHeader|length > 126 ? article.textHeader|striptags|slice(0, 126) ~ '...' : article.textHeader|striptags }}</p>
+                                    {% set articleText = article.textHeader|markdown_to_html %}
+                                    <p class="card-text">{{ articleText|length > 126 ? articleText|striptags|slice(0, 126) ~ '...' : articleText|striptags }}</p>
                                     <div class="d-flex justify-content-between">
                                         <span class="card-date text-muted small"><i class="fas fa-calendar-alt"></i> {{ article.createdAt|date('d M, Y') }}</span>
-                                        <span class="small"><a class="text-muted" href="/blog/{{ article.slug }}">Lire la suite</a></span>
+                                        <span class="small"><a href="/blog/{{ article.slug }}">Lire la suite</a></span>
                                     </div>
                                 </div>
                             </div>

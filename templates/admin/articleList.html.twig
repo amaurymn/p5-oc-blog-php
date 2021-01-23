@@ -9,15 +9,17 @@
                     {% for article in articles %}
                     <div class="col-lg-4 col-md-6 mb-4">
                         <div class="card">
-                            <img class="img-fluid img-auto-cover obj-center mh:255" src="{{ uploadPath(article.image) }}" alt="{{ article.imageAlt }}">
+                            <a href="/dashboard/article/{{ article.id }}/edit">
+                                <img class="img-fluid img-auto-cover obj-center mh:255" src="{{ uploadPath(article.image) }}" alt="{{ article.imageAlt }}">
+                            </a>
                             <div class="card-body">
                                 <h2 class="title no-underline">
                                     <a href="/dashboard/article/{{ article.id }}/edit">{{ article.title }}</a>
                                 </h2>
-                                <div class="d-flex justify-content-end">
-                                    <div class="btn-group">
-                                        <a href="/dashboard/article/{{ article.id }}/edit" class="btn btn-sm btn-warning text-dark">Editer</a>
-                                        <button type="button" class="btn btn-sm btn-danger text-light" data-toggle="modal" data-target="#modal_{{ article.id }}">Supprimer</button>
+                                <div class="d-flex justify-content-end mt-2">
+                                    <div class="btn-groupu">
+                                        <a href="/dashboard/article/{{ article.id }}/edit" class="btn btn-sm btn-outline-primary"><i class="fas fa-edit"></i></a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal_{{ article.id }}"><i class="far fa-trash-alt"></i></button>
                                     </div>
                                 </div>
                             </div>

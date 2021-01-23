@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exception\FileException;
 use Symfony\Component\Yaml\Yaml;
 
 class FileUploader
@@ -16,27 +17,29 @@ class FileUploader
     private $uploadPath;
     private $newFileName;
     private FlashBag $flashBag;
-    public const FILE_PDF        = 'pdf';
-    public const FILE_IMG        = 'image';
-    public const FILE_ADMIN_PATH = '/upload';
+    public const TYPE_POST    = 'post';
+    public const TYPE_PROFILE = 'profile';
+    public const FILE_PDF     = 'pdf';
+    public const FILE_IMG     = 'image';
 
     /**
      * FileUploader constructor.
-     * @param array $file
+     * @param array|null $file
      * @param string|null $inputName
      */
-    public function __construct(array $file, ?string $inputName = null)
+    public function __construct(?array $file = [], ?string $inputName = null)
     {
         $this->config   = Yaml::parseFile(CONF_DIR . '/config.yml');
         $this->flashBag = new FlashBag();
 
-        $fieldName = $inputName ?? array_key_first($file);
-
-        $this->fileName    = $file[$fieldName]['name'];
-        $this->fileType    = $file[$fieldName]['type'];
-        $this->fileTmpName = $file[$fieldName]['tmp_name'];
-        $this->fileError   = $file[$fieldName]['error'];
-        $this->fileSize    = $file[$fieldName]['size'];
+        if (!empty($file)) {
+            $fieldName         = $inputName ?? array_key_first($file);
+            $this->fileName    = $file[$fieldName]['name'];
+            $this->fileType    = $file[$fieldName]['type'];
+            $this->fileTmpName = $file[$fieldName]['tmp_name'];
+            $this->fileError   = $file[$fieldName]['error'];
+            $this->fileSize    = $file[$fieldName]['size'];
+        }
     }
 
     /**
@@ -63,31 +66,62 @@ class FileUploader
     }
 
     /**
-     * @param string|null $type
-     * @param string|null $customPath
+     * @param string $actionType
      * @return bool
      */
-    public function upload(?string $type = null, ?string $customPath = null): bool
+    public function upload(string $actionType): bool
     {
-        $fileTypePath = $customPath ?? '/img' . $this->config['imgUploadPath'];
-
-        $this->uploadPath = PUBLIC_DIR . $fileTypePath;
+        switch ($actionType) {
+            case self::TYPE_POST;
+                $this->uploadPath = PUBLIC_DIR . $this->config['imgUploadPath'];
+                break;
+            case self::TYPE_PROFILE;
+                $this->uploadPath = PUBLIC_DIR . $this->config['profileUploadPath'];
+                break;
+            default:
+                $this->uploadPath = null;
+        }
 
         if (!is_dir($this->uploadPath)) {
             mkdir($this->uploadPath, 755, true);
         }
 
-        $this->renameFile($type);
-
+        $this->renameFile($actionType);
         return move_uploaded_file($this->fileTmpName, $this->uploadPath . '/' . $this->getName());
     }
 
     /**
-     * @param null $type
+     * @param string $actionType
+     * @param string $file
+     * @return bool
+     * @throws FileException
      */
-    private function renameFile($type = null): void
+    public function deleteFile(string $actionType, string $file): bool
     {
-        $this->newFileName = ($type === self::FILE_PDF) ? 'cv.pdf' : date('ymd-His') . '_' . $this->fileName;
+        switch ($actionType) {
+            case self::TYPE_POST;
+                $imagePath = PUBLIC_DIR . $this->config['imgUploadPath'] . '/' . $file;
+                break;
+            case self::TYPE_PROFILE;
+                $imagePath = PUBLIC_DIR . $this->config['profileUploadPath'] . '/' . $file;
+                break;
+            default:
+                $imagePath = null;
+        }
+
+        try {
+            return unlink($imagePath);
+        } catch (\Exception $e) {
+            throw new FileException("Erreur lors la suppression de l'image.");
+        }
+    }
+
+    /**
+     * @param string|null $actionType
+     */
+    private function renameFile(string $actionType): void
+    {
+        $this->newFileName =  $actionType . '_' . str_replace('.', '', microtime(true)) . '.' . $this->getFileExt($this->fileName);
     }
 
     /**
@@ -142,7 +176,7 @@ class FileUploader
                 $allowedExt .= $ext . ',';
             }
 
-            if (!in_array($this->getFileExt($this->fileName), $allowedFileExt)) {
+            if (!in_array($this->getFileExt($this->fileName), $allowedFileExt, true)) {
                 $this->setError(FlashBag::ERROR, "Seul les fichiers {$allowedExt} sont valides.");
                 $this->status = false;
             }
