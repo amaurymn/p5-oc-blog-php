@@ -21,6 +21,7 @@ class UserManager extends Manager
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
+
         if (false === $stmt->fetch()) { return false; }
 
         $stmt->execute();
