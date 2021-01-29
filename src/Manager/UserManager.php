@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Core\Manager;
-use App\Exception\EntityNotFoundException;
 use \PDO;
 
 class UserManager extends Manager
@@ -23,7 +22,6 @@ class UserManager extends Manager
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
-        if (!$stmt->fetch()) { return false; }
         return new $this->entity($stmt->fetch());
     }
 
