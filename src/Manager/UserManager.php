@@ -9,7 +9,6 @@ class UserManager extends Manager
 {
     /**
      * @param string $email
-     * @return mixed
      */
     public function getUserByMail(string $email)
     {
@@ -22,6 +21,9 @@ class UserManager extends Manager
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
         $stmt->execute();
 
+        if (false === $stmt->fetch()) { return false; }
+
+        $stmt->execute();
         return new $this->entity($stmt->fetch());
     }
 
