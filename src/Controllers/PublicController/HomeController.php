@@ -10,6 +10,7 @@ use App\Manager\UserManager;
 class HomeController extends Controller
 {
     /**
+     * show home page
      * @throws TwigException
      */
     public function executeShowHome(): void
@@ -27,6 +28,7 @@ class HomeController extends Controller
     }
 
     /**
+     * show error 404 page
      * @throws TwigException
      */
     public function executeShowError404(): void
@@ -36,6 +38,7 @@ class HomeController extends Controller
     }
 
     /**
+     * show error 500 page
      * @throws TwigException
      */
     public function executeShowError(): void
@@ -45,6 +48,7 @@ class HomeController extends Controller
     }
 
     /**
+     * show legal mentions page
      * @throws TwigException
      */
     public function executeShowMentions(): void
@@ -53,6 +57,7 @@ class HomeController extends Controller
     }
 
     /**
+     * show gdpr page
      * @throws TwigException
      */
     public function executeShowRGPD(): void

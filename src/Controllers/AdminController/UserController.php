@@ -30,6 +30,7 @@ class UserController extends Controller
     }
 
     /**
+     * show profile page
      * @throws EntityNotFoundException
      * @throws FileException
      * @throws ReflectionException
@@ -69,6 +70,7 @@ class UserController extends Controller
     }
 
     /**
+     * delete social network
      * @throws EntityNotFoundException
      */
     public function executeDeleteNetwork(): void

@@ -36,6 +36,9 @@ class PDOFactory
         }
     }
 
+    /**
+     * return PDO connexion
+     */
     public function getPDO()
     {
         return $this->pdo;

@@ -32,6 +32,7 @@ class Profile
     }
 
     /**
+     * update users infos
      * @param array $post
      * @throws EntityNotFoundException
      * @throws ReflectionException
@@ -58,6 +59,7 @@ class Profile
     }
 
     /**
+     * update new email address
      * @param array $post
      * @throws EntityNotFoundException
      * @throws ReflectionException
@@ -80,6 +82,7 @@ class Profile
     }
 
     /**
+     * update password
      * @param array $post
      * @throws EntityNotFoundException
      * @throws ReflectionException
@@ -101,6 +104,7 @@ class Profile
     }
 
     /**
+     * update profile picture
      * @param array $file
      * @param array $post
      * @throws EntityNotFoundException
@@ -131,6 +135,7 @@ class Profile
     }
 
     /**
+     * update short description
      * @param array $post
      * @throws EntityNotFoundException
      * @throws ReflectionException
@@ -153,6 +158,7 @@ class Profile
     }
 
     /**
+     * add new social network
      * @param array $post
      * @throws ReflectionException
      */
@@ -172,6 +178,7 @@ class Profile
     }
 
     /**
+     * update CV
      * @param array $file
      * @throws EntityNotFoundException
      * @throws FileException

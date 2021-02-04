@@ -43,6 +43,7 @@ class FileUploader
     }
 
     /**
+     * file validator
      * @param string|null $type
      * @return bool
      */
@@ -66,6 +67,7 @@ class FileUploader
     }
 
     /**
+     * upload file to the folder configured folder
      * @param string $actionType
      * @return bool
      */
@@ -91,6 +93,7 @@ class FileUploader
     }
 
     /**
+     * delete file
      * @param string $actionType
      * @param string $file
      * @return bool
@@ -117,6 +120,7 @@ class FileUploader
     }
 
     /**
+     * rename file with actionType_microtime.extension
      * @param string|null $actionType
      */
     private function renameFile(string $actionType): void
@@ -125,6 +129,7 @@ class FileUploader
     }
 
     /**
+     * return error with flash message
      * @param string $type
      * @param string $message
      * @return $this
@@ -137,6 +142,7 @@ class FileUploader
     }
 
     /**
+     * check if the file has no error
      * @return $this
      */
     private function checkFileError(): FileUploader
@@ -150,6 +156,7 @@ class FileUploader
     }
 
     /**
+     * check if the file exist and > 0 byte
      * @return $this
      */
     private function checkEmptyFile(): FileUploader
@@ -163,6 +170,7 @@ class FileUploader
     }
 
     /**
+     *  check .extension
      * @param $type
      * @return $this
      */
@@ -186,6 +194,7 @@ class FileUploader
     }
 
     /**
+     * check mimetype
      * @param $type
      * @return $this
      */
@@ -206,6 +215,7 @@ class FileUploader
     }
 
     /**
+     * return the file extension
      * @param string $fileName
      * @return string
      */

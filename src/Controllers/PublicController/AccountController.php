@@ -38,6 +38,8 @@ class AccountController extends Controller
     }
 
     /**
+     * show login page
+     * @throws ReflectionException
      * @throws TwigException
      */
     public function executeShowLogin(): void
@@ -51,6 +53,7 @@ class AccountController extends Controller
     }
 
     /**
+     * show register page
      * @throws ConfigException
      * @throws TwigException
      * @throws ReflectionException
@@ -92,6 +95,7 @@ class AccountController extends Controller
     }
 
     /**
+     * show register admin page
      * @throws EntityNotFoundException
      * @throws TwigException
      * @throws ReflectionException
@@ -136,6 +140,9 @@ class AccountController extends Controller
         ]);
     }
 
+    /*
+     * logout
+     */
     public function executeLogout(): void
     {
         (new Session())->clear();

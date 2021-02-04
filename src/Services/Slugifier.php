@@ -12,6 +12,7 @@ class Slugifier
     }
 
     /**
+     * Generate slug from string
      * @param $rawString
      * @param string $delimiter
      * @return false|string
@@ -38,6 +39,7 @@ class Slugifier
     }
 
     /**
+     * Increment slug if slug already exists.
      * @param string $string
      * @return string
      */
