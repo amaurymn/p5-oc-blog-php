@@ -8,6 +8,7 @@ use Symfony\Component\Yaml\Yaml;
 class InstallState
 {
     /**
+     * Write the config file when the first admin is created
      * @param bool $state
      * @throws ConfigException
      */

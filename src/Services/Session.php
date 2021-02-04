@@ -12,6 +12,7 @@ class Session
     }
 
     /**
+     * Set subkey for array in sessions $_SESSION['firstKey']['subKey']
      * @param string $key
      * @param string $subKey
      * @param string $value
@@ -23,6 +24,7 @@ class Session
     }
 
     /**
+     * Set one value
      * @param string $key
      * @param $values
      */
@@ -32,6 +34,7 @@ class Session
     }
 
     /**
+     * Get one value
      * @param string $key
      * @return mixed|null
      */
@@ -41,6 +44,7 @@ class Session
     }
 
     /**
+     * Get all array
      * @return array|null
      */
     public function getAll(): ?array
@@ -49,6 +53,7 @@ class Session
     }
 
     /**
+     * Clear one key or all depending parameters
      * @param string|null $key
      * @return $this
      */
@@ -66,6 +71,7 @@ class Session
     }
 
     /**
+     * redirect url
      * @param string $url
      */
     public function redirectUrl(string $url = '/'): void
@@ -77,6 +83,7 @@ class Session
     }
 
     /**
+     * redirect if the user don't have admin role
      * @return $this
      */
     public function redirectIfNotAdmin(): Session
@@ -89,6 +96,7 @@ class Session
     }
 
     /**
+     * redirect if the user is not logged in
      * @return $this
      */
     public function redirectIfNotAuth(): Session
@@ -101,6 +109,7 @@ class Session
     }
 
     /**
+     * return if the user is admin
      * @return bool
      */
     public function isAdmin(): bool
@@ -109,6 +118,8 @@ class Session
     }
 
     /**
+     *
+     * return if the user is logged in
      * @return bool
      */
     public function isAuth(): bool

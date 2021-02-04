@@ -36,6 +36,7 @@ class BlogController extends Controller
     }
 
     /**
+     * show blog page
      * @throws TwigException
      */
     public function executeShowBlog(): void
@@ -51,6 +52,7 @@ class BlogController extends Controller
     }
 
     /**
+     * show single article page
      * @throws EntityNotFoundException
      * @throws ReflectionException
      * @throws TwigException
@@ -75,6 +77,7 @@ class BlogController extends Controller
     }
 
     /**
+     * add new comment form handler
      * @param int $articleId
      * @param array $post
      * @throws ReflectionException

@@ -24,6 +24,7 @@ abstract class Manager
     }
 
     /**
+     * make request to find all data with optional parameters
      * @param array $order
      * @param int|null $limit
      * @param int|null $offset
@@ -49,6 +50,7 @@ abstract class Manager
     }
 
     /**
+     * make request to find all data with optional parameters
      * @param array $where
      * @param array $order
      * @param int|null $limit
@@ -78,6 +80,7 @@ abstract class Manager
     }
 
     /**
+     * make request to find one specified data with optional parameters
      * @param array $where
      * @param array $order
      * @return mixed
@@ -95,6 +98,7 @@ abstract class Manager
     }
 
     /**
+     * make request to add data to the bdd
      * @param Entity $entity
      * @throws ReflectionException
      */
@@ -114,6 +118,7 @@ abstract class Manager
     }
 
     /**
+     * make request to update data from the bdd
      * @param Entity $entity
      * @throws ReflectionException
      */
@@ -133,6 +138,7 @@ abstract class Manager
     }
 
     /**
+     * make request to delete data from the bdd
      * @param Entity $entity
      */
     public function delete(Entity $entity): void
@@ -143,6 +149,7 @@ abstract class Manager
     }
 
     /**
+     * make request to get dashboard stats
      * @return mixed
      */
     public function getDashboardStats()
@@ -160,6 +167,7 @@ abstract class Manager
     }
 
     /**
+     * return the working table name
      * @return string
      */
     private function getTableName(): string
@@ -170,6 +178,7 @@ abstract class Manager
     }
 
     /**
+     * return string order by
      * @param array $order
      * @param string $query
      */
@@ -181,6 +190,7 @@ abstract class Manager
     }
 
     /**
+     * return string with where, and, params
      * @param array $where
      * @param string $query
      * @param $binds
@@ -208,6 +218,7 @@ abstract class Manager
     }
 
     /**
+     * return string with offset
      * @param int|null $limit
      * @param int|null $offset
      * @param string $query
@@ -224,6 +235,7 @@ abstract class Manager
     }
 
     /**
+     * return string with the insert statement
      * @param array $vars
      * @return string
      */
@@ -242,6 +254,7 @@ abstract class Manager
     }
 
     /**
+     * return string with update statement
      * @param array $vars
      * @return string
      */
@@ -259,6 +272,7 @@ abstract class Manager
     }
 
     /**
+     * set binding depending to type
      * @param $binds
      * @param \PDOStatement $stmt
      */
@@ -292,6 +306,7 @@ abstract class Manager
     }
 
     /**
+     * format camelCase to snake_case
      * @param string $property
      * @return string
      */
@@ -301,6 +316,7 @@ abstract class Manager
     }
 
     /**
+     * return entity bindings
      * @param $vars
      * @param Entity $entity
      * @return array

@@ -26,6 +26,7 @@ class DashboardController extends Controller
     }
 
     /**
+     * show dashboard page
      * @throws TwigException
      */
     public function executeShowDashboard(): void

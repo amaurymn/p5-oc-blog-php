@@ -19,6 +19,7 @@ class UserAuth
     }
 
     /**
+     * Return if user exists and password is valid
      * @param array $post
      * @return bool
      * @throws ReflectionException
@@ -53,6 +54,7 @@ class UserAuth
     }
 
     /**
+     * Return if admin already exists
      * @return bool
      */
     public function isAdminAlreadyExist(): bool
@@ -61,6 +63,7 @@ class UserAuth
     }
 
     /**
+     * Return if username already exists
      * @param array $post
      * @return bool
      */
@@ -78,6 +81,7 @@ class UserAuth
     }
 
     /**
+     * Return if email already exists in db
      * @param array $post
      * @return bool
      */
@@ -95,6 +99,7 @@ class UserAuth
     }
 
     /**
+     * Set new password with ARGON2ID algo
      * @param string $password
      * @return string
      */
@@ -104,6 +109,7 @@ class UserAuth
     }
 
     /**
+     * Make class properties accessible to get values
      * @param object $object
      * @return array
      * @throws ReflectionException

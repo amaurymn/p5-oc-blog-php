@@ -23,6 +23,7 @@ class FlashBag
     }
 
     /**
+     * get all flash messages
      * @return mixed
      */
     public function getAll()
@@ -34,6 +35,7 @@ class FlashBag
     }
 
     /**
+     * get flash message
      * @param string $type
      * @return mixed|null
      */
@@ -50,6 +52,7 @@ class FlashBag
     }
 
     /**
+     * set new flash message
      * @param string $type
      * @param string $message
      * @return $this
@@ -63,6 +66,7 @@ class FlashBag
     }
 
     /**
+     * clear flash message / all depending parameter
      * @param string|null $type
      * @return $this
      */
@@ -81,6 +85,9 @@ class FlashBag
         return $this;
     }
 
+    /**
+     * save flash message to session key
+     */
     private function saveToSession(): void
     {
         $_SESSION[self::SESSION_KEY] = $this->flash;

@@ -8,6 +8,7 @@ trait ValidatorTrait
 {
 
     /**
+     * required field, return error if the field is empty
      * @param string|null $message
      * @return $this
      */
@@ -26,6 +27,7 @@ trait ValidatorTrait
     }
 
     /**
+     * check if 2 fields are identical
      * @param string $string
      * @return $this
      */
@@ -44,6 +46,7 @@ trait ValidatorTrait
     }
 
     /**
+     * email validation, check if the email is valid
      * @param string|null $message
      * @return $this
      */
@@ -62,6 +65,7 @@ trait ValidatorTrait
     }
 
     /**
+     * url validation, check if url is valid
      * @param string|null $message
      * @return $this|Validator
      */
@@ -83,6 +87,7 @@ trait ValidatorTrait
     }
 
     /**
+     * length validation, check if the field is equal to X chars
      * @param int $length
      * @param string|null $message
      * @return $this
@@ -102,6 +107,7 @@ trait ValidatorTrait
     }
 
     /**
+     * length validation, check if the field has minimum of X chars
      * @param int $length
      * @param string|null $message
      * @return $this
@@ -121,6 +127,7 @@ trait ValidatorTrait
     }
 
     /**
+     * length validation, check if the field has maximum of X chars
      * @param int $length
      * @param string|null $message
      * @return $this

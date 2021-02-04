@@ -43,6 +43,7 @@ class Mailer
     }
 
     /**
+     * Send mail with templates
      * @param array $post
      * @throws EmailException
      * @throws TwigException
