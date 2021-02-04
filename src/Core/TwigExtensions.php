@@ -139,6 +139,7 @@ final class TwigExtensions extends AbstractExtension
     }
 
     /**
+     * add https on url
      * @param string|null $string
      * @return string
      */

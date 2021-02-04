@@ -24,6 +24,7 @@ abstract class Controller
     }
 
     /**
+     * render twig template
      * @param $template
      * @param array $array
      * @throws TwigException
@@ -34,6 +35,7 @@ abstract class Controller
     }
 
     /**
+     * check if the form is submitted
      * @param $submitName
      * @return bool
      */

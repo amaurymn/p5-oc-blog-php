@@ -21,6 +21,7 @@ class Router
     }
 
     /**
+     * get parameters from routes.yml
      * @return mixed
      * @throws ConfigException
      * @throws NotFoundException

@@ -33,6 +33,7 @@ class CommentController extends Controller
     }
 
     /**
+     * show comment list page
      * @throws TwigException
      */
     public function executeShowCommentList(): void
@@ -48,6 +49,7 @@ class CommentController extends Controller
     }
 
     /**
+     * delete comment
      * @throws EntityNotFoundException
      */
     public function executeDelete(): void
@@ -60,6 +62,7 @@ class CommentController extends Controller
     }
 
     /**
+     * validate comment
      * @throws EntityNotFoundException
      * @throws ReflectionException
      */

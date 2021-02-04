@@ -47,6 +47,7 @@ class Entity
     }
 
     /**
+     * hydrate entity wir
      * @param array $data
      */
     public function hydrate(array $data)
@@ -63,6 +64,7 @@ class Entity
     }
 
     /**
+     * convert snake_case to camelCase
      * @param string $key
      * @return string
      */

@@ -41,6 +41,7 @@ class ArticleController extends Controller
     }
 
     /**
+     * show article list page
      * @throws TwigException
      */
     public function executeReadList(): void
@@ -56,6 +57,7 @@ class ArticleController extends Controller
     }
 
     /**
+     * show create article page
      * @throws ReflectionException
      * @throws TwigException
      */
@@ -84,6 +86,7 @@ class ArticleController extends Controller
     }
 
     /**
+     * show edit article page
      * @throws EntityNotFoundException
      * @throws FileException
      * @throws ReflectionException
@@ -120,6 +123,7 @@ class ArticleController extends Controller
     }
 
     /**
+     * delete article
      * @throws EntityNotFoundException
      * @throws FileException
      */

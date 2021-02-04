@@ -11,6 +11,7 @@ use App\Services\Mailer;
 class ContactController extends Controller
 {
     /**
+     * show contact page
      * @throws TwigException
      * @throws EmailException
      */
